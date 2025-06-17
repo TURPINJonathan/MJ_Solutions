@@ -8,10 +8,7 @@ import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
 import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
 import com.mj_solutions.api.auth.dto.LoginRequest;
 import com.mj_solutions.api.auth.dto.LoginResponse;
-import com.mj_solutions.api.auth.dto.RegisterRequest;
 import com.mj_solutions.api.auth.security.JwtUtils;
-import com.mj_solutions.api.common.enums.Role;
-import com.mj_solutions.api.utils.StringUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,24 +20,6 @@ public class AuthService {
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final JwtUtils jwtUtils;
 	private final RefreshTokenService refreshTokenService;
-
-	public String register(RegisterRequest request) {
-		if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-			return "Email already taken";
-		}
-
-		ApplicationUser user = ApplicationUser.builder()
-				.firstname(StringUtils.capitalize(request.getFirstname()))
-				.lastname(request.getLastname().toUpperCase())
-				.email(request.getEmail())
-				.password(passwordEncoder.encode(request.getPassword()))
-				.role(Role.USER)
-				.build();
-
-		userRepository.save(user);
-
-		return "User registered successfully!";
-	}
 
 	public LoginResponse login(LoginRequest request) {
 		ApplicationUser user = userRepository.findByEmail(request.getEmail())
