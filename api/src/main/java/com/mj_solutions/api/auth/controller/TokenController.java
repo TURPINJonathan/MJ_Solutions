@@ -1,8 +1,7 @@
-package com.mj_solutions.api.controller;
+package com.mj_solutions.api.auth.controller;
 
 import java.time.Instant;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,47 +9,26 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mj_solutions.api.dto.LoginRequest;
-import com.mj_solutions.api.dto.LoginResponse;
-import com.mj_solutions.api.dto.RefreshTokenRequest;
-import com.mj_solutions.api.dto.RefreshTokenResponse;
-import com.mj_solutions.api.dto.RegisterRequest;
-import com.mj_solutions.api.exception.RefreshTokenException;
-import com.mj_solutions.api.model.RefreshToken;
-import com.mj_solutions.api.repository.RefreshTokenRepository;
-import com.mj_solutions.api.security.JwtUtils;
-import com.mj_solutions.api.service.AuthService;
-import com.mj_solutions.api.service.BlacklistService;
-import com.mj_solutions.api.service.RefreshTokenService;
+import com.mj_solutions.api.auth.dto.RefreshTokenRequest;
+import com.mj_solutions.api.auth.dto.RefreshTokenResponse;
+import com.mj_solutions.api.auth.entity.RefreshToken;
+import com.mj_solutions.api.auth.exception.RefreshTokenException;
+import com.mj_solutions.api.auth.repository.RefreshTokenRepository;
+import com.mj_solutions.api.auth.security.JwtUtils;
+import com.mj_solutions.api.auth.service.BlacklistedService;
+import com.mj_solutions.api.auth.service.RefreshTokenService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class TokenController {
 
 	private final RefreshTokenService refreshTokenService;
 	private final RefreshTokenRepository refreshTokenRepository;
-	private final AuthService authService;
 	private final JwtUtils jwtUtils;
-	private final BlacklistService blacklistService;
-
-	@PostMapping("/register")
-	public String register(@Valid @RequestBody RegisterRequest request) {
-		return authService.register(request);
-	}
-
-	@PostMapping("/login")
-	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-		try {
-			LoginResponse response = authService.login(request);
-			return ResponseEntity.ok(response);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-	}
+	private final BlacklistedService blacklistService;
 
 	@PostMapping("/refresh-token")
 	public ResponseEntity<RefreshTokenResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
@@ -71,7 +49,6 @@ public class AuthController {
 			@RequestHeader("Authorization") String bearer) {
 		String token = request.getRefreshToken();
 
-		// Blacklist the access token
 		if (bearer != null && bearer.startsWith("Bearer ")) {
 			String accessToken = bearer.substring(7);
 			Instant expiry = jwtUtils.getExpirationFromToken(accessToken);
@@ -86,5 +63,4 @@ public class AuthController {
 				})
 				.orElseThrow(() -> new RefreshTokenException(token, "Refresh token not found"));
 	}
-
 }

@@ -1,6 +1,8 @@
-package com.mj_solutions.api.model;
+package com.mj_solutions.api.auth.entity;
 
 import java.time.Instant;
+
+import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

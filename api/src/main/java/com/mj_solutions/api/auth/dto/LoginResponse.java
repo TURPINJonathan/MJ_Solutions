@@ -1,11 +1,11 @@
-package com.mj_solutions.api.dto;
+package com.mj_solutions.api.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RefreshTokenResponse {
-	private String accessToken;
+public class LoginResponse {
+	private String token;
 	private String refreshToken;
 }

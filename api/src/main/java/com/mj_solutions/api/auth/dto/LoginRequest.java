@@ -1,4 +1,4 @@
-package com.mj_solutions.api.dto;
+package com.mj_solutions.api.auth.dto;
 
 import lombok.Data;
 

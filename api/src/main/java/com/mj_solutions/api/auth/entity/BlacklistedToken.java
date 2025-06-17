@@ -1,4 +1,4 @@
-package com.mj_solutions.api.model;
+package com.mj_solutions.api.auth.entity;
 
 import java.time.Instant;
 

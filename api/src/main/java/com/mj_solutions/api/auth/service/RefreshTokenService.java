@@ -1,4 +1,4 @@
-package com.mj_solutions.api.service;
+package com.mj_solutions.api.auth.service;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mj_solutions.api.exception.RefreshTokenException;
-import com.mj_solutions.api.model.ApplicationUser;
-import com.mj_solutions.api.model.RefreshToken;
-import com.mj_solutions.api.repository.ApplicationUserRepository;
-import com.mj_solutions.api.repository.RefreshTokenRepository;
+import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
+import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
+import com.mj_solutions.api.auth.entity.RefreshToken;
+import com.mj_solutions.api.auth.exception.RefreshTokenException;
+import com.mj_solutions.api.auth.repository.RefreshTokenRepository;
 
 import lombok.RequiredArgsConstructor;
 
