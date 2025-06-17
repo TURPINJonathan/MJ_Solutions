@@ -1,9 +1,12 @@
 package com.mj_solutions.api.controller;
 
+import java.time.Instant;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +20,7 @@ import com.mj_solutions.api.model.RefreshToken;
 import com.mj_solutions.api.repository.RefreshTokenRepository;
 import com.mj_solutions.api.security.JwtUtils;
 import com.mj_solutions.api.service.AuthService;
+import com.mj_solutions.api.service.BlacklistService;
 import com.mj_solutions.api.service.RefreshTokenService;
 
 import jakarta.validation.Valid;
@@ -28,12 +32,10 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
 	private final RefreshTokenService refreshTokenService;
-
 	private final RefreshTokenRepository refreshTokenRepository;
-
 	private final AuthService authService;
-
 	private final JwtUtils jwtUtils;
+	private final BlacklistService blacklistService;
 
 	@PostMapping("/register")
 	public String register(@Valid @RequestBody RegisterRequest request) {
@@ -65,14 +67,24 @@ public class AuthController {
 	}
 
 	@PostMapping("/logout")
-	public ResponseEntity<String> logout(@RequestBody RefreshTokenRequest request) {
+	public ResponseEntity<String> logout(@RequestBody RefreshTokenRequest request,
+			@RequestHeader("Authorization") String bearer) {
 		String token = request.getRefreshToken();
+
+		// Blacklist the access token
+		if (bearer != null && bearer.startsWith("Bearer ")) {
+			String accessToken = bearer.substring(7);
+			Instant expiry = jwtUtils.getExpirationFromToken(accessToken);
+			blacklistService.blacklistToken(accessToken, expiry);
+		}
+
 		return refreshTokenRepository.findByToken(token)
 				.map(RefreshToken::getUser)
 				.map(user -> {
 					refreshTokenService.deleteByUserId(user.getId());
-					return ResponseEntity.ok("User logged out successfully");
+					return ResponseEntity.ok("Logged out successfully");
 				})
 				.orElseThrow(() -> new RefreshTokenException(token, "Refresh token not found"));
 	}
+
 }

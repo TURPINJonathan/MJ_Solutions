@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.mj_solutions.api.repository.ApplicationUserRepository;
+import com.mj_solutions.api.service.BlacklistService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+	private final BlacklistService blacklistService;
 	private final ApplicationUserRepository userRepository;
 	private final JwtUtils jwtUtils;
 
@@ -42,6 +44,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		String token = authHeader.substring(7);
+
+		if (blacklistService.isTokenBlacklisted(token)) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			return;
+		}
 
 		String email;
 		try {
