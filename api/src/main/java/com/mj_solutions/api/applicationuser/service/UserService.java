@@ -11,10 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mj_solutions.api.applicationuser.dto.RegisterRequest;
 import com.mj_solutions.api.applicationuser.dto.UpdateUserRequest;
 import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
 import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
-import com.mj_solutions.api.auth.dto.RegisterRequest;
 import com.mj_solutions.api.auth.repository.RefreshTokenRepository;
 import com.mj_solutions.api.common.enums.Role;
 import com.mj_solutions.api.exception.ForbiddenOperationException;

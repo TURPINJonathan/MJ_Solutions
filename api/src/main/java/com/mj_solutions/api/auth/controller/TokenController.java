@@ -2,7 +2,9 @@ package com.mj_solutions.api.auth.controller;
 
 import java.time.Instant;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -29,6 +31,16 @@ public class TokenController {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final JwtUtils jwtUtils;
 	private final BlacklistedService blacklistService;
+
+	@ExceptionHandler(RefreshTokenException.class)
+	public ResponseEntity<String> handleRefreshTokenException(RefreshTokenException ex) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	}
+
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+	}
 
 	@PostMapping("/refresh-token")
 	public ResponseEntity<RefreshTokenResponse> refreshToken(@RequestBody RefreshTokenRequest request) {

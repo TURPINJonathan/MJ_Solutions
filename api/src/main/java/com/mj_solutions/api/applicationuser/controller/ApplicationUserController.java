@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mj_solutions.api.applicationuser.dto.RegisterRequest;
 import com.mj_solutions.api.applicationuser.dto.UpdateUserRequest;
 import com.mj_solutions.api.applicationuser.dto.UserResponse;
 import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
 import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
 import com.mj_solutions.api.applicationuser.service.UserService;
-import com.mj_solutions.api.auth.dto.RegisterRequest;
 import com.mj_solutions.api.common.enums.Role;
 import com.mj_solutions.api.exception.ForbiddenOperationException;
 
