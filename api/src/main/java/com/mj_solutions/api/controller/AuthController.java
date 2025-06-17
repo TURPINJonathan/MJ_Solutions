@@ -9,8 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mj_solutions.api.dto.LoginRequest;
 import com.mj_solutions.api.dto.LoginResponse;
+import com.mj_solutions.api.dto.RefreshTokenRequest;
+import com.mj_solutions.api.dto.RefreshTokenResponse;
 import com.mj_solutions.api.dto.RegisterRequest;
+import com.mj_solutions.api.exception.RefreshTokenException;
+import com.mj_solutions.api.model.RefreshToken;
+import com.mj_solutions.api.repository.RefreshTokenRepository;
+import com.mj_solutions.api.security.JwtUtils;
 import com.mj_solutions.api.service.AuthService;
+import com.mj_solutions.api.service.RefreshTokenService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +27,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 
+	private final RefreshTokenService refreshTokenService;
+
+	private final RefreshTokenRepository refreshTokenRepository;
+
 	private final AuthService authService;
+
+	private final JwtUtils jwtUtils;
 
 	@PostMapping("/register")
 	public String register(@Valid @RequestBody RegisterRequest request) {
@@ -35,5 +48,31 @@ public class AuthController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
+	}
+
+	@PostMapping("/refresh-token")
+	public ResponseEntity<RefreshTokenResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
+		String requestToken = request.getRefreshToken();
+
+		return refreshTokenRepository.findByToken(requestToken)
+				.map(refreshTokenService::verifyExpiration)
+				.map(RefreshToken::getUser)
+				.map(user -> {
+					String newToken = jwtUtils.generateJwtToken(user.getEmail());
+					return ResponseEntity.ok(new RefreshTokenResponse(newToken, requestToken));
+				})
+				.orElseThrow(() -> new RefreshTokenException(requestToken, "Refresh token not found"));
+	}
+
+	@PostMapping("/logout")
+	public ResponseEntity<String> logout(@RequestBody RefreshTokenRequest request) {
+		String token = request.getRefreshToken();
+		return refreshTokenRepository.findByToken(token)
+				.map(RefreshToken::getUser)
+				.map(user -> {
+					refreshTokenService.deleteByUserId(user.getId());
+					return ResponseEntity.ok("User logged out successfully");
+				})
+				.orElseThrow(() -> new RefreshTokenException(token, "Refresh token not found"));
 	}
 }

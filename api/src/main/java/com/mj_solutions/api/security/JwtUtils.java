@@ -18,8 +18,11 @@ public class JwtUtils {
 
 	@Value("${jwt.secret}")
 	private String secret;
+
+	@Value("${app.jwtExpirationMs}")
+	private int jwtExpirationMs;
+
 	private SecretKey jwtSecret;
-	private static final int JWT_EXPIRATION_MS = 86400000; // 24h
 
 	@PostConstruct
 	public void init() {
@@ -31,7 +34,7 @@ public class JwtUtils {
 		return Jwts.builder()
 				.setSubject(email)
 				.setIssuedAt(new Date())
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_MS))
+				.setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
 				.signWith(jwtSecret, SignatureAlgorithm.HS512)
 				.compact();
 	}

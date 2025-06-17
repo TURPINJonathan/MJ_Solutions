@@ -22,6 +22,7 @@ public class AuthService {
 	private final ApplicationUserRepository userRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final JwtUtils jwtUtils;
+	private final RefreshTokenService refreshTokenService;
 
 	public String register(RegisterRequest request) {
 		if (userRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -49,7 +50,10 @@ public class AuthService {
 			throw new BadCredentialsException("Invalid credentials");
 		}
 
-		String token = jwtUtils.generateJwtToken(user.getEmail());
-		return new LoginResponse(token);
+		String accessToken = jwtUtils.generateJwtToken(user.getEmail());
+		String refreshToken = refreshTokenService.createRefreshToken(user).getToken();
+
+		return new LoginResponse(accessToken, refreshToken);
 	}
+
 }
