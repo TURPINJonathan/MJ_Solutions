@@ -1,5 +1,6 @@
 package com.mj_solutions.api.applicationuser.entity;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -14,6 +15,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +48,16 @@ public class ApplicationUser implements UserDetails {
 
 	@Column(nullable = false)
 	private Role role;
+
+	@Column(nullable = false, updatable = false)
+	private LocalDateTime createdAt;
+
+	@PrePersist
+	public void prePersist() {
+		if (createdAt == null) {
+			createdAt = LocalDateTime.now();
+		}
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

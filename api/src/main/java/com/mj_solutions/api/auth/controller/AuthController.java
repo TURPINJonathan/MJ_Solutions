@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mj_solutions.api.auth.dto.LoginRequest;
 import com.mj_solutions.api.auth.dto.LoginResponse;
-import com.mj_solutions.api.auth.dto.RegisterRequest;
 import com.mj_solutions.api.auth.service.AuthService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,11 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
 	private final AuthService authService;
-
-	@PostMapping("/register")
-	public String register(@Valid @RequestBody RegisterRequest request) {
-		return authService.register(request);
-	}
 
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
