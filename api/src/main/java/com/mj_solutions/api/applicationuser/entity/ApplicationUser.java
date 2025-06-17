@@ -52,6 +52,9 @@ public class ApplicationUser implements UserDetails {
 	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 
+	@Column(name = "updated_at", nullable = true, insertable = false, updatable = true)
+	private LocalDateTime updatedAt;
+
 	@PrePersist
 	public void prePersist() {
 		if (createdAt == null) {
