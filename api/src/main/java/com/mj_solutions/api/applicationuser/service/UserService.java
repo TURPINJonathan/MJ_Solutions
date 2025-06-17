@@ -9,11 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mj_solutions.api.applicationuser.dto.UpdateUserRequest;
 import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
 import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
 import com.mj_solutions.api.auth.dto.RegisterRequest;
+import com.mj_solutions.api.auth.repository.RefreshTokenRepository;
 import com.mj_solutions.api.common.enums.Role;
 import com.mj_solutions.api.exception.ForbiddenOperationException;
 import com.mj_solutions.api.utils.StringUtils;
@@ -23,8 +25,13 @@ public class UserService {
 
 	private final ApplicationUserRepository applicationUserRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
+	private final RefreshTokenRepository refreshTokenRepository;
 
-	public UserService(ApplicationUserRepository applicationUserRepository, BCryptPasswordEncoder passwordEncoder) {
+	public UserService(
+			ApplicationUserRepository applicationUserRepository,
+			BCryptPasswordEncoder passwordEncoder,
+			RefreshTokenRepository refreshTokenRepository) {
+		this.refreshTokenRepository = refreshTokenRepository;
 		this.applicationUserRepository = applicationUserRepository;
 		this.passwordEncoder = passwordEncoder;
 	}
@@ -117,5 +124,19 @@ public class UserService {
 		}
 
 		return applicationUserRepository.save(targetUser);
+	}
+
+	@Transactional
+	public void deleteUserAndTokens(Long userIdToDelete) {
+		refreshTokenRepository.deleteByUserId(userIdToDelete);
+		applicationUserRepository.deleteById(userIdToDelete);
+	}
+
+	public String deleteUser(Long userId) {
+		ApplicationUser userToDelete = applicationUserRepository.findById(userId)
+				.orElseThrow(() -> new ForbiddenOperationException("User not found"));
+
+		applicationUserRepository.delete(userToDelete);
+		return "User deleted successfully.";
 	}
 }

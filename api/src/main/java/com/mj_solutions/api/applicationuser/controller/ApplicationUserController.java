@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mj_solutions.api.applicationuser.dto.UpdateUserRequest;
 import com.mj_solutions.api.applicationuser.dto.UserResponse;
 import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
+import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
 import com.mj_solutions.api.applicationuser.service.UserService;
 import com.mj_solutions.api.auth.dto.RegisterRequest;
+import com.mj_solutions.api.common.enums.Role;
+import com.mj_solutions.api.exception.ForbiddenOperationException;
 
 import jakarta.validation.Valid;
 
@@ -26,8 +32,10 @@ import jakarta.validation.Valid;
 public class ApplicationUserController {
 
 	private final UserService userService;
+	private final ApplicationUserRepository applicationUserRepository;
 
-	public ApplicationUserController(UserService userService) {
+	public ApplicationUserController(UserService userService, ApplicationUserRepository applicationUserRepository) {
+		this.applicationUserRepository = applicationUserRepository;
 		this.userService = userService;
 	}
 
@@ -97,4 +105,35 @@ public class ApplicationUserController {
 				.createdAt(updatedUser.getCreatedAt())
 				.build();
 	}
+
+	@DeleteMapping({ "/profile/delete/{id}", "/profile/delete" })
+	public String deleteUser(@PathVariable(value = "id", required = false) Long id) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ApplicationUser currentUser;
+		if (principal instanceof ApplicationUser applicationUser) {
+			currentUser = applicationUser;
+		} else if (principal instanceof UserDetails userDetails) {
+			currentUser = applicationUserRepository.findByEmail(userDetails.getUsername())
+					.orElseThrow(() -> new ForbiddenOperationException("Current user not found"));
+		} else {
+			throw new ForbiddenOperationException("Unauthorized");
+		}
+
+		Long userIdToDelete = (id != null) ? id : currentUser.getId();
+
+		// Autoriser la suppression de soi-même pour tous les rôles
+		if (currentUser.getId().equals(userIdToDelete)) {
+			userService.deleteUserAndTokens(userIdToDelete);
+			return "User deleted successfully.";
+		}
+
+		// Sinon, il faut être super admin
+		if (currentUser.getRole() != Role.ROLE_SUPER_ADMIN) {
+			throw new ForbiddenOperationException("Only a super admin can delete another user.");
+		}
+
+		userService.deleteUserAndTokens(userIdToDelete);
+		return "User deleted successfully.";
+	}
+
 }
