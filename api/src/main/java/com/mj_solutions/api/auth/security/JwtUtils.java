@@ -1,4 +1,4 @@
-package com.mj_solutions.api.security;
+package com.mj_solutions.api.auth.security;
 
 import java.time.Instant;
 import java.util.Base64;

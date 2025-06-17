@@ -1,16 +1,16 @@
-package com.mj_solutions.api.service;
+package com.mj_solutions.api.auth.service;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
+import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
+import com.mj_solutions.api.auth.dto.LoginRequest;
+import com.mj_solutions.api.auth.dto.LoginResponse;
+import com.mj_solutions.api.auth.dto.RegisterRequest;
+import com.mj_solutions.api.auth.security.JwtUtils;
 import com.mj_solutions.api.common.enums.Role;
-import com.mj_solutions.api.dto.LoginRequest;
-import com.mj_solutions.api.dto.LoginResponse;
-import com.mj_solutions.api.dto.RegisterRequest;
-import com.mj_solutions.api.model.ApplicationUser;
-import com.mj_solutions.api.repository.ApplicationUserRepository;
-import com.mj_solutions.api.security.JwtUtils;
 import com.mj_solutions.api.utils.StringUtils;
 
 import lombok.RequiredArgsConstructor;

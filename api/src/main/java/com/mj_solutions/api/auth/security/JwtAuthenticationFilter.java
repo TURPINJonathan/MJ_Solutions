@@ -1,4 +1,4 @@
-package com.mj_solutions.api.security;
+package com.mj_solutions.api.auth.security;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.mj_solutions.api.repository.ApplicationUserRepository;
-import com.mj_solutions.api.service.BlacklistService;
+import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
+import com.mj_solutions.api.auth.service.BlacklistedService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	private final BlacklistService blacklistService;
+	private final BlacklistedService blacklistService;
 	private final ApplicationUserRepository userRepository;
 	private final JwtUtils jwtUtils;
 

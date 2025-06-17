@@ -1,17 +1,17 @@
-package com.mj_solutions.api.service;
+package com.mj_solutions.api.auth.service;
 
 import java.time.Instant;
 
 import org.springframework.stereotype.Service;
 
-import com.mj_solutions.api.model.BlacklistedToken;
-import com.mj_solutions.api.repository.BlacklistedTokenRepository;
+import com.mj_solutions.api.auth.entity.BlacklistedToken;
+import com.mj_solutions.api.auth.repository.BlacklistedTokenRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BlacklistService {
+public class BlacklistedService {
 
 	private final BlacklistedTokenRepository blacklistedTokenRepository;
 

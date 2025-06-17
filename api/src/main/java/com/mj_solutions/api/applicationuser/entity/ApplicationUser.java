@@ -1,4 +1,4 @@
-package com.mj_solutions.api.model;
+package com.mj_solutions.api.applicationuser.entity;
 
 import java.util.Collection;
 import java.util.Collections;

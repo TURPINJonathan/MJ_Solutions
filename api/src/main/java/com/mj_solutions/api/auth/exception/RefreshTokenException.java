@@ -1,4 +1,4 @@
-package com.mj_solutions.api.exception;
+package com.mj_solutions.api.auth.exception;
 
 import lombok.Getter;
 
