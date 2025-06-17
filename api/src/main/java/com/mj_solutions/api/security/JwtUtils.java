@@ -1,5 +1,6 @@
 package com.mj_solutions.api.security;
 
+import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
 
@@ -47,4 +48,15 @@ public class JwtUtils {
 				.getBody()
 				.getSubject();
 	}
+
+	public Instant getExpirationFromToken(String token) {
+		return Jwts.parserBuilder()
+				.setSigningKey(jwtSecret)
+				.build()
+				.parseClaimsJws(token)
+				.getBody()
+				.getExpiration()
+				.toInstant();
+	}
+
 }
