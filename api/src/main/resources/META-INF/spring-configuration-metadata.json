@@ -4,6 +4,16 @@
       "name": "jwt.secret",
       "type": "java.lang.String",
       "description": "Secret key for JWT signing and validation."
+    },
+    {
+      "name": "app.jwtRefreshExpirationMs",
+      "type": "java.lang.Long",
+      "description": "Duration of validity for the refresh token in milliseconds (e.g., 7 days)."
+    },
+    {
+      "name": "app.jwtExpirationMs",
+      "type": "java.lang.Long",
+      "description": "Duration of validity for the access token in milliseconds (e.g., 1 day)."
     }
   ]
 }
