@@ -68,6 +68,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: List test files
+        run: ls -l test
+
       - name: Run tests
         run: npm test
 
