@@ -2,9 +2,13 @@ name: CI Dev
 
 on:
   push:
-    branches: [ "*" ]
+    branches:
+      - 'back/**'
+      - 'app/**'
   pull_request:
-    branches: [ "*" ]
+    branches:
+      - 'back/**'
+      - 'app/**'
 
 jobs:
   backend:
@@ -71,10 +75,10 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Build front (optionnel)
+      - name: Build front
         run: npm run build
 
-      - name: Upload build (optionnel)
+      - name: Upload build
         uses: actions/upload-artifact@v4
         with:
           name: front-build
@@ -101,10 +105,10 @@ jobs:
       - name: Run tests
         run: npm test -- --browsers=ChromeHeadlessNoSandbox --watch=false
 
-      - name: Build back-office (optionnel)
+      - name: Build back-office
         run: npm run build
 
-      - name: Upload build (optionnel)
+      - name: Upload build
         uses: actions/upload-artifact@v4
         with:
           name: back-office-build
