@@ -68,9 +68,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: List test files
-        run: ls -l test
-
       - name: Run tests
         run: npm test
 
@@ -102,7 +99,7 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --browsers=ChromeHeadlessNoSandbox --watch=false
 
       - name: Build back-office (optionnel)
         run: npm run build
