@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "#shared/*": ["shared/*"],
+      "#SAssets/*": ["shared/assets/*"],
+      "#SConfig/*": ["shared/config/*"],
+      "#SConstants/*": ["shared/constants/*"],
+      "#SControllers/*": ["shared/controllers/*"],
+      "#SDecorators/*": ["shared/decorators/*"],
+      "#SExceptions/*": ["shared/exceptions/*"],
+      "#SFilters/*": ["shared/filters/*"],
+      "#SGuards/*": ["shared/guards/*"],
+      "#SInterfaces/*": ["shared/interfaces/*"],
+      "#SInterceptors/*": ["shared/interceptors/*"],
+      "#SModels/*": ["shared/models/*"],
+      "#SMiddlewares/*": ["shared/middlewares/*"],
+      "#SModules/*": ["shared/modules/*"],
+      "#SProviders/*": ["shared/providers/*"],
+      "#SServices/*": ["shared/services/*"],
+      "#SUtils/*": ["shared/utils/*"]
+    }
+  }
+}

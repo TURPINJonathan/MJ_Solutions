@@ -2,9 +2,13 @@ name: CI Dev
 
 on:
   push:
-    branches: [ "*" ]
+    branches:
+      - 'back/**'
+      - 'app/**'
   pull_request:
-    branches: [ "*" ]
+    branches:
+      - 'back/**'
+      - 'app/**'
 
 jobs:
   backend:
@@ -50,20 +54,62 @@ jobs:
           name: test-coverage
           path: ./api/target/site/jacoco/index.html
 
-  # Uncomment the following section to enable frontend jobs
-  # frontend:
-  #   name: Frontend - Tests
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./front
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20'
-  #     - name: Install dependencies
-  #       run: npm ci
-  #     - name: Run tests
-  #       run: npm test
+  frontend:
+    name: Frontend - Quality & Tests
+    runs-on: ubuntu-latest
+    needs: backend
+    defaults:
+      run:
+        working-directory: ./app/front
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build front
+        run: npm run build
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: front-build
+          path: ./front/dist
+
+  backoffice:
+    name: Back-office - Quality & Tests
+    runs-on: ubuntu-latest
+    needs: backend
+    defaults:
+      run:
+        working-directory: ./app/back-office
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test -- --browsers=ChromeHeadlessNoSandbox --watch=false
+
+      - name: Build back-office
+        run: npm run build
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: back-office-build
+          path: ./back-office/dist
