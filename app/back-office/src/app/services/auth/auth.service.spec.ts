@@ -25,7 +25,7 @@ describe('AuthService', () => {
   });
 
   it('should POST to /auth/login with email and password', () => {
-    const mockCredentials = { email: 'test@mail.com', password: 'REDACTED' };
+    const mockCredentials = { email: 'test@mail.com', password: 'Test1234!' };
     service.login(mockCredentials.email, mockCredentials.password).subscribe();
 
     const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
@@ -34,7 +34,7 @@ describe('AuthService', () => {
   });
 
   it('should propagate an HTTP error', () => {
-    const mockCredentials = { email: 'test@mail.com', password: 'REDACTED' };
+    const mockCredentials = { email: 'test@mail.com', password: 'Test1234!' };
     const mockError = { status: 401, statusText: 'Unauthorized' };
 
     let error: any;
