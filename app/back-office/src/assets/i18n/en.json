@@ -1,0 +1,22 @@
+{
+  "LOGIN": {
+    "ALL_FIELDS_REQUIRED": "Please fill in all fields.",
+    "BUTTON": "Sign in",
+    "CHECK_CREDENTIALS": "Please check your credentials.",
+    "CONNECTION": "Sign in",
+    "EMAIL_REQUIRED": "Please enter your email address.",
+    "ERROR": "Your credentials are incorrect.",
+    "ERROR_CONNECTION": "Error during login",
+    "FORGOT_PASSWORD": "Forgot password",
+    "PASSWORD_REQUIRED": "Please enter your password.",
+    "SUCCESS": "Login successful!"
+  },
+	"TOAST": {
+		"TITLE": {
+			"ERROR": "Error",
+			"INFO": "Information",
+			"SUCCESS": "Success",
+			"WARNING": "Warning"
+		}
+	}
+}
