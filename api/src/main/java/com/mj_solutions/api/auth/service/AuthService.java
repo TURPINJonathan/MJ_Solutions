@@ -29,6 +29,8 @@ public class AuthService {
 			throw new BadCredentialsException("Invalid credentials");
 		}
 
+		refreshTokenService.deleteByUserId(user.getId());
+		
 		String accessToken = jwtUtils.generateJwtToken(user.getEmail());
 		String refreshToken = refreshTokenService.createRefreshToken(user).getToken();
 
