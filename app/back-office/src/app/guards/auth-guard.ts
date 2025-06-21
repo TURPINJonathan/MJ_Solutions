@@ -1,21 +1,23 @@
 import { isTokenExpired } from '#shared/utils/validation.utils';
-import { CanActivateChildFn } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateChildFn, Router } from '@angular/router';
 
 declare global {
   interface Window {
-	Cypress?: any;
+	Cypress?: unknown;
   }
 }
 
 export const AuthGuard: CanActivateChildFn = (childRoute, state) => {
   const token = localStorage.getItem('token');
-	if (window.Cypress) {
-    return true;
-  }
+	const router = inject(Router);
+
+	if (window.Cypress) return true;
 
 	if (!token || isTokenExpired(token)) {
 		localStorage.removeItem('token');
-		window.location.href = '/akwaytenpo/login';
+		router.navigate(['/login']);
+
 		return false;
 	}
 

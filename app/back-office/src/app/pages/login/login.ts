@@ -24,7 +24,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 		TranslateModule
 	],
 	templateUrl: './login.html',
-	styleUrl: './login.scss'
+	styleUrls: ['./login.scss']
 })
 export class LoginPage {
   email = '';
@@ -55,7 +55,7 @@ export class LoginPage {
     this.passwordTouched = true;
 
     if (!this.email || !this.password) {
-      this.toast.warning(this.translate.instant('LOGIN.ALL_FILEDS_REQUIRED'), this.translate.instant('LOGIN.CONNECTION'));
+      this.toast.warning(this.translate.instant('LOGIN.ALL_FIELDS_REQUIRED'), this.translate.instant('LOGIN.CONNECTION'));
       return;
     }
 
