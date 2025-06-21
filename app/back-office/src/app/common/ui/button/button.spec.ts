@@ -5,12 +5,15 @@ import { By } from '@angular/platform-browser';
 import { ButtonComponent } from '#common/ui/button/button';
 
 @Component({
-  template: `<app-button [type]="type" [color]="color" [disabled]="disabled" id="test-btn">{{text}}</app-button>`
+  standalone: true,
+  imports: [ButtonComponent],
+  template: `<app-button [type]="type" [color]="color" [disabled]="disabled" [loading]="loading" id="test-btn">{{text}}</app-button>`
 })
 class TestHostComponent {
   type = 'submit';
   color = 'primary';
   disabled = false;
+  loading = false;
   text = 'Sign in';
 }
 
@@ -20,7 +23,7 @@ describe('ButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ButtonComponent, TestHostComponent]
+      imports: [TestHostComponent] // TestHostComponent est standalone
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);
@@ -30,7 +33,7 @@ describe('ButtonComponent', () => {
 
   it('should display the button text', () => {
     const button = fixture.debugElement.query(By.css('button'));
-    expect(button.nativeElement.textContent).toContain('Sign in');
+    expect(button.nativeElement.textContent.trim()).toBe('Sign in');
   });
 
   it('should be disabled when [disabled]=true', () => {
@@ -40,8 +43,24 @@ describe('ButtonComponent', () => {
     expect(button.nativeElement.disabled).toBeTrue();
   });
 
-  it('should have the button-primary class', () => {
+  it('should be disabled when [loading]=true', () => {
+    hostComponent.loading = true;
+    fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('button'));
-    expect(button.nativeElement.classList).toContain('button-primary');
+    expect(button.nativeElement.disabled).toBeTrue();
+  });
+
+  it('should have the correct type', () => {
+    hostComponent.type = 'reset';
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('button'));
+    expect(button.nativeElement.type).toBe('reset');
+  });
+
+  it('should apply the correct color class', () => {
+    hostComponent.color = 'secondary';
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('button'));
+    expect(button.nativeElement.classList).toContain('button-secondary');
   });
 });

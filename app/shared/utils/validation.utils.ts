@@ -12,12 +12,12 @@ export function isValidPassword(password: string): boolean {
 }
 
 export function isTokenExpired(token: string): boolean {
-		try {
-			const decoded = jwtDecode<JwtPayload>(token);
-			if (!decoded.exp) return true;
-			
-			return Date.now() >= decoded.exp * 1000;
-		} catch {
-			return true;
-		}
+	try {
+		const decoded = jwtDecode<JwtPayload>(token);
+		if (!decoded.exp) return true;
+		
+		return Date.now() >= decoded.exp * 1000;
+	} catch {
+		return true;
 	}
+}

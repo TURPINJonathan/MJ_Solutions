@@ -5,12 +5,16 @@ import { By } from '@angular/platform-browser';
 import { InputComponent } from '#common/ui/input/input';
 
 @Component({
+  standalone: true,
+  imports: [InputComponent],
   template: `<app-input
     [type]="type"
     [placeholder]="placeholder"
     [name]="name"
     [id]="id"
     [disabled]="disabled"
+    [error]="error"
+    [valid]="valid"
   ></app-input>`
 })
 class TestHostComponent {
@@ -19,6 +23,8 @@ class TestHostComponent {
   name = 'email';
   id = 'test-input';
   disabled = false;
+  error = false;
+  valid = false;
 }
 
 describe('InputComponent', () => {
@@ -27,7 +33,7 @@ describe('InputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [InputComponent, TestHostComponent]
+      imports: [TestHostComponent] // tout standalone va dans imports
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);
@@ -53,5 +59,26 @@ describe('InputComponent', () => {
     fixture.detectChanges();
     const input = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
     expect(input.disabled).toBeTrue();
+  });
+
+  it('should have input-error class when [error]=true', () => {
+    hostComponent.error = true;
+    fixture.detectChanges();
+    const input = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    expect(input.classList).toContain('input-error');
+  });
+
+  it('should have input-valid class when [valid]=true', () => {
+    hostComponent.valid = true;
+    fixture.detectChanges();
+    const input = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    expect(input.classList).toContain('input-valid');
+  });
+
+  it('should have the correct type', () => {
+    hostComponent.type = 'password';
+    fixture.detectChanges();
+    const input = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    expect(input.type).toBe('password');
   });
 });

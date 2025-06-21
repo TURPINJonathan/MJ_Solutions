@@ -1,17 +1,43 @@
 import { TestBed } from '@angular/core/testing';
-import { CanActivateChildFn } from '@angular/router';
+import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { runInInjectionContext, Injector } from '@angular/core';
+import { AuthGuard } from './auth-guard';
 
-import { authGuard } from './auth-guard';
-
-describe('authGuard', () => {
-  const executeGuard: CanActivateChildFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => authGuard(...guardParameters));
+describe('AuthGuard', () => {
+  let navigateSpy: jasmine.Spy;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    navigateSpy = jasmine.createSpy('navigate');
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: Router, useValue: { navigate: navigateSpy } }
+      ]
+    });
+    localStorage.clear();
+    window.Cypress = undefined;
   });
 
-  it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+  function fakeRoute(): ActivatedRouteSnapshot {
+    return {} as ActivatedRouteSnapshot;
+  }
+  function fakeState(): RouterStateSnapshot {
+    return {} as RouterStateSnapshot;
+  }
+
+  function callGuard() {
+    const injector = TestBed.inject(Injector);
+    return runInInjectionContext(injector, () => AuthGuard(fakeRoute(), fakeState()));
+  }
+
+  it('should allow access if Cypress is present', () => {
+    window.Cypress = true;
+    expect(callGuard()).toBeTrue();
+    window.Cypress = undefined;
+  });
+
+  it('should deny access and redirect if no token', () => {
+    expect(callGuard()).toBeFalse();
+    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
   });
 });
