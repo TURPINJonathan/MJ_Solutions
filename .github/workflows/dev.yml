@@ -29,9 +29,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # - name: Checkstyle Verification
-      #   run: ./mvnw checkstyle:check
-
       - name: Build project
         run: ./mvnw package -DskipTests
 
@@ -58,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./app
+        working-directory: ./app/shared
     steps:
       - uses: actions/checkout@v4
 
@@ -87,6 +84,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Symlink node_modules for shared
+        run: |
+          rm -rf ../shared/node_modules
+          ln -s ../front/node_modules ../shared/node_modules
 
       - name: Run tests
         run: npm test
@@ -118,28 +120,43 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check jwt-decode presence
-        run: ls -l node_modules/jwt-decode
-
-      - name: Run tests
-        run: npm test -- --browsers=ChromeHeadlessNoSandbox --watch=false
+      - name: Install global app dependencies
+        run: npm ci
+        working-directory: ./app
 
       - name: Build back-office
         run: npm run build
+
+      - name: Prepare back-office build under /akwaytenpo
+        run: |
+          mkdir -p ./serve-root/akwaytenpo
+          cp -r ./dist/* ./serve-root/akwaytenpo/
 
       - name: Install static server
         run: npm install -g serve
 
       - name: Serve back-office build
-        run: serve -s ./dist -l 4200 &
+        run: serve -s ./serve-root -l 4200 --single &
 
       - name: Wait for back-office to be ready
-        run: npx wait-on http://localhost:4200
+        run: npx wait-on tcp:4200
+
+      - name: Debug Cypress page
+        run: curl -s http://localhost:4200/akwaytenpo/login | head -n 20
+
+      - name: Symlink node_modules for shared
+        run: |
+          rm -rf ../shared/node_modules
+          ln -s ../back-office/node_modules ../shared/node_modules
 
       - name: Run Cypress E2E back-office tests
-        run: npm run e2e:bo
+        working-directory: ./app
+        run: BASE_URL=http://localhost:4200/akwaytenpo npx cypress run --spec 'back-office/e2e/**/*'
 
-      - name: Upload build
+      - name: Run unit tests
+        run: npm test -- --browsers=ChromeHeadlessNoSandbox --watch=false
+
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: back-office-build
