@@ -1,12 +1,13 @@
 {
   "LOGIN": {
     "ALL_FIELDS_REQUIRED": "Veuillez renseigner tous les champs.",
-		"BUTTON": "Se connecter",
+    "BUTTON": "Se connecter",
     "CHECK_CREDENTIALS": "Veuillez vérifier vos identifiants.",
-    "CONNEXION": "Connexion",
+    "CONNEXTION": "Connexion",
     "EMAIL_REQUIRED": "Veuillez renseigner votre adresse e-mail.",
     "ERROR": "Vos identifiants sont incorrects.",
     "ERROR_CONNECTION": "Erreur lors de la connexion",
+    "FORGOT_PASSWORD": "Mot de passe oublié",
     "PASSWORD_REQUIRED": "Veuillez renseigner votre mot de passe.",
     "SUCCESS": "Connexion réussie !"
   }

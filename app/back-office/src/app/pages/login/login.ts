@@ -66,6 +66,7 @@ export class LoginPage {
         if (res?.token) {
           localStorage.setItem('token', res.token);
           this.toast.success(this.translate.instant('LOGIN.SUCCESS'), this.translate.instant('LOGIN.CONNECTION'));
+  
           this.router.navigate(['/dashboard']);
         } else {
           this.toast.error(this.translate.instant('LOGIN.CHECK_CREDENTIALS'), this.translate.instant('LOGIN.ERROR_CONNECTION'));
