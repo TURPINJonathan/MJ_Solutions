@@ -1,0 +1,13 @@
+{
+  "LOGIN": {
+    "ALL_FIELDS_REQUIRED": "Please fill in all fields.",
+    "BUTTON": "Sign in",
+    "CHECK_CREDENTIALS": "Please check your credentials.",
+    "CONNEXION": "Sign in",
+    "EMAIL_REQUIRED": "Please enter your email address.",
+    "ERROR": "Your credentials are incorrect.",
+    "ERROR_CONNECTION": "Error during login",
+    "PASSWORD_REQUIRED": "Please enter your password.",
+    "SUCCESS": "Login successful!"
+  }
+}

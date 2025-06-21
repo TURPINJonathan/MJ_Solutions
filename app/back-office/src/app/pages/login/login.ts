@@ -1,20 +1,30 @@
-import { CardComponent } from '#BO/common/ui/card/card';
-import { FormComponent } from '#BO/common/ui/form/form';
-import { ToastUtils } from '#BO/utils/toastUtils';
+import { ButtonComponent } from '#common/ui/button/button';
+import { CardComponent } from '#common/ui/card/card';
+import { FormComponent } from '#common/ui/form/form';
+import { InputComponent } from '#common/ui/input/input';
+import { LanguageSwitcherComponent } from '#common/ui/language-switcher/language-switcher';
 import { AuthService } from '#services/auth/auth.service';
 import { isValidEmail, isValidPassword } from '#shared/utils/validation.utils';
+import { ToastUtils } from '#utils/toastUtils';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ButtonComponent } from '../../common/ui/button/button';
-import { InputComponent } from '../../common/ui/input/input';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [FormsModule, InputComponent, ButtonComponent, CardComponent, FormComponent],
-  templateUrl: './login.html',
-  styleUrl: './login.scss'
+	selector: 'app-login',
+	standalone: true,
+	imports: [
+		ButtonComponent,
+		CardComponent,
+		FormComponent,
+		FormsModule,
+		InputComponent,
+		LanguageSwitcherComponent,
+		TranslateModule
+	],
+	templateUrl: './login.html',
+	styleUrl: './login.scss'
 })
 export class LoginPage {
   email = '';
@@ -28,7 +38,8 @@ export class LoginPage {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly toast: ToastUtils
+    private readonly toast: ToastUtils,
+		private translate: TranslateService
   ) {}
 
   get emailInvalid() {
@@ -44,7 +55,7 @@ export class LoginPage {
     this.passwordTouched = true;
 
     if (!this.email || !this.password) {
-      this.toast.warning('Veuillez remplir tous les champs.', 'Connexion');
+      this.toast.warning(this.translate.instant('LOGIN.ALL_FILEDS_REQUIRED'), this.translate.instant('LOGIN.CONNECTION'));
       return;
     }
 
@@ -54,16 +65,16 @@ export class LoginPage {
         this.isLoading = false;
         if (res?.token) {
           localStorage.setItem('token', res.token);
-          this.toast.success('Connexion réussie !', 'Connexion');
+          this.toast.success(this.translate.instant('LOGIN.SUCCESS'), this.translate.instant('LOGIN.CONNECTION'));
           this.router.navigate(['/dashboard']);
         } else {
-          this.toast.error('Vos identifiants sont incorrects.', 'Erreur lors de la connexion');
+          this.toast.error(this.translate.instant('LOGIN.CHECK_CREDENTIALS'), this.translate.instant('LOGIN.ERROR_CONNECTION'));
         }
       },
       error: (err) => {
 				console.error('Login error:', err);
         this.isLoading = false;
-        this.toast.error('Vos identifiants sont peut-être incorrects.', 'Erreur lors de la connexion');
+        this.toast.error(this.translate.instant('LOGIN.CHECK_CREDENTIALS'), this.translate.instant('LOGIN.ERROR_CONNECTION'));
       }
     });
   }

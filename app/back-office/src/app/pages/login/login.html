@@ -3,7 +3,7 @@
 		<div class="logo">
 			<span class="logo-m">M</span><span class="logo-j">J</span><span class="logo-s">S</span>
 		</div>
-		<h1>Connexion</h1>
+		<h1>{{ 'LOGIN.CONNEXION' | translate }}</h1>
 		<app-form [loading]="isLoading" (formSubmit)="onSubmit($event)" class="login-form">
 			<div class="form-inputs">
 				<app-input type="email" placeholder="jean@mj-solutions.com" name="email" required [(ngModel)]="email"
@@ -14,10 +14,11 @@
 			</div>
 			<app-button type="submit" [disabled]="!isValidEmail(email) || !isValidPassword(password) || isLoading"
 				color="success" [loading]="isLoading">
-				Se connecter
+				{{ 'LOGIN.BUTTON' | translate }}
 			</app-button>
 		</app-form>
 		<div class="login-footer">
+			<app-language-switcher></app-language-switcher>
 			<small>© MJ Solutions</small>
 		</div>
 	</app-card>
