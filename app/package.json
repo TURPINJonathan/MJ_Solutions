@@ -48,6 +48,7 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@types/jwt-decode": "^2.2.1",
     "concurrently": "^9.1.2",
     "cypress": "^14.5.0",
     "pm2": "^6.0.8"
