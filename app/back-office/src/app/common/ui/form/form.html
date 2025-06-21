@@ -1,0 +1,5 @@
+<form (submit)="onSubmit($event)" [ngClass]="ngClass">
+  <ng-content></ng-content>
+  <div *ngIf="error" class="form-error">{{ error }}</div>
+  <div *ngIf="loading" class="form-loader">Loading...</div>
+</form>

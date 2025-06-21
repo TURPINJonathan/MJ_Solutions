@@ -1,0 +1,24 @@
+.language-switcher {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.7rem;
+    padding: 0.1rem 0.3rem;
+    transition: opacity 0.2s;
+    outline: none;
+
+    &.inactive {
+      opacity: 0.4;
+      filter: grayscale(0.5);
+    }
+    &.active {
+      opacity: 1;
+      filter: none;
+    }
+  }
+}
