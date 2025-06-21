@@ -10,5 +10,13 @@
     "FORGOT_PASSWORD": "Forgot password",
     "PASSWORD_REQUIRED": "Please enter your password.",
     "SUCCESS": "Login successful!"
-  }
+  },
+	"TOAST": {
+		"TITLE": {
+			"ERROR": "Error",
+			"INFO": "Information",
+			"SUCCESS": "Success",
+			"WARNING": "Warning"
+		}
+	}
 }

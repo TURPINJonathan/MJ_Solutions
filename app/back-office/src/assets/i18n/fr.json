@@ -10,5 +10,13 @@
     "FORGOT_PASSWORD": "Mot de passe oublié",
     "PASSWORD_REQUIRED": "Veuillez renseigner votre mot de passe.",
     "SUCCESS": "Connexion réussie !"
-  }
+  },
+	"TOAST": {
+		"TITLE": {
+			"ERROR": "Erreur",
+			"INFO": "Information",
+			"SUCCESS": "Cuccès",
+			"WARNING": "Attention"
+		}
+	}
 }
