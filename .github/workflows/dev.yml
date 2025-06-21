@@ -2,13 +2,12 @@ name: CI Dev
 
 on:
   push:
-    branches:
-      - 'back/**'
-      - 'app/**'
   pull_request:
     branches:
-      - 'back/**'
-      - 'app/**'
+      - 'back'
+      - 'app'
+      - 'main'
+      - 'preprod'
 
 jobs:
   backend:
@@ -107,6 +106,18 @@ jobs:
 
       - name: Build back-office
         run: npm run build
+
+      - name: Install static server
+        run: npm install -g serve
+
+      - name: Serve back-office build
+        run: serve -s ./dist -l 4200 &
+
+      - name: Wait for back-office to be ready
+        run: npx wait-on http://localhost:4200
+
+      - name: Run Cypress E2E back-office tests
+        run: npm run e2e:bo
 
       - name: Upload build
         uses: actions/upload-artifact@v4

@@ -1,0 +1,36 @@
+.toast {
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10);
+  font-size: 1rem;
+  padding: 1.1rem 2rem;
+}
+
+.toast-success {
+  background-color: var(--color-success) !important;
+  color: #fff !important;
+}
+.toast-error {
+  background-color: var(--color-danger) !important;
+  color: #fff !important;
+}
+.toast-info {
+  background-color: var(--color-info) !important;
+  color: #fff !important;
+}
+.toast-warning {
+  background-color: var(--color-warning) !important;
+  color: #fff !important;
+}
+
+.toast-close-button {
+  color: #fff !important;
+  opacity: 0.8;
+  font-size: 1.2em;
+}
+
+.toast-progress {
+  background-color: rgba(255,255,255,0.5) !important;
+  height: 4px !important;
+  border-radius: 2px;
+}
