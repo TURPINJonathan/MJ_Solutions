@@ -1,4 +1,5 @@
-import { jwtDecode, JwtPayload } from "jwt-decode";
+
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 export function isValidEmail(email: string): boolean {
   const emailRegex =
