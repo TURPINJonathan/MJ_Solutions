@@ -5,15 +5,9 @@ labels: [bug, backoffice]
 assignees: TURPINJonathan
 ---
 
-# TITRE
-
 ## Comportement observé
 
-...
-
 ## Comportement attendu
-
-...
 
 ## Étapes pour reproduire
 
@@ -27,11 +21,3 @@ assignees: TURPINJonathan
 - Environnement (dev, prod, etc.) :
 
 ---
-
-### Convention de branche
-
-> `backoffice/bug/numéro-issue-ou-description-courte`
-
-### Tag à ajouter
-
-> `backoffice`, `bug`

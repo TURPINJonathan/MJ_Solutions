@@ -5,15 +5,9 @@ labels: [bug, front]
 assignees: TURPINJonathan
 ---
 
-# TITRE
-
 ## Comportement observé
 
-...
-
-## Comportement attendu
-
-...
+## Comportement 
 
 ## Étapes pour reproduire
 
@@ -27,11 +21,3 @@ assignees: TURPINJonathan
 - Environnement (dev, prod, etc.) :
 
 ---
-
-### Convention de branche
-
-> `front/bug/numéro-issue-ou-description-courte`
-
-### Tag à ajouter
-
-> `front`, `bug`

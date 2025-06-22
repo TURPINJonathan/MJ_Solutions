@@ -5,19 +5,11 @@ labels: [user-story, api]
 assignees: TURPINJonathan
 ---
 
-# TITRE
-
 ## En tant que
-
-_Quel type d’utilisateur ? (ex : administrateur, utilisateur, etc.)_
 
 ## Je veux
 
-_Quel besoin ou action ?_
-
 ## Afin de
-
-_Quel objectif ou bénéfice ?_
 
 ---
 
@@ -27,12 +19,3 @@ _Quel objectif ou bénéfice ?_
 - [ ] Critère 2
 
 ---
-
-### Convention de branche
-
-> **À utiliser lors de la création de la branche :**  
-> `api/nom-court-de-la-user-story`
-
-### Tag à ajouter
-
-> `api`
