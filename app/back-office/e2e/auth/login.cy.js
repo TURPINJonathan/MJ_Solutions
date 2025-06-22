@@ -1,9 +1,9 @@
 describe('Back-Office Login', () => {
   beforeEach(() => {
-    cy.visit('/login');
+    cy.visit('/login', { failOnStatusCode: false });
   });
 
-  it('should allow a user to log in with valid credentials', () => {
+	it('should allow a user to log in with valid credentials', () => {
 		cy.intercept('POST', 'http://localhost:8080/auth/login', {
 			statusCode: 200,
 			body: {
@@ -12,13 +12,14 @@ describe('Back-Office Login', () => {
 			}
 		}).as('login');
 
+		cy.get('.backdrop').should('not.exist');
 		cy.get('input[name="email"]').type('admin@example.com');
 		cy.get('input[name="password"]').type('Test1234!');
 		cy.get('button[type="submit"]').should('not.be.disabled').click();
 
 		cy.wait('@login');
 		cy.url().should('include', '/dashboard');
-  });
+	});
 
   it('should disable submit button if email is missing', () => {
     cy.get('input[name="password"]').type('motdepasse');

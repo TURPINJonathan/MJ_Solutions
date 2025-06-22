@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "rootDirs": [
+      "./back-office",
+      "./shared",
+			"./front"
+    ],
     "baseUrl": ".",
     "paths": {
       "#shared/*": ["shared/*"],
