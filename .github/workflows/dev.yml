@@ -2,12 +2,15 @@ name: CI Dev
 
 on:
   push:
+    branches-ignore:
+      - main
+      - preprod
+      - back
+      - app
   pull_request:
     branches:
-      - 'back'
-      - 'app'
-      - 'main'
-      - 'preprod'
+      - back
+      - app
 
 jobs:
   backend:
