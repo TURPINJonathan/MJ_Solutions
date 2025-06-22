@@ -7,7 +7,7 @@ assignees: TURPINJonathan
 
 # TITRE
 
-## Pojet concerné
+## Projet concerné
 
 - [ ] API
 - [ ] BACK OFFICE
