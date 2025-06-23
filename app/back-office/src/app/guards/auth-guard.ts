@@ -16,6 +16,7 @@ export const AuthGuard: CanActivateChildFn = (childRoute, state) => {
 
 	if (!token || isTokenExpired(token)) {
 		localStorage.removeItem('token');
+		localStorage.removeItem('refreshToken');
 		router.navigate(['/login']);
 
 		return false;
