@@ -66,6 +66,7 @@ export class LoginPage {
         this.isLoading = false;
         if (res?.token) {
           localStorage.setItem('token', res.token);
+					localStorage.setItem('refreshToken', res.refreshToken);
           this.toast.success(this.translate.instant('LOGIN.SUCCESS'), this.translate.instant('LOGIN.CONNECTION'));
   
           this.router.navigate(['/dashboard']);

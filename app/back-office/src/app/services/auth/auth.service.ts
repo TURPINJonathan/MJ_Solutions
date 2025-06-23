@@ -20,4 +20,12 @@ export class AuthService {
     const url = `${environment.apiUrl}/auth/login`;
     return this.http.post(url, { email, password });
   }
+
+	logout(refreshToken: string | null): Observable<any> {
+		if (!refreshToken) {
+			return throwError(() => new Error('No refresh token provided'));
+		}
+		const url = `${environment.apiUrl}/auth/logout`;
+		return this.http.post(url, {refreshToken : refreshToken});
+	}
 }
