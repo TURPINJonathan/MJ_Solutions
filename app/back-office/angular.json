@@ -23,6 +23,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
   						"src/assets",
+							"src/robots.txt",
               {
                 "glob": "**/*",
                 "input": "public"
@@ -94,6 +95,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
   						"src/assets",
+							"src/robots.txt",
               {
                 "glob": "**/*",
                 "input": "public"
