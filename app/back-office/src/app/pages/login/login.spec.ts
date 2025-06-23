@@ -139,4 +139,32 @@ describe('LoginPage', () => {
     expect(component.emailTouched).toBeTrue();
     expect(component.passwordTouched).toBeTrue();
   });
+
+	it('should store token and refreshToken in localStorage on successful login', fakeAsync(() => {
+    component.email = 'user@example.com';
+    component.password = 'ValidPassword123!';
+    authServiceSpy.login.and.returnValue(of({ token: 'abc', refreshToken: 'refresh-xyz' }));
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+
+    component.onSubmit(new Event('submit'));
+    tick();
+
+    expect(localStorage.getItem('token')).toBe('abc');
+    expect(localStorage.getItem('refreshToken')).toBe('refresh-xyz');
+	}));
+
+	it('should not store refreshToken in localStorage on login error', fakeAsync(() => {
+		component.email = 'user@example.com';
+		component.password = 'ValidPassword123!';
+		authServiceSpy.login.and.returnValue(throwError(() => new Error('Invalid credentials')));
+
+		localStorage.setItem('refreshToken', 'should-be-removed');
+
+		component.onSubmit(new Event('submit'));
+		tick();
+
+		expect(localStorage.getItem('refreshToken')).toBe('should-be-removed');
+	}));
 });

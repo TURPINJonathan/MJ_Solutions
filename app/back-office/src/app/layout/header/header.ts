@@ -1,26 +1,23 @@
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
-  imports: [],
   templateUrl: './header.html',
-  styleUrl: './header.scss'
+  styleUrl: './header.scss',
+	imports: [
+		TranslateModule,
+	]
 })
 export class Header {
-  get isDarkMode(): boolean {
-    return document.body.classList.contains('dark');
+  menuOpen = false;
+	MJSLogo = 'assets/pictures/MJS_logo.png';
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 
-  toggleTheme() {
-    document.body.classList.toggle('dark');
-    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+  closeMenu() {
+    this.menuOpen = false;
   }
-
-  ngOnInit() {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
-      document.body.classList.add('dark');
-    }
-  }
-
 }

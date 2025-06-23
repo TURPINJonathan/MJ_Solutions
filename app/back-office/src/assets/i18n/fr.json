@@ -11,12 +11,26 @@
     "PASSWORD_REQUIRED": "Veuillez renseigner votre mot de passe.",
     "SUCCESS": "Connexion réussie !"
   },
-	"TOAST": {
-		"TITLE": {
-			"ERROR": "Erreur",
-			"INFO": "Information",
-			"SUCCESS": "Succès",
-			"WARNING": "Attention"
-		}
-	}
+	"LOGOUT": {
+		"SUCCESS": "Déconnexion réussie !",
+		"ERROR": "Erreur lors de la déconnexion",
+		"TITLE": "Déconnexion"
+	},
+  "TOAST": {
+    "TITLE": {
+      "ERROR": "Erreur",
+      "INFO": "Information",
+      "SUCCESS": "Succès",
+      "WARNING": "Attention"
+    }
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard"
+  },
+  "PROJECTS": {
+    "TITLE": "Projets"
+  },
+  "SETTINGS": {
+    "TITLE": "Paramètres"
+  }
 }
