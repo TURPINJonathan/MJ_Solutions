@@ -1,6 +1,7 @@
 package com.mj_solutions.api.auth.controller;
 
 import java.time.Instant;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,8 +58,8 @@ public class TokenController {
 	}
 
 	@PostMapping("/logout")
-	public ResponseEntity<String> logout(@RequestBody RefreshTokenRequest request,
-			@RequestHeader("Authorization") String bearer) {
+	public ResponseEntity<Map<String, String>> logout(@RequestBody RefreshTokenRequest request,
+			@RequestHeader(value = "Authorization", required = false) String bearer) {
 		String token = request.getRefreshToken();
 
 		if (bearer != null && bearer.startsWith("Bearer ")) {
@@ -71,7 +72,8 @@ public class TokenController {
 				.map(RefreshToken::getUser)
 				.map(user -> {
 					refreshTokenService.deleteByUserId(user.getId());
-					return ResponseEntity.ok("Logged out successfully");
+					return ResponseEntity.ok().body(
+							Map.of("message", "Logged out successfully"));
 				})
 				.orElseThrow(() -> new RefreshTokenException(token, "Refresh token not found"));
 	}
