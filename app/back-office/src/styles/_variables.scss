@@ -1,5 +1,6 @@
 :root {
   --color-bg: #FFFFFF;
+	--color-light: #FFFFFF;
   --color-text: #1C1C1E;
   --color-m: #9C27B0;
   --color-j: #FFC300;
@@ -13,6 +14,11 @@
 
 	--color-card: rgba(255, 255, 255, 0.92);
 	--card-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);
+
+	-font-quicksand: 'Quicksand', 'Poppins', 'Space Grotesk', Arial, sans-serif;
+	-font-poppins: 'Poppins', 'Space Grotesk', Arial, sans-serif;
+	-font-inter: 'Inter', 'Roboto', Arial, sans-serif;
+	-font-roboto: 'Roboto', Arial, sans-serif;
 }
 
 body.dark {

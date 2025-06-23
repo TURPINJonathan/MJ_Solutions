@@ -11,6 +11,8 @@
     "build:delete": "pm2 delete all-build",
     "build:front:delete": "pm2 delete front-build",
     "build:bo:delete": "pm2 delete back-office-build",
+    "front:local": "cd front && HOST=0.0.0.0 npm start",
+    "bo:local": "cd back-office && ng serve --host 0.0.0.0 --port 4200",
     "dev:delete": "pm2 delete all",
     "test:delete": "pm2 delete all-test",
     "test:front:delete": "pm2 delete front-test",

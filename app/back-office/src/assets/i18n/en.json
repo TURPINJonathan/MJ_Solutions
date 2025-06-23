@@ -11,12 +11,26 @@
     "PASSWORD_REQUIRED": "Please enter your password.",
     "SUCCESS": "Login successful!"
   },
-	"TOAST": {
-		"TITLE": {
-			"ERROR": "Error",
-			"INFO": "Information",
-			"SUCCESS": "Success",
-			"WARNING": "Warning"
-		}
-	}
+  "LOGOUT": {
+    "SUCCESS": "Logout successful!",
+    "ERROR": "Error during logout",
+    "TITLE": "Logout"
+  },
+  "TOAST": {
+    "TITLE": {
+      "ERROR": "Error",
+      "INFO": "Information",
+      "SUCCESS": "Success",
+      "WARNING": "Warning"
+    }
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard"
+  },
+  "PROJECTS": {
+    "TITLE": "Projects"
+  },
+  "SETTINGS": {
+    "TITLE": "Settings"
+  }
 }

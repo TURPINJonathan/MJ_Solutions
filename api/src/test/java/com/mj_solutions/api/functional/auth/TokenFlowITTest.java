@@ -44,6 +44,6 @@ class TokenFlowITTest {
 
 		ResponseEntity<String> response = restTemplate.postForEntity("/auth/refresh-token", refreshRequest, String.class);
 
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
 }

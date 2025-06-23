@@ -1,0 +1,111 @@
+// Taille réduite pour un switch compact
+$width: 48px;
+$height: 24px;
+$star-position: 5px;
+$element-size: 12px;
+
+:host {
+  display: block;
+  position: relative;
+  width: $width;
+  height: $height;
+}
+
+#toggle_checkbox {
+  display: none;
+}
+
+.switch-mode-label {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  width: $width;
+  height: $height;
+  margin: 0 auto;
+  background-color: #77b5fe;
+  border-radius: 28px;
+	border: 1px solid var(--color-light);
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: 0.3s ease background-color;
+  overflow: hidden;
+}
+
+#star {
+  position: absolute;
+  top: $star-position;
+  left: $star-position;
+  width: $element-size;
+  height: $element-size;
+  background-color: #fafd0f;
+  transform: scale(1);
+  border-radius: 50%;
+  transition: 0.3s ease top, 0.3s ease left, 0.3s ease transform, 0.3s ease background-color;
+  z-index: 1;
+}
+
+#star-1 {
+  position: relative;
+}
+
+#star-2 {
+  position: absolute;
+  transform: rotateZ(36deg);
+}
+
+.star {
+  top: 0;
+  left: -3px;
+  font-size: 22px;
+  line-height: 12px;
+  color: #fafd0f;
+  transition: 0.3s ease color;
+}
+
+#moon {
+  position: absolute;
+  bottom: -22px;
+  right: 3px;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: 0.3s ease bottom;
+}
+
+#moon:before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -7px;
+  width: 16px;
+  height: 16px;
+  background-color: #03a9f4;
+  border-radius: 50%;
+  transition: 0.3s ease background-color;
+}
+
+#toggle_checkbox:checked + .switch-mode-label {
+  background-color: var(--color-bg);
+}
+
+#toggle_checkbox:checked + .switch-mode-label #star {
+  top: 2px;
+  left: 27px;
+  transform: scale(0.3);
+  background-color: yellow;
+}
+
+#toggle_checkbox:checked + .switch-mode-label .star {
+  color: yellow;
+}
+
+#toggle_checkbox:checked + .switch-mode-label #moon {
+  bottom: 4px;
+}
+
+#toggle_checkbox:checked + .switch-mode-label #moon:before {
+  background-color: var(--color-bg);
+}
