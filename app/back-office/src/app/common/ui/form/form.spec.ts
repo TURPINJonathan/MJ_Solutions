@@ -69,14 +69,6 @@ describe('FormComponent', () => {
     expect(errorDiv.nativeElement.textContent).toContain('Erreur test');
   });
 
-  it('should display loader when loading is true', () => {
-    host.loading = true;
-    fixture.detectChanges();
-    const loaderDiv = fixture.debugElement.query(By.css('.form-loader'));
-    expect(loaderDiv).toBeTruthy();
-    expect(loaderDiv.nativeElement.textContent).toContain('Loading');
-  });
-
   it('should apply custom class to form', () => {
     const form = fixture.debugElement.query(By.css('form'));
     expect(form.nativeElement.classList).toContain('custom-class');

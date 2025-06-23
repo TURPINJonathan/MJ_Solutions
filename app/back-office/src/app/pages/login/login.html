@@ -1,7 +1,7 @@
 <div class="login-container">
 	<app-card>
 		<div class="logo">
-			<span class="logo-m">M</span><span class="logo-j">J</span><span class="logo-s">S</span>
+			<img [src]="MJSLogo" alt="MJ Solutions Logo" />
 		</div>
 		<h1>{{ 'LOGIN.CONNECTION' | translate }}</h1>
 		<app-form [loading]="isLoading" (formSubmit)="onSubmit($event)" class="login-form">

@@ -34,6 +34,7 @@ export class LoginPage {
   isLoading = false;
   isValidEmail = isValidEmail;
   isValidPassword = isValidPassword;
+	MJSLogo = 'assets/pictures/MJS_logo_full.png';
 
   constructor(
     private readonly authService: AuthService,

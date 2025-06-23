@@ -11,7 +11,7 @@ declare global {
 export const AuthGuard: CanActivateChildFn = (childRoute, state) => {
   const token = localStorage.getItem('token');
 	const router = inject(Router);
-
+	
 	if (window.Cypress) return true;
 
 	if (!token || isTokenExpired(token)) {
