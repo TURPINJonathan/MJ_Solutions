@@ -7,25 +7,16 @@
   transition: background 0.3s;
 
   .logo {
-    font-size: 2rem;
-    font-family: 'Poppins', 'Space Grotesk', Arial, sans-serif;
-    font-weight: 700;
-    letter-spacing: -2px;
-    margin-bottom: 1.2rem;
-    display: flex;
-    gap: 0.2em;
-
-    .logo-m { color: var(--color-m); }
-    .logo-j { color: var(--color-j); }
-    .logo-s { color: var(--color-s); }
+		img {
+			width: 200px;
+			height: auto;
+		}
   }
 
   h1 {
-    font-family: 'Poppins', 'Space Grotesk', Arial, sans-serif;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
-    letter-spacing: -1px;
   }
 
   .login-form {

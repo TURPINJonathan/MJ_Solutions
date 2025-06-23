@@ -34,6 +34,7 @@ export class LoginPage {
   isLoading = false;
   isValidEmail = isValidEmail;
   isValidPassword = isValidPassword;
+	MJSLogo = 'assets/pictures/MJS_logo_full.png';
 
   constructor(
     private readonly authService: AuthService,
@@ -65,6 +66,7 @@ export class LoginPage {
         this.isLoading = false;
         if (res?.token) {
           localStorage.setItem('token', res.token);
+					localStorage.setItem('refreshToken', res.refreshToken);
           this.toast.success(this.translate.instant('LOGIN.SUCCESS'), this.translate.instant('LOGIN.CONNECTION'));
   
           this.router.navigate(['/dashboard']);
