@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.mj_solutions.api.applicationuser.dto.UserResponse;
 import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
 import com.mj_solutions.api.auth.controller.AuthController;
 import com.mj_solutions.api.auth.dto.LoginRequest;
@@ -51,8 +52,11 @@ class AuthFlowITTest {
 
 	@Test
 	void login_and_accessProtectedResource() throws Exception {
+		UserResponse userResponse = new UserResponse();
+		userResponse.setId(1L);
+
 		when(authService.login(any(LoginRequest.class)))
-				.thenReturn(new LoginResponse("fake-jwt-token", "fake-refresh-token"));
+				.thenReturn(new LoginResponse("fake-jwt-token", "fake-refresh-token", userResponse));
 
 		String json = "{\"email\":\"user@mail.com\",\"password\":\"password\"}";
 		mockMvc.perform(

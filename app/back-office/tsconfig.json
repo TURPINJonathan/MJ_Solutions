@@ -14,10 +14,14 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "preserve",
+		"types": [
+			"jasmine"
+		],
     "baseUrl": ".",
     "paths": {
       "#BO/*": ["src/app/*"],
 			"#env/*": ["src/environments/*"],
+			"#store/*": ["src/app/store/*"],
 			"#services/*": ["src/app/services/*"],
 			"#pages/*": ["src/app/pages/*"],
 			"#layout/*": ["src/app/layout/*"],

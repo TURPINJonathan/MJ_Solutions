@@ -14,6 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mj_solutions.api.applicationuser.dto.UserResponse;
 import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
 import com.mj_solutions.api.auth.controller.AuthController;
 import com.mj_solutions.api.auth.dto.LoginRequest;
@@ -48,7 +49,10 @@ class AuthControllerTest {
 	@Test
 	void login_shouldReturnTokens_whenCredentialsAreValid() throws Exception {
 		LoginRequest request = new LoginRequest("test@mail.com", "password");
-		LoginResponse response = new LoginResponse("access-token", "refresh-token");
+		UserResponse userResponse = new UserResponse();
+		userResponse.setId(1L);
+
+		LoginResponse response = new LoginResponse("access-token", "refresh-token", userResponse);
 
 		Mockito.when(authService.login(Mockito.any(LoginRequest.class))).thenReturn(response);
 

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { of, throwError, Subject } from 'rxjs';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { LoginPage } from './login';
 import { AuthService } from '#services/auth/auth.service';
@@ -12,6 +13,7 @@ import { CardComponent } from '#common/ui/card/card';
 import { FormComponent } from '#common/ui/form/form';
 import { LanguageSwitcherComponent } from '#common/ui/language-switcher/language-switcher';
 import { TranslateModule } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
 
 describe('LoginPage', () => {
   let fixture: ComponentFixture<LoginPage>;
@@ -39,7 +41,8 @@ describe('LoginPage', () => {
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
         { provide: ToastUtils, useValue: toastSpy },
-        { provide: Router, useValue: routerSpy }
+        { provide: Router, useValue: routerSpy },
+        provideMockStore({})
       ]
     }).compileComponents();
 
@@ -140,7 +143,7 @@ describe('LoginPage', () => {
     expect(component.passwordTouched).toBeTrue();
   });
 
-	it('should store token and refreshToken in localStorage on successful login', fakeAsync(() => {
+  it('should store token and refreshToken in localStorage on successful login', fakeAsync(() => {
     component.email = 'user@example.com';
     component.password = 'ValidPassword123!';
     authServiceSpy.login.and.returnValue(of({ token: 'abc', refreshToken: 'refresh-xyz' }));
@@ -153,18 +156,37 @@ describe('LoginPage', () => {
 
     expect(localStorage.getItem('token')).toBe('abc');
     expect(localStorage.getItem('refreshToken')).toBe('refresh-xyz');
-	}));
+  }));
 
-	it('should not store refreshToken in localStorage on login error', fakeAsync(() => {
+  it('should not store refreshToken in localStorage on login error', fakeAsync(() => {
+    component.email = 'user@example.com';
+    component.password = 'ValidPassword123!';
+    authServiceSpy.login.and.returnValue(throwError(() => new Error('Invalid credentials')));
+
+    localStorage.setItem('refreshToken', 'should-be-removed');
+
+    component.onSubmit(new Event('submit'));
+    tick();
+
+    expect(localStorage.getItem('refreshToken')).toBe('should-be-removed');
+  }));
+
+	it('should dispatch loadUserSuccess action on successful login', fakeAsync(() => {
+		const store = TestBed.inject(Store);
+		spyOn(store, 'dispatch');
 		component.email = 'user@example.com';
 		component.password = 'ValidPassword123!';
-		authServiceSpy.login.and.returnValue(throwError(() => new Error('Invalid credentials')));
-
-		localStorage.setItem('refreshToken', 'should-be-removed');
+		const user = { id: '1', email: 'user@example.com', firstName: 'Test', lastName: 'User', role: 'ROLE_USER', createdAt: new Date(), updatedAt: new Date() };
+		authServiceSpy.login.and.returnValue(of({ token: 'abc', user }));
 
 		component.onSubmit(new Event('submit'));
 		tick();
 
-		expect(localStorage.getItem('refreshToken')).toBe('should-be-removed');
+		expect(store.dispatch).toHaveBeenCalledWith(
+			jasmine.objectContaining({
+				type: '[User] Load User Success',
+				user
+			})
+		);
 	}));
 });
