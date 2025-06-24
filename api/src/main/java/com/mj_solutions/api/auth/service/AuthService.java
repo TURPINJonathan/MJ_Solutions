@@ -4,11 +4,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.mj_solutions.api.applicationuser.dto.UserResponse;
 import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
 import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
 import com.mj_solutions.api.auth.dto.LoginRequest;
 import com.mj_solutions.api.auth.dto.LoginResponse;
 import com.mj_solutions.api.auth.security.JwtUtils;
+import com.mj_solutions.api.utils.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,11 +32,13 @@ public class AuthService {
 		}
 
 		refreshTokenService.deleteByUserId(user.getId());
-		
+
 		String accessToken = jwtUtils.generateJwtToken(user.getEmail());
 		String refreshToken = refreshTokenService.createRefreshToken(user).getToken();
 
-		return new LoginResponse(accessToken, refreshToken);
+		UserResponse UserResponse = UserMapper.mapToUserResponse(user);
+
+		return new LoginResponse(accessToken, refreshToken, UserResponse);
 	}
 
 }

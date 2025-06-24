@@ -28,4 +28,8 @@ export class AuthService {
 		const url = `${environment.apiUrl}/auth/logout`;
 		return this.http.post(url, {refreshToken : refreshToken});
 	}
+
+	refreshUser(refreshToken: string): Observable<any> {
+		return this.http.post<any>(`${environment.apiUrl}/auth/refresh-token`, { refreshToken });
+	}
 }
