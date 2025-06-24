@@ -50,7 +50,14 @@ public class SecurityConfig {
 		http
 				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(authz -> authz
-						.requestMatchers("/user/register", "/auth/login", "/auth/logout", "/auth/refresh-token").permitAll()
+						.requestMatchers(
+								"/user/register",
+								"/auth/login",
+								"/auth/logout",
+								"/auth/refresh-token",
+								"/files/download",
+								"/files/{id}")
+						.permitAll()
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
