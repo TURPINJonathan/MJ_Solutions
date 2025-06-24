@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('App', () => {
   let mockRouter: any;
@@ -11,9 +12,12 @@ describe('App', () => {
     await TestBed.configureTestingModule({
       imports: [
         App,
-        TranslateModule.forRoot() // <-- Ajoute ceci
+        TranslateModule.forRoot()
       ],
-      providers: [{ provide: Router, useValue: mockRouter }]
+      providers: [
+				{ provide: Router, useValue: mockRouter },
+				provideMockStore({})
+			]
     }).compileComponents();
   });
 
