@@ -10,6 +10,7 @@ import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository
 import com.mj_solutions.api.auth.dto.LoginRequest;
 import com.mj_solutions.api.auth.dto.LoginResponse;
 import com.mj_solutions.api.auth.security.JwtUtils;
+import com.mj_solutions.api.utils.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,14 +36,7 @@ public class AuthService {
 		String accessToken = jwtUtils.generateJwtToken(user.getEmail());
 		String refreshToken = refreshTokenService.createRefreshToken(user).getToken();
 
-		UserResponse UserResponse = new UserResponse();
-		UserResponse.setId(user.getId());
-		UserResponse.setEmail(user.getEmail());
-		UserResponse.setFirstname(user.getFirstname());
-		UserResponse.setLastname(user.getLastname());
-		UserResponse.setRole(user.getRole());
-		UserResponse.setCreatedAt(user.getCreatedAt());
-		UserResponse.setUpdatedAt(user.getUpdatedAt() != null ? user.getUpdatedAt() : null);
+		UserResponse UserResponse = UserMapper.mapToUserResponse(user);
 
 		return new LoginResponse(accessToken, refreshToken, UserResponse);
 	}

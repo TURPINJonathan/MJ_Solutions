@@ -21,6 +21,7 @@ import com.mj_solutions.api.auth.repository.RefreshTokenRepository;
 import com.mj_solutions.api.auth.security.JwtUtils;
 import com.mj_solutions.api.auth.service.BlacklistedService;
 import com.mj_solutions.api.auth.service.RefreshTokenService;
+import com.mj_solutions.api.utils.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -54,14 +55,7 @@ public class TokenController {
 				.map(user -> {
 					String newToken = jwtUtils.generateJwtToken(user.getEmail());
 
-					UserResponse UserResponse = new UserResponse();
-					UserResponse.setId(user.getId());
-					UserResponse.setEmail(user.getEmail());
-					UserResponse.setFirstname(user.getFirstname());
-					UserResponse.setLastname(user.getLastname());
-					UserResponse.setRole(user.getRole());
-					UserResponse.setCreatedAt(user.getCreatedAt());
-					UserResponse.setUpdatedAt(user.getUpdatedAt() != null ? user.getUpdatedAt() : null);
+					UserResponse UserResponse = UserMapper.mapToUserResponse(user);
 					
 					return ResponseEntity.ok(new RefreshTokenResponse(newToken, requestToken, UserResponse));
 				})
