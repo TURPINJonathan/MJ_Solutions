@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -50,7 +51,15 @@ public class SecurityConfig {
 		http
 				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(authz -> authz
-						.requestMatchers("/user/register", "/auth/login", "/auth/logout", "/auth/refresh-token").permitAll()
+						.requestMatchers(
+								"/user/register",
+								"/auth/login",
+								"/auth/logout",
+								"/auth/refresh-token",
+								"/compagny/all")
+						.permitAll()
+            .requestMatchers(new RegexRequestMatcher("/compagny/\\d+", "GET")).permitAll()
+            .requestMatchers(new RegexRequestMatcher("/files/\\d+", "GET")).permitAll()
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
