@@ -63,7 +63,6 @@ public class FileController {
 				.contentType(file.getContentType())
 				.originalSize(file.getSize())
 				.compressedData(compressed)
-				.createdAt(LocalDateTime.now())
 				.originalFilename(originalFilename)
 				.build();
 
