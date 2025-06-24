@@ -31,12 +31,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			@NonNull HttpServletResponse response,
 			@NonNull FilterChain filterChain) throws ServletException, IOException {
 
-		String path = request.getServletPath();
-		if (path.equals("/auth/login") || path.equals("/auth/register")) {
-			filterChain.doFilter(request, response);
-			return;
-		}
-
 		String authHeader = request.getHeader("Authorization");
 		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 			filterChain.doFilter(request, response);
@@ -44,6 +38,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		String token = authHeader.substring(7);
+		if (token.isBlank()) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
 		if (blacklistService.isTokenBlacklisted(token)) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

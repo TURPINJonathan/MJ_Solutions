@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -55,9 +56,10 @@ public class SecurityConfig {
 								"/auth/login",
 								"/auth/logout",
 								"/auth/refresh-token",
-								"/files/download",
-								"/files/{id}")
+								"/compagny/all")
 						.permitAll()
+            .requestMatchers(new RegexRequestMatcher("/compagny/\\d+", "GET")).permitAll()
+            .requestMatchers(new RegexRequestMatcher("/files/\\d+", "GET")).permitAll()
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
