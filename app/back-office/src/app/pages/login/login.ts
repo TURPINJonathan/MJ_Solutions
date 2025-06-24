@@ -9,7 +9,9 @@ import { ToastUtils } from '#utils/toastUtils';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import * as UserActions from '#store/user/user.actions';
 
 @Component({
 	selector: 'app-login',
@@ -40,7 +42,8 @@ export class LoginPage {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly toast: ToastUtils,
-		private translate: TranslateService
+		private translate: TranslateService,
+		private readonly store: Store
   ) {}
 
   get emailInvalid() {
@@ -67,6 +70,9 @@ export class LoginPage {
         if (res?.token) {
           localStorage.setItem('token', res.token);
 					localStorage.setItem('refreshToken', res.refreshToken);
+
+					this.store.dispatch(UserActions.loadUserSuccess({user: res.user}));
+					
           this.toast.success(this.translate.instant('LOGIN.SUCCESS'), this.translate.instant('LOGIN.CONNECTION'));
   
           this.router.navigate(['/dashboard']);

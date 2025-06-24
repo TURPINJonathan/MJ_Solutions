@@ -17,22 +17,24 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
+            "outputPath": "dist/back-office",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-  						"src/assets",
-							"src/robots.txt",
+              "src/assets",
+              "src/robots.txt",
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
             "styles": [
-							"node_modules/ngx-toastr/toastr.css",
-							"src/styles/styles.scss"
-						]
+              "node_modules/ngx-toastr/toastr.css",
+              "src/styles/styles.scss"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,17 +96,17 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-  						"src/assets",
-							"src/robots.txt",
+              "src/assets",
+              "src/robots.txt",
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
             "styles": [
-							"node_modules/ngx-toastr/toastr.css",
-							"src/styles/styles.scss"
-						]
+              "node_modules/ngx-toastr/toastr.css",
+              "src/styles/styles.scss"
+            ]
           }
         }
       }
