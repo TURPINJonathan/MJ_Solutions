@@ -95,7 +95,7 @@ describe('Back-Office Login', () => {
 		});
 	});
 	
-  it('should have user in store after login (if store is exposed)', () => {
+  it('should have user in store after login', () => {
     cy.intercept('POST', 'http://localhost:8080/auth/login', {
       statusCode: 200,
       body: {
