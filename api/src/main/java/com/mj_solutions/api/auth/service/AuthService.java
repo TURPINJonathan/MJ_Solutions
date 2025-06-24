@@ -4,6 +4,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.mj_solutions.api.applicationuser.dto.UserResponse;
 import com.mj_solutions.api.applicationuser.entity.ApplicationUser;
 import com.mj_solutions.api.applicationuser.repository.ApplicationUserRepository;
 import com.mj_solutions.api.auth.dto.LoginRequest;
@@ -30,11 +31,20 @@ public class AuthService {
 		}
 
 		refreshTokenService.deleteByUserId(user.getId());
-		
+
 		String accessToken = jwtUtils.generateJwtToken(user.getEmail());
 		String refreshToken = refreshTokenService.createRefreshToken(user).getToken();
 
-		return new LoginResponse(accessToken, refreshToken);
+		UserResponse UserResponse = new UserResponse();
+		UserResponse.setId(user.getId());
+		UserResponse.setEmail(user.getEmail());
+		UserResponse.setFirstname(user.getFirstname());
+		UserResponse.setLastname(user.getLastname());
+		UserResponse.setRole(user.getRole());
+		UserResponse.setCreatedAt(user.getCreatedAt());
+		UserResponse.setUpdatedAt(user.getUpdatedAt() != null ? user.getUpdatedAt() : null);
+
+		return new LoginResponse(accessToken, refreshToken, UserResponse);
 	}
 
 }

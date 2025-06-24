@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mj_solutions.api.applicationuser.dto.UserResponse;
 import com.mj_solutions.api.auth.dto.RefreshTokenRequest;
 import com.mj_solutions.api.auth.dto.RefreshTokenResponse;
 import com.mj_solutions.api.auth.entity.RefreshToken;
@@ -52,7 +53,17 @@ public class TokenController {
 				.map(RefreshToken::getUser)
 				.map(user -> {
 					String newToken = jwtUtils.generateJwtToken(user.getEmail());
-					return ResponseEntity.ok(new RefreshTokenResponse(newToken, requestToken));
+
+					UserResponse UserResponse = new UserResponse();
+					UserResponse.setId(user.getId());
+					UserResponse.setEmail(user.getEmail());
+					UserResponse.setFirstname(user.getFirstname());
+					UserResponse.setLastname(user.getLastname());
+					UserResponse.setRole(user.getRole());
+					UserResponse.setCreatedAt(user.getCreatedAt());
+					UserResponse.setUpdatedAt(user.getUpdatedAt() != null ? user.getUpdatedAt() : null);
+					
+					return ResponseEntity.ok(new RefreshTokenResponse(newToken, requestToken, UserResponse));
 				})
 				.orElseThrow(() -> new RefreshTokenException(requestToken, "Refresh token not found"));
 	}
