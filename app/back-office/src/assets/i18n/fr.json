@@ -11,17 +11,32 @@
     "PASSWORD_REQUIRED": "Veuillez renseigner votre mot de passe.",
     "SUCCESS": "Connexion réussie !"
   },
-	"LOGOUT": {
-		"SUCCESS": "Déconnexion réussie !",
-		"ERROR": "Erreur lors de la déconnexion",
-		"TITLE": "Déconnexion"
-	},
+  "LOGOUT": {
+    "SUCCESS": "Déconnexion réussie !",
+    "ERROR": "Erreur lors de la déconnexion",
+    "TITLE": "Déconnexion"
+  },
   "TOAST": {
     "TITLE": {
       "ERROR": "Erreur",
       "INFO": "Information",
       "SUCCESS": "Succès",
       "WARNING": "Attention"
+    },
+    "COMPAGNY": {
+      "EMPTY_LIST": "Aucune entreprise trouvée",
+      "ERROR_CREATED": "Erreur lors de la création de l'entreprise",
+      "ERROR_UPDATE": "Erreur lors de la mise à jour de l'entreprise",
+      "ERROR_DELETE": "Erreur lors de la suppression de l'entreprise",
+      "ERROR_COMPAGNY": "Erreur lors de la récupération de l'entreprise",
+      "ERROR_LIST": "Erreur lors de la récupération de la liste des entreprises",
+      "ERROR_COMPAGNY_NOT_FOUND": "Entreprise non trouvée",
+      "ERROR_COMPAGNY_EXISTS": "Une entreprise avec ce nom existe déjà",
+      "SUCCESS_CREATED": "Entreprise créée avec succès !",
+      "SUCCESS_UPDATED": "Entreprise mise à jour avec succès !",
+      "SUCCESS_DELETED": "Entreprise supprimée avec succès !",
+      "SUCCESS_LIST": "Liste des entreprises récupérée avec succès !",
+      "SUCCESS_COMPAGNY": "Entreprise récupérée avec succès !"
     }
   },
   "DASHBOARD": {
@@ -32,5 +47,44 @@
   },
   "SETTINGS": {
     "TITLE": "Paramètres"
+  },
+  "COMPAGNY": {
+    "TITLE": {
+      "SINGLE": "Entreprise",
+      "PLURAL": "Entreprises"
+    }
+  },
+  "COMMON": {
+    "NAME": "nom",
+    "DESCRIPTION": "description",
+    "CREATED_AT": "créé le",
+    "UPDATED_AT": "mis à jour le",
+    "ID": "identifiant",
+    "STATUS": "statut",
+    "ACTIVE": "actif",
+    "INACTIVE": "inactif",
+    "SEARCH": "rechercher",
+    "ADD": "ajouter",
+    "EDIT": "modifier",
+    "DELETE": "supprimer",
+    "VIEW": "voir",
+    "SUBMIT": "valider",
+    "CANCEL": "annuler",
+    "YES": "oui",
+    "NO": "non",
+    "BACK": "retour",
+    "NEXT": "suivant",
+    "PREVIOUS": "précédent",
+    "CONFIRM": "confirmer",
+    "ERROR": "erreur",
+    "SUCCESS": "succès",
+    "WARNING": "avertissement",
+    "INFO": "information",
+    "LOADING": "chargement",
+    "EMPTY": "vide",
+    "NO_RESULTS": "aucun résultat trouvé",
+    "WEBSITE": "site web",
+    "COLOR": "couleur",
+    "LOGO": "logo"
   }
 }

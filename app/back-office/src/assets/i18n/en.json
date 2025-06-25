@@ -22,6 +22,21 @@
       "INFO": "Information",
       "SUCCESS": "Success",
       "WARNING": "Warning"
+    },
+    "COMPAGNY": {
+      "EMPTY_LIST": "No company found",
+      "ERROR_CREATED": "Error creating company",
+      "ERROR_UPDATE": "Error updating company",
+      "ERROR_DELETE": "Error deleting company",
+      "ERROR_COMPAGNY": "Error retrieving company",
+      "ERROR_LIST": "Error retrieving company list",
+      "ERROR_COMPAGNY_NOT_FOUND": "Company not found",
+      "ERROR_COMPAGNY_EXISTS": "A company with this name already exists",
+      "SUCCESS_CREATED": "Company created successfully!",
+      "SUCCESS_UPDATED": "Company updated successfully!",
+      "SUCCESS_DELETED": "Company deleted successfully!",
+      "SUCCESS_LIST": "Company list retrieved successfully!",
+      "SUCCESS_COMPAGNY": "Company retrieved successfully!"
     }
   },
   "DASHBOARD": {
@@ -32,5 +47,44 @@
   },
   "SETTINGS": {
     "TITLE": "Settings"
+  },
+  "COMPAGNY": {
+    "TITLE": {
+      "SINGLE": "Company",
+      "PLURAL": "Companies"
+    }
+  },
+  "COMMON": {
+    "NAME": "name",
+    "DESCRIPTION": "description",
+    "CREATED_AT": "created at",
+    "UPDATED_AT": "updated at",
+    "ID": "id",
+    "STATUS": "status",
+    "ACTIVE": "active",
+    "INACTIVE": "inactive",
+    "SEARCH": "search",
+    "ADD": "add",
+    "EDIT": "edit",
+    "DELETE": "delete",
+    "VIEW": "view",
+    "SUBMIT": "submit",
+    "CANCEL": "cancel",
+    "YES": "yes",
+    "NO": "no",
+    "BACK": "back",
+    "NEXT": "next",
+    "PREVIOUS": "previous",
+    "CONFIRM": "confirm",
+    "ERROR": "error",
+    "SUCCESS": "success",
+    "WARNING": "warning",
+    "INFO": "info",
+    "LOADING": "loading",
+    "EMPTY": "empty",
+    "NO_RESULTS": "no results found",
+    "WEBSITE": "website",
+    "COLOR": "color",
+    "LOGO": "logo"
   }
 }
