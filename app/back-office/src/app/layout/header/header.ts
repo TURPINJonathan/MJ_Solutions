@@ -29,10 +29,14 @@ export class Header {
       route: '/dashboard',
     },
     {
-      label: 'SETTINGS.TITLE',
+      label: 'CV.TITLE.SINGLE',
       subMenu: [
         { label: 'COMPAGNY.TITLE.PLURAL', route: '/compagny' },
       ]
+    },
+    {
+      label: 'SETTINGS.TITLE',
+      route: '/dashboard',
     },
 	]
 

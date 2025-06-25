@@ -54,6 +54,11 @@
       "PLURAL": "Entreprises"
     }
   },
+  "CV": {
+    "TITLE": {
+      "SINGLE": "CV"
+    }
+  },
   "COMMON": {
     "NAME": "nom",
     "DESCRIPTION": "description",
