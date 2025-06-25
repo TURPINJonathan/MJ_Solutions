@@ -18,22 +18,16 @@ import com.mj_solutions.api.compagny.dto.UpdateCompagnyRequest;
 import com.mj_solutions.api.compagny.repository.CompagnyImageRepository;
 import com.mj_solutions.api.compagny.repository.CompagnyRepository;
 import com.mj_solutions.api.compagny.service.CompagnyService;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/compagny")
 public class Compagnycontroller {
 
 	private final CompagnyService compagnyService;
-	private final CompagnyRepository compagnyRepository;
-	private final CompagnyImageRepository compagnyImageRepository;
 
 	public Compagnycontroller(CompagnyService compagnyService, CompagnyRepository compagnyRepository,
 			CompagnyImageRepository compagnyImageRepository) {
 		this.compagnyService = compagnyService;
-		this.compagnyRepository = compagnyRepository;
-		this.compagnyImageRepository = compagnyImageRepository;
 	}
 
 	@PostMapping("/create")
@@ -65,7 +59,7 @@ public class Compagnycontroller {
 
 		return ResponseEntity.status(200).body(compagnies);
 	}
-	
+
 	@PatchMapping("/update/{id}")
 	public ResponseEntity<CompagnyDto> updateCompagny(@PathVariable Long id,
 			@RequestBody UpdateCompagnyRequest request) {

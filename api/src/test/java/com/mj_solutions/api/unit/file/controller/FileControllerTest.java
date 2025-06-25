@@ -237,4 +237,23 @@ class FileControllerTest {
 		mockMvc.perform(get("/files/999999"))
 				.andExpect(status().isNotFound());
 	}
+
+	@Test
+	void getFileRaw_shouldReturnFileBytes() throws Exception {
+		MockMultipartFile file = new MockMultipartFile(
+				"file", "raw.txt", MediaType.TEXT_PLAIN_VALUE, "raw content".getBytes(StandardCharsets.UTF_8));
+		String response = mockMvc.perform(multipart("/files/upload")
+				.file(file)
+				.param("name", "Raw file")
+				.header("Authorization", jwtToken))
+				.andReturn().getResponse().getContentAsString();
+		JsonNode json = objectMapper.readTree(response);
+		Long id = json.get("data").get("id").asLong();
+
+		mockMvc.perform(get("/files/" + id + "/raw"))
+				.andExpect(status().isOk())
+				.andExpect(header().string("Content-Type", "text/plain"))
+				.andExpect(header().string("Content-Disposition", "inline; filename=\"raw.txt\""))
+				.andExpect(content().bytes("raw content".getBytes(StandardCharsets.UTF_8)));
+	}
 }

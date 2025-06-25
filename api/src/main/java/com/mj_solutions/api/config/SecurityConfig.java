@@ -58,8 +58,9 @@ public class SecurityConfig {
 								"/auth/refresh-token",
 								"/compagny/all")
 						.permitAll()
-            .requestMatchers(new RegexRequestMatcher("/compagny/\\d+", "GET")).permitAll()
-            .requestMatchers(new RegexRequestMatcher("/files/\\d+", "GET")).permitAll()
+						.requestMatchers(new RegexRequestMatcher("/files/\\d+", "GET")).permitAll()
+						.requestMatchers(new RegexRequestMatcher("/compagny/\\d+", "GET")).permitAll()
+						.requestMatchers(new RegexRequestMatcher("/files/\\d+/raw", "GET")).permitAll()
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

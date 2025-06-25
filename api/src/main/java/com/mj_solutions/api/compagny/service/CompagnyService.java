@@ -153,7 +153,7 @@ public class CompagnyService {
 				.id(image.getId())
 				.fileId(image.getFile().getId())
 				.fileName(image.getFile().getName())
-				.url("/files/" + image.getFile().getId())
+				.url("/files/" + image.getFile().getId() + "/raw")
 				.isLogo(image.isLogo())
 				.isMaster(image.isMaster())
 				.build();
