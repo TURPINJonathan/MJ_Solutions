@@ -1,7 +1,8 @@
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom, isDevMode, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
+import { authInterceptorFn } from '#services/auth/auth.interceptor';
 import { UserEffects } from '#store/user/user.effects';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideToastr(),
     provideStore(reducers),
     provideEffects([UserEffects]),
+    provideHttpClient(withInterceptors([authInterceptorFn])),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideRouter(routes),
     importProvidersFrom(
