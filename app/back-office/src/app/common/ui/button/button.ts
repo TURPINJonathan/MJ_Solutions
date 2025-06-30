@@ -9,8 +9,11 @@ import { Component, Input } from '@angular/core';
   styleUrl: './button.scss'
 })
 export class ButtonComponent {
-  @Input() type: 'button' | 'submit' = 'button';
+  @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Input() disabled: boolean = false;
   @Input() color: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'danger' | 'gray' = 'primary';
 	@Input() loading: boolean = false;
+	@Input() rounded: boolean = false;
+	@Input() width?: number;
+	@Input() height?: number;
 }

@@ -9,6 +9,9 @@
   width: 100%;
   box-sizing: border-box;
   color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
   &:hover {
     filter: brightness(0.92);
@@ -67,4 +70,8 @@
   border-top-color: transparent;
   animation: spin 0.7s linear infinite;
   vertical-align: middle;
+}
+
+.button-rounded {
+	border-radius: 50%;
 }
