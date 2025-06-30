@@ -1,4 +1,5 @@
 import { ToastUtils } from '#BO/utils/toastUtils';
+import { ButtonComponent } from '#common/ui/button/button';
 import { TableComponent } from '#common/ui/table/table';
 import { environment } from '#env/environment';
 import { CompagnyService } from '#services/compagny/compagny.service';
@@ -13,7 +14,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   imports: [
 CommonModule,
 		TranslateModule,
-		TableComponent
+		TableComponent,
+		ButtonComponent
 	],
   templateUrl: './compagny.html',
   styleUrl: './compagny.scss'
@@ -61,5 +63,9 @@ export class CompagnyPage {
 				console.error('Error loading compagnies:', error);
 			}
 		});
+	}
+
+	openCreateCompagnyModal() {
+		console.log('Open create compagny modal');
 	}
 }
