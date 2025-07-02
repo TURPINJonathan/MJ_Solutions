@@ -76,7 +76,9 @@
     }
 
 		.modal-body {
-			padding: 0 20px;
+			padding: 10px;
+			max-height: 85svh;
+			overflow-y: auto;
 		}
   }
 }
