@@ -1,11 +1,5 @@
-<input
-  [type]="type"
-  [placeholder]="placeholder"
-  [disabled]="disabled"
-  [name]="name"
-  [value]="value"
-  (input)="onInput($event)"
-  (blur)="onBlur()"
-  [class.input-error]="error"
-  [class.input-valid]="valid"
-/>
+<div class="input-wrapper" [ngClass]="{'color-picker': type === 'color'}">
+	<label *ngIf="label" [for]="name" class="input-label">{{ capitalizedLabel }}</label>
+	<input [type]="type" [placeholder]="placeholder" [disabled]="disabled" [name]="name" [id]="name" [value]="value"
+		(input)="onInput($event)" (blur)="onBlur()" [class.input-error]="error" [class.input-valid]="valid" />
+</div>
