@@ -22,3 +22,7 @@ export function isTokenExpired(token: string): boolean {
 		return true;
 	}
 }
+
+export function isValidWebsite(url: string): boolean {
+  return /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/.test(url);
+}

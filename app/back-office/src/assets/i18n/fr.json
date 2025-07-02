@@ -52,6 +52,12 @@
     "TITLE": {
       "SINGLE": "Entreprise",
       "PLURAL": "Entreprises"
+    },
+    "MODAL": {
+      "CREATE": "Créer une nouvelle entreprise",
+      "EDIT": "Modifier l'entreprise",
+      "DELETE": "Supprimer l'entreprise",
+      "VIEW": "Voir l'entreprise"
     }
   },
   "CV": {
@@ -59,37 +65,48 @@
       "SINGLE": "CV"
     }
   },
+  "CONTACT": {
+    "ADD_BUTTON": "ajouter un contact",
+    "POSITION": "poste"
+  },
   "COMMON": {
-    "NAME": "nom",
-    "DESCRIPTION": "description",
-    "CREATED_AT": "créé le",
-    "UPDATED_AT": "mis à jour le",
-    "ID": "identifiant",
-    "STATUS": "statut",
     "ACTIVE": "actif",
-    "INACTIVE": "inactif",
-    "SEARCH": "rechercher",
     "ADD": "ajouter",
-    "EDIT": "modifier",
-    "DELETE": "supprimer",
-    "VIEW": "voir",
-    "SUBMIT": "valider",
-    "CANCEL": "annuler",
-    "YES": "oui",
-    "NO": "non",
     "BACK": "retour",
-    "NEXT": "suivant",
-    "PREVIOUS": "précédent",
-    "CONFIRM": "confirmer",
-    "ERROR": "erreur",
-    "SUCCESS": "succès",
-    "WARNING": "avertissement",
-    "INFO": "information",
-    "LOADING": "chargement",
-    "EMPTY": "vide",
-    "NO_RESULTS": "aucun résultat trouvé",
-    "WEBSITE": "site web",
+    "CANCEL": "annuler",
+    "CLOSE": "fermer",
     "COLOR": "couleur",
-    "LOGO": "logo"
+    "COLOR_ASSOCIATED": "Couleur associée",
+    "CONFIRM": "confirmer",
+    "CREATED_AT": "créé le",
+    "DELETE": "supprimer",
+    "DESCRIPTION": "description",
+    "EDIT": "modifier",
+    "EMAIL": "email",
+    "EMPTY": "vide",
+    "ERROR": "erreur",
+    "FILE_D&D": "Déposez vos fichiers ici ou cliquez pour sélectionner",
+    "FIRSTNAME": "prénom",
+    "ID": "identifiant",
+    "INACTIVE": "inactif",
+    "INFO": "information",
+    "LASTNAME": "nom",
+    "LOADING": "chargement",
+    "LOGO": "logo",
+    "NAME": "nom",
+    "NEXT": "suivant",
+    "NO": "non",
+    "NO_RESULTS": "aucun résultat trouvé",
+    "PHONE": "téléphone",
+    "PREVIOUS": "précéd,ent",
+    "SEARCH": "rechercher",
+    "STATUS": "statut",
+    "SUBMIT": "valider",
+    "SUCCESS": "succès",
+    "UPDATED_AT": "mis à jour le",
+    "VIEW": "voir",
+    "WARNING": "avertissement",
+    "WEBSITE": "site web",
+    "YES": "oui"
   }
 }

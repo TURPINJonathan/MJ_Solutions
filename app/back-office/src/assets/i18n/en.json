@@ -52,6 +52,12 @@
     "TITLE": {
       "SINGLE": "Company",
       "PLURAL": "Companies"
+    },
+    "MODAL": {
+      "CREATE": "Create a new company",
+      "EDIT": "Edit company",
+      "DELETE": "Delete company",
+      "VIEW": "View company"
     }
   },
   "CV": {
@@ -59,37 +65,48 @@
       "SINGLE": "CV"
     }
   },
+  "CONTACT": {
+    "ADD_BUTTON": "add contact",
+    "POSITION": "position"
+  },
   "COMMON": {
-    "NAME": "name",
-    "DESCRIPTION": "description",
-    "CREATED_AT": "created at",
-    "UPDATED_AT": "updated at",
-    "ID": "id",
-    "STATUS": "status",
     "ACTIVE": "active",
-    "INACTIVE": "inactive",
-    "SEARCH": "search",
     "ADD": "add",
-    "EDIT": "edit",
-    "DELETE": "delete",
-    "VIEW": "view",
-    "SUBMIT": "submit",
-    "CANCEL": "cancel",
-    "YES": "yes",
-    "NO": "no",
     "BACK": "back",
-    "NEXT": "next",
-    "PREVIOUS": "previous",
-    "CONFIRM": "confirm",
-    "ERROR": "error",
-    "SUCCESS": "success",
-    "WARNING": "warning",
-    "INFO": "info",
-    "LOADING": "loading",
-    "EMPTY": "empty",
-    "NO_RESULTS": "no results found",
-    "WEBSITE": "website",
+    "CANCEL": "cancel",
+    "CLOSE": "close",
     "COLOR": "color",
-    "LOGO": "logo"
+    "COLOR_ASSOCIATED": "Associated color",
+    "CONFIRM": "confirm",
+    "CREATED_AT": "created at",
+    "DELETE": "delete",
+    "DESCRIPTION": "description",
+    "EDIT": "edit",
+    "EMAIL": "email",
+    "EMPTY": "empty",
+    "ERROR": "error",
+    "FILE_D&D": "Drag and drop your file here or click to select",
+    "FIRSTNAME": "firstname",
+    "ID": "id",
+    "INACTIVE": "inactive",
+    "INFO": "info",
+    "LASTNAME": "lastname",
+    "LOADING": "loading",
+    "LOGO": "logo",
+    "NAME": "name",
+    "NEXT": "next",
+    "NO": "no",
+    "NO_RESULTS": "no results found",
+    "PHONE": "phone",
+    "PREVIOUS": "previous",
+    "SEARCH": "search",
+    "STATUS": "status",
+    "SUBMIT": "submit",
+    "SUCCESS": "success",
+    "UPDATED_AT": "updated at",
+    "VIEW": "view",
+    "WARNING": "warning",
+    "WEBSITE": "website",
+    "YES": "yes"
   }
 }

@@ -1,3 +1,4 @@
+import { CompagnyContact } from "./compagny-contact.model";
 import { Picture } from "./picture.model";
 
 export interface Compagny {
@@ -9,4 +10,5 @@ export interface Compagny {
 	updatedAt?: Date;
 	color?: string;
 	pictures?: Picture[];
+	contacts?: CompagnyContact[]
 }
