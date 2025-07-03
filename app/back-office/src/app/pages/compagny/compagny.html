@@ -29,23 +29,26 @@
 						<div *ngFor="let contact of compagnyContacts; let i = index" class="contact-card">
 							<div class="contact-fields">
 								<div class="contact-identity">
-									<app-input type="text" [label]="'COMMON.LASTNAME' | translate" [(ngModel)]="contact.lastname"
-										required>
+									<app-input type="text" [label]="'COMMON.LASTNAME' | translate" [(ngModel)]="contact.lastname" required
+										name="contact-lastname">
 									</app-input>
 
 									<app-input type="text" [label]="'COMMON.FIRSTNAME' | translate" [(ngModel)]="contact.firstname"
-										required>
+										required name="contact-firstname">
 									</app-input>
 
-									<app-input type="text" [label]="'CONTACT.POSITION' | translate" [(ngModel)]="contact.position">
+									<app-input type="text" [label]="'CONTACT.POSITION' | translate" [(ngModel)]="contact.position"
+										name="contact-position">
 									</app-input>
 								</div>
 
 								<div class="contact-contacts">
-									<app-input type="text" [label]="'COMMON.EMAIL' | translate" [(ngModel)]="contact.email">
+									<app-input type="text" [label]="'COMMON.EMAIL' | translate" [(ngModel)]="contact.email"
+										name="contact-email">
 									</app-input>
 
-									<app-input type="text" [label]="'COMMON.PHONE' | translate" [(ngModel)]="contact.phone">
+									<app-input type="text" [label]="'COMMON.PHONE' | translate" [(ngModel)]="contact.phone"
+										name="contact-phone">
 									</app-input>
 								</div>
 							</div>
@@ -70,7 +73,8 @@
 
 					<div class="company-media-fields">
 						<div class="company-media-color">
-							<app-input type="color" name="compagny-color" required [(ngModel)]="compagnyColor"></app-input>
+							<app-input type="color" name="compagny-color" required [(ngModel)]="compagnyColor"
+								data-cy="compagny-color"></app-input>
 						</div>
 
 						<div class="company-media-logo">
@@ -80,9 +84,11 @@
 
 					</div>
 
-					<app-editor [(value)]="compagnyDescription" [placeholder]="'COMMON.DESCRIPTION' | translate"></app-editor>
+					<app-editor [(value)]="compagnyDescription" class="compagny-description"
+						[placeholder]="'COMMON.DESCRIPTION' | translate" data-cy="compagny-description"></app-editor>
 
-					<app-button type="submit" color="success" [loading]="isLoading" size="xs" [disabled]="formInvalid">
+					<app-button type="submit" color="success" data-cy="submit-button" [loading]="isLoading" size="xs"
+						[disabled]="formInvalid">
 						{{ 'COMMON.SUBMIT' | translate | uppercase }}
 					</app-button>
 				</div>

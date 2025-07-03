@@ -43,7 +43,8 @@
     "test:front": "pm2 start pm2.config.js --only front-test --no-daemon",
     "test:bo": "clear && pm2 start pm2.config.js --only back-office-test --no-daemon",
     "e2e:front": "BASE_URL=http://localhost:3000 cypress run --spec 'front/e2e/**/*'",
-    "e2e:bo": "BASE_URL=http://localhost:4200 cypress run --spec 'back-office/e2e/**/*'",
+    "e2e:bo": "clear && BASE_URL=http://localhost:4200 cypress run --spec 'back-office/e2e/**/*'",
+    "e2e:bo:only": "clear && BASE_URL=http://localhost:4200 cypress run --spec",
     "e2e:all": "concurrently \"npm run e2e:front\" \"npm run e2e:bo\""
   },
   "keywords": [],

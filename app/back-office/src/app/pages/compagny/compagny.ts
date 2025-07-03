@@ -170,14 +170,14 @@ export class CompagnyPage {
 			await firstValueFrom(this.compagnyService.createCompagny(createRequest));
 
 			this.toast.success(
-				this.translate.instant('TOAST.COMPAGNY.SUCCESS_CREATE'),
+				this.translate.instant('TOAST.COMPAGNY.SUCCESS_CREATED'),
 				this.translate.instant('TOAST.TITLE.SUCCESS')
 			);
 			this.closeCreateCompagnyModal();
 			this.loadCompagnies();
 		} catch (err) {
 			this.toast.error(
-				this.translate.instant('TOAST.COMPAGNY.ERROR_CREATE'),
+				this.translate.instant('TOAST.COMPAGNY.ERROR_CREATED'),
 				this.translate.instant('TOAST.TITLE.ERROR')
 			);
 			console.error(err);
