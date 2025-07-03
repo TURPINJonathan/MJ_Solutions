@@ -1,0 +1,33 @@
+<div class="table-responsive">
+	<table>
+		<thead>
+			<tr>
+				<th *ngFor="let col of columns">{{ col.label }}</th>
+				<th *ngIf="showActions"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let row of data; trackBy: trackById" (click)="onRowClick(row)" tabindex="0">
+				<td *ngFor="let col of columns">
+					<ng-container [ngSwitch]="col.key">
+						<span *ngSwitchCase="'color'" class="color-dot" [style.background]="row[col.key]"></span>
+						<div *ngSwitchCase="'logo'">
+							<img *ngIf="row.logoUrl" [src]="row.logoUrl" alt="Logo" class="logo-img" />
+						</div>
+						<a *ngSwitchCase="'website'" [href]="row[col.key]" target="_blank" rel="noopener noreferrer">{{ row[col.key]
+							}}</a>
+						<span *ngSwitchDefault>{{ formatCell(row[col.key]) }}</span>
+					</ng-container>
+				</td>
+				<td *ngIf="showActions" class="actions">
+					<button type="button" (click)="onUpdateClick(row, $event)" aria-label="Modifier">
+						✏️
+					</button>
+					<button type="button" (click)="onDeleteClick(row, $event)" aria-label="Supprimer">
+						🗑️
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

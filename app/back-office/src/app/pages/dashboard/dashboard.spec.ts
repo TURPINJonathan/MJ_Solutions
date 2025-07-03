@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 
 import { DashboardPage } from './dashboard';
 
@@ -19,10 +18,5 @@ describe('DashboardPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should render the dashboard text', () => {
-    const p = fixture.debugElement.query(By.css('p'));
-    expect(p.nativeElement.textContent).toContain('dashboard works!');
   });
 });

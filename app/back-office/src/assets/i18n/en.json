@@ -22,6 +22,21 @@
       "INFO": "Information",
       "SUCCESS": "Success",
       "WARNING": "Warning"
+    },
+    "COMPAGNY": {
+      "EMPTY_LIST": "No company found",
+      "ERROR_CREATED": "Error creating company",
+      "ERROR_UPDATE": "Error updating company",
+      "ERROR_DELETE": "Error deleting company",
+      "ERROR_COMPAGNY": "Error retrieving company",
+      "ERROR_LIST": "Error retrieving company list",
+      "ERROR_COMPAGNY_NOT_FOUND": "Company not found",
+      "ERROR_COMPAGNY_EXISTS": "A company with this name already exists",
+      "SUCCESS_CREATED": "Company created successfully!",
+      "SUCCESS_UPDATED": "Company updated successfully!",
+      "SUCCESS_DELETED": "Company deleted successfully!",
+      "SUCCESS_LIST": "Company list retrieved successfully!",
+      "SUCCESS_COMPAGNY": "Company retrieved successfully!"
     }
   },
   "DASHBOARD": {
@@ -32,5 +47,66 @@
   },
   "SETTINGS": {
     "TITLE": "Settings"
+  },
+  "COMPAGNY": {
+    "TITLE": {
+      "SINGLE": "Company",
+      "PLURAL": "Companies"
+    },
+    "MODAL": {
+      "CREATE": "Create a new company",
+      "EDIT": "Edit company",
+      "DELETE": "Delete company",
+      "VIEW": "View company"
+    }
+  },
+  "CV": {
+    "TITLE": {
+      "SINGLE": "CV"
+    }
+  },
+  "CONTACT": {
+    "ADD_BUTTON": "add contact",
+    "POSITION": "position"
+  },
+  "COMMON": {
+    "ACTIVE": "active",
+    "ADD": "add",
+    "BACK": "back",
+    "CANCEL": "cancel",
+    "CLOSE": "close",
+    "COLOR": "color",
+    "COLOR_ASSOCIATED": "Associated color",
+    "CONFIRM": "confirm",
+    "CREATED_AT": "created at",
+    "DELETE": "delete",
+    "DESCRIPTION": "description",
+    "EDIT": "edit",
+    "EMAIL": "email",
+    "EMPTY": "empty",
+    "ERROR": "error",
+    "FILE_D&D": "Drag and drop your file here or click to select",
+    "FIRSTNAME": "firstname",
+    "ID": "id",
+    "INACTIVE": "inactive",
+    "INFO": "info",
+    "LASTNAME": "lastname",
+    "LOADING": "loading",
+    "LOGO": "logo",
+    "NAME": "name",
+    "NEXT": "next",
+    "NO": "no",
+    "NO_RESULTS": "no results found",
+    "PHONE": "phone",
+    "PREVIOUS": "previous",
+    "SEARCH": "search",
+    "STATUS": "status",
+    "SUBMIT": "submit",
+    "SUCCESS": "success",
+    "UPDATED_AT": "updated at",
+    "VIEW": "view",
+    "WARNING": "warning",
+    "WEBSITE": "website",
+    "YES": "yes"
   }
 }

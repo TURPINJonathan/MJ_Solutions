@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { InputComponent } from '#common/ui/input/input';
@@ -15,6 +15,7 @@ import { InputComponent } from '#common/ui/input/input';
     [disabled]="disabled"
     [error]="error"
     [valid]="valid"
+    [label]="label"
   ></app-input>`
 })
 class TestHostComponent {
@@ -25,6 +26,7 @@ class TestHostComponent {
   disabled = false;
   error = false;
   valid = false;
+	label?: string;
 }
 
 describe('InputComponent', () => {
@@ -33,7 +35,7 @@ describe('InputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent] // tout standalone va dans imports
+      imports: [TestHostComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);
@@ -81,4 +83,19 @@ describe('InputComponent', () => {
     const input = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
     expect(input.type).toBe('password');
   });
+
+	it('should display the label when [label] is set', () => {
+		hostComponent['label'] = 'Adresse email';
+		fixture.detectChanges();
+		const label = fixture.debugElement.query(By.css('.input-label'));
+		expect(label).toBeTruthy();
+		expect(label.nativeElement.textContent.trim()).toBe('Adresse email');
+	});
+
+	it('should not display the label when [label] is not set', () => {
+		hostComponent['label'] = undefined;
+		fixture.detectChanges();
+		const label = fixture.debugElement.query(By.css('.input-label'));
+		expect(label).toBeNull();
+	});
 });

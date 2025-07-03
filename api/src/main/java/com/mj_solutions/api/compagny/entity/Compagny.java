@@ -45,6 +45,9 @@ public class Compagny {
 	@OneToMany(mappedBy = "compagny", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CompagnyImage> pictures;
 
+	@OneToMany(mappedBy = "compagny", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<CompagnyContact> contacts;
+
 	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 

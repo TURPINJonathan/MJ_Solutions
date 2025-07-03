@@ -50,7 +50,10 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf(csrf -> csrf.disable())
+				.cors(cors -> {
+				})
 				.authorizeHttpRequests(authz -> authz
+						.requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
 						.requestMatchers(
 								"/user/register",
 								"/auth/login",
@@ -58,8 +61,9 @@ public class SecurityConfig {
 								"/auth/refresh-token",
 								"/compagny/all")
 						.permitAll()
-            .requestMatchers(new RegexRequestMatcher("/compagny/\\d+", "GET")).permitAll()
-            .requestMatchers(new RegexRequestMatcher("/files/\\d+", "GET")).permitAll()
+						.requestMatchers(new RegexRequestMatcher("/files/\\d+", "GET")).permitAll()
+						.requestMatchers(new RegexRequestMatcher("/compagny/\\d+", "GET")).permitAll()
+						.requestMatchers(new RegexRequestMatcher("/files/\\d+/raw", "GET")).permitAll()
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

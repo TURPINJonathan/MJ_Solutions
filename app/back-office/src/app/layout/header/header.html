@@ -1,27 +1,55 @@
 <header>
-		<nav class="navbar">
-			<div class="container nav-container">
-				<input
-					class="checkbox"
-					type="checkbox"
-					id="menu-toggle"
-					[checked]="menuOpen"
-					(change)="toggleMenu()"
-					aria-label="Ouvrir le menu"
-				/>
-				<div class="hamburger-lines" [class.open]="menuOpen" (click)="toggleMenu()">
-					<span class="line line1"></span>
-					<span class="line line2"></span>
-					<span class="line line3"></span>
-				</div>
-				<div class="logo">
-					<img [src]="MJSLogo" alt="Logo de MJ Solutions" />
-				</div>
-				<ul class="menu-items" [class.open]="menuOpen">
-					<li><a href="#" (click)="closeMenu()">{{ 'DASHBOARD.TITLE' | translate }}</a></li>
-					<li><a href="/login" (click)="closeMenu()">{{ 'PROJECTS.TITLE' | translate }}</a></li>
-					<li><a href="#" (click)="closeMenu()">{{ 'SETTINGS.TITLE' | translate }}</a></li>
-				</ul>
-			</div>
-		</nav>
+  <nav class="navbar">
+    <div class="container nav-container">
+      <input
+        class="checkbox"
+        type="checkbox"
+        id="menu-toggle"
+        [checked]="menuOpen"
+        (change)="toggleMenu()"
+        aria-label="Ouvrir le menu"
+      />
+      <div class="hamburger-lines" [class.open]="menuOpen" (click)="toggleMenu()">
+        <span class="line line1"></span>
+        <span class="line line2"></span>
+        <span class="line line3"></span>
+      </div>
+      <div class="logo">
+        <img [src]="MJSLogo" alt="Logo de MJ Solutions" />
+      </div>
+			
+      <ul class="menu-items"
+          [class.open]="menuOpen"
+          [class.hide]="activeSubMenu"
+          *ngIf="!activeSubMenu">
+        <li *ngFor="let menu of menus">
+          <a *ngIf="!menu.subMenu"
+             [routerLink]="menu.route"
+             (click)="closeMenu()">
+            {{ menu.label | translate }}
+          </a>
+          <a *ngIf="menu.subMenu"
+             href="#"
+             (click)="openSubMenu(menu.label, $event)">
+            {{ menu.label | translate }}
+          </a>
+        </li>
+      </ul>
+			
+			<ul class="menu-items submenu"
+					[class.open]="menuOpen && activeSubMenu"
+					*ngIf="activeSubMenu">
+				<li>
+					<a href="#" class="back-btn" (click)="closeSubMenu($event)">
+						<span class="icon">&gt;</span>
+					</a>
+				</li>
+				<li *ngFor="let item of activeSubMenuItems">
+					<a [routerLink]="item.route" (click)="closeMenu()">
+						{{ item.label | translate }}
+					</a>
+				</li>
+			</ul>
+    </div>
+  </nav>
 </header>

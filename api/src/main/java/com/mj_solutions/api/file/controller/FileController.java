@@ -89,6 +89,25 @@ public class FileController {
 		}
 	}
 
+	@GetMapping("/{id}/raw")
+	public ResponseEntity<byte[]> getFileRaw(@PathVariable Long id) {
+		return fileRepository.findById(id)
+				.filter(f -> f.getDeletedAt() == null)
+				.map(doc -> {
+					try {
+						byte[] data = CompressFileUtils.decompress(doc.getCompressedData());
+						return ResponseEntity.ok()
+								.header("Content-Type", doc.getContentType())
+								.header("Content-Disposition", "inline; filename=\"" + doc.getOriginalFilename() + "\"")
+								.header("Cache-Control", "public, max-age=86400")
+								.body(data);
+					} catch (IOException e) {
+						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).<byte[]>build();
+					}
+				})
+				.orElse(ResponseEntity.notFound().build());
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> downloadFile(@PathVariable Long id) {
 		return fileRepository.findById(id)

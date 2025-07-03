@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mj_solutions.api.compagny.dto.CompagnyContactDto;
 import com.mj_solutions.api.compagny.dto.CompagnyDto;
 import com.mj_solutions.api.compagny.dto.CreateCompagnyRequest;
 import com.mj_solutions.api.compagny.dto.UpdateCompagnyRequest;
 import com.mj_solutions.api.compagny.entity.Compagny;
+import com.mj_solutions.api.compagny.entity.CompagnyContact;
 import com.mj_solutions.api.compagny.entity.CompagnyImage;
 import com.mj_solutions.api.compagny.repository.CompagnyImageRepository;
 import com.mj_solutions.api.compagny.repository.CompagnyRepository;
@@ -36,6 +38,7 @@ public class CompagnyService {
 				.website(request.getWebsite())
 				.build();
 
+		// Images
 		List<CompagnyImage> images = request.getPictures() != null
 				? request.getPictures().stream()
 						.map(imgReq -> {
@@ -50,8 +53,30 @@ public class CompagnyService {
 						})
 						.collect(Collectors.toList())
 				: List.of();
-
 		compagny.setPictures(images);
+
+		// Contacts
+		List<CompagnyContact> contacts = request.getContacts() != null
+				? request.getContacts().stream()
+						.map(contactReq -> {
+							File picture = null;
+							if (contactReq.getPictureId() != null) {
+								picture = fileRepository.findById(contactReq.getPictureId()).orElse(null);
+							}
+							return CompagnyContact.builder()
+									.compagny(compagny)
+									.lastname(contactReq.getLastname())
+									.firstname(contactReq.getFirstname())
+									.position(contactReq.getPosition())
+									.email(contactReq.getEmail())
+									.phone(contactReq.getPhone())
+									.picture(picture)
+									.build();
+						})
+						.collect(Collectors.toList())
+				: List.of();
+		compagny.setContacts(contacts);
+
 		Compagny saved = compagnyRepository.save(compagny);
 		return toDto(saved);
 	}
@@ -93,9 +118,7 @@ public class CompagnyService {
 
 		// Gestion des images : si le champ pictures est présent, on remplace tout
 		if (request.getPictures() != null) {
-			// Supprime les anciennes images
 			compagnyImageRepository.deleteAll(compagny.getPictures());
-
 			List<CompagnyImage> images = request.getPictures().stream()
 					.map(imgReq -> {
 						File file = fileRepository.findById(imgReq.getFileId())
@@ -109,6 +132,29 @@ public class CompagnyService {
 					})
 					.collect(Collectors.toList());
 			compagny.setPictures(images);
+		}
+
+		// Gestion des contacts : si le champ contacts est présent, on remplace tout
+		if (request.getContacts() != null) {
+			compagny.getContacts().clear();
+			List<CompagnyContact> contacts = request.getContacts().stream()
+					.map(contactReq -> {
+						File picture = null;
+						if (contactReq.getPictureId() != null) {
+							picture = fileRepository.findById(contactReq.getPictureId()).orElse(null);
+						}
+						return CompagnyContact.builder()
+								.compagny(compagny)
+								.lastname(contactReq.getLastname())
+								.firstname(contactReq.getFirstname())
+								.position(contactReq.getPosition())
+								.email(contactReq.getEmail())
+								.phone(contactReq.getPhone())
+								.picture(picture)
+								.build();
+					})
+					.collect(Collectors.toList());
+			compagny.setContacts(contacts);
 		}
 
 		Compagny saved = compagnyRepository.save(compagny);
@@ -137,6 +183,7 @@ public class CompagnyService {
 				.createdAt(compagny.getCreatedAt())
 				.updatedAt(compagny.getUpdatedAt())
 				.pictures(toImageDtoList(compagny.getPictures()))
+				.contacts(toContactDtoList(compagny.getContacts()))
 				.build();
 	}
 
@@ -153,9 +200,30 @@ public class CompagnyService {
 				.id(image.getId())
 				.fileId(image.getFile().getId())
 				.fileName(image.getFile().getName())
-				.url("/files/" + image.getFile().getId())
+				.url("/files/" + image.getFile().getId() + "/raw")
 				.isLogo(image.isLogo())
 				.isMaster(image.isMaster())
+				.build();
+	}
+
+	private List<CompagnyContactDto> toContactDtoList(List<CompagnyContact> contacts) {
+		if (contacts == null)
+			return List.of();
+		return contacts.stream()
+				.map(this::toContactDto)
+				.collect(Collectors.toList());
+	}
+
+	private CompagnyContactDto toContactDto(CompagnyContact contact) {
+		return CompagnyContactDto.builder()
+				.id(contact.getId())
+				.lastname(contact.getLastname())
+				.firstname(contact.getFirstname())
+				.position(contact.getPosition())
+				.email(contact.getEmail())
+				.phone(contact.getPhone())
+				.pictureId(contact.getPicture() != null ? contact.getPicture().getId() : null)
+				.pictureUrl(contact.getPicture() != null ? "/files/" + contact.getPicture().getId() + "/raw" : null)
 				.build();
 	}
 }

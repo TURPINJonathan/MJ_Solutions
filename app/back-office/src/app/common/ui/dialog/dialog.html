@@ -1,0 +1,25 @@
+<div class="modal-backdrop" *ngIf="open" [ngClass]="{'out': isClosing}">
+	<div class="modal-content" [ngClass]="{'out': isClosing, 'fullscreen': isFullscreen}">
+		<div *ngIf="header" class="modal-header">
+			<span class="modal-title ellipsis">{{ header }}</span>
+			<div class="modal-actions">
+				<app-button color="warning" (click)="toggleFullscreen()" [rounded]="true" [width]="27" [height]="27">
+					<span class="material-icons white-icon">
+						{{ isFullscreen ? 'fullscreen_exit' : 'fullscreen' }}
+					</span>
+				</app-button>
+				<app-button color="danger" (click)="close()" [rounded]="true" [width]="27" [height]="27">
+					<span class="material-icons white-icon">close</span>
+				</app-button>
+			</div>
+		</div>
+
+		<div class="modal-body">
+			<ng-content></ng-content>
+		</div>
+
+		<app-button color="danger" (click)="close()" size="xs">
+			<span class="uppercase">{{ 'COMMON.CLOSE' | translate }}</span>
+		</app-button>
+	</div>
+</div>

@@ -11,17 +11,32 @@
     "PASSWORD_REQUIRED": "Veuillez renseigner votre mot de passe.",
     "SUCCESS": "Connexion réussie !"
   },
-	"LOGOUT": {
-		"SUCCESS": "Déconnexion réussie !",
-		"ERROR": "Erreur lors de la déconnexion",
-		"TITLE": "Déconnexion"
-	},
+  "LOGOUT": {
+    "SUCCESS": "Déconnexion réussie !",
+    "ERROR": "Erreur lors de la déconnexion",
+    "TITLE": "Déconnexion"
+  },
   "TOAST": {
     "TITLE": {
       "ERROR": "Erreur",
       "INFO": "Information",
       "SUCCESS": "Succès",
       "WARNING": "Attention"
+    },
+    "COMPAGNY": {
+      "EMPTY_LIST": "Aucune entreprise trouvée",
+      "ERROR_CREATED": "Erreur lors de la création de l'entreprise",
+      "ERROR_UPDATE": "Erreur lors de la mise à jour de l'entreprise",
+      "ERROR_DELETE": "Erreur lors de la suppression de l'entreprise",
+      "ERROR_COMPAGNY": "Erreur lors de la récupération de l'entreprise",
+      "ERROR_LIST": "Erreur lors de la récupération de la liste des entreprises",
+      "ERROR_COMPAGNY_NOT_FOUND": "Entreprise non trouvée",
+      "ERROR_COMPAGNY_EXISTS": "Une entreprise avec ce nom existe déjà",
+      "SUCCESS_CREATED": "Entreprise créée avec succès !",
+      "SUCCESS_UPDATED": "Entreprise mise à jour avec succès !",
+      "SUCCESS_DELETED": "Entreprise supprimée avec succès !",
+      "SUCCESS_LIST": "Liste des entreprises récupérée avec succès !",
+      "SUCCESS_COMPAGNY": "Entreprise récupérée avec succès !"
     }
   },
   "DASHBOARD": {
@@ -32,5 +47,66 @@
   },
   "SETTINGS": {
     "TITLE": "Paramètres"
+  },
+  "COMPAGNY": {
+    "TITLE": {
+      "SINGLE": "Entreprise",
+      "PLURAL": "Entreprises"
+    },
+    "MODAL": {
+      "CREATE": "Créer une nouvelle entreprise",
+      "EDIT": "Modifier l'entreprise",
+      "DELETE": "Supprimer l'entreprise",
+      "VIEW": "Voir l'entreprise"
+    }
+  },
+  "CV": {
+    "TITLE": {
+      "SINGLE": "CV"
+    }
+  },
+  "CONTACT": {
+    "ADD_BUTTON": "ajouter un contact",
+    "POSITION": "poste"
+  },
+  "COMMON": {
+    "ACTIVE": "actif",
+    "ADD": "ajouter",
+    "BACK": "retour",
+    "CANCEL": "annuler",
+    "CLOSE": "fermer",
+    "COLOR": "couleur",
+    "COLOR_ASSOCIATED": "Couleur associée",
+    "CONFIRM": "confirmer",
+    "CREATED_AT": "créé le",
+    "DELETE": "supprimer",
+    "DESCRIPTION": "description",
+    "EDIT": "modifier",
+    "EMAIL": "email",
+    "EMPTY": "vide",
+    "ERROR": "erreur",
+    "FILE_D&D": "Déposez vos fichiers ici ou cliquez pour sélectionner",
+    "FIRSTNAME": "prénom",
+    "ID": "identifiant",
+    "INACTIVE": "inactif",
+    "INFO": "information",
+    "LASTNAME": "nom",
+    "LOADING": "chargement",
+    "LOGO": "logo",
+    "NAME": "nom",
+    "NEXT": "suivant",
+    "NO": "non",
+    "NO_RESULTS": "aucun résultat trouvé",
+    "PHONE": "téléphone",
+    "PREVIOUS": "précéd,ent",
+    "SEARCH": "rechercher",
+    "STATUS": "statut",
+    "SUBMIT": "valider",
+    "SUCCESS": "succès",
+    "UPDATED_AT": "mis à jour le",
+    "VIEW": "voir",
+    "WARNING": "avertissement",
+    "WEBSITE": "site web",
+    "YES": "oui"
   }
 }
