@@ -1,20 +1,21 @@
-<button
-  [ngClass]="{
-    'button-primary': color === 'primary',
-    'button-accent': color === 'accent',
-    'button-secondary': color === 'secondary',
-    'button-success': color === 'success',
-    'button-warning': color === 'warning',
-    'button-danger': color === 'danger',
-    'button-gray': color === 'gray'
-  }"
-  [type]="type"
-  [disabled]="disabled || loading"
->
-  <ng-container *ngIf="!loading; else loader">
-    <ng-content></ng-content>
-  </ng-container>
-  <ng-template #loader>
-    <span class="button-loader"></span>
-  </ng-template>
+<button [ngClass]="{
+      'button-primary': color === 'primary',
+      'button-accent': color === 'accent',
+      'button-secondary': color === 'secondary',
+      'button-success': color === 'success',
+      'button-warning': color === 'warning',
+      'button-danger': color === 'danger',
+      'button-gray': color === 'gray',
+      'button-rounded': rounded,
+      'button-xs': size === 'xs',
+      'button-sm': size === 'sm',
+      'button-md': size === 'md',
+      'button-lg': size === 'lg'
+    }" [type]="type" [disabled]="disabled || loading" [style.width.px]="width" [style.height.px]="height">
+	<ng-container *ngIf="!loading; else loader">
+		<ng-content></ng-content>
+	</ng-container>
+	<ng-template #loader>
+		<span class="button-loader"></span>
+	</ng-template>
 </button>

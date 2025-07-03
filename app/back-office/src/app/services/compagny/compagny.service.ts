@@ -15,4 +15,8 @@ export class CompagnyService {
 		const url = `${environment.apiUrl}/compagny/all`;
 		return this.http.get<Compagny[]>(url);
 	}
+
+	createCompagny(data: any) {
+  return this.http.post(`${environment.apiUrl}/compagny/create`, data);
+}
 }

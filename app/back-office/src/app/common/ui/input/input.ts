@@ -1,3 +1,4 @@
+import { capitalizeFirstLetter } from '#SUtils/string.utils';
 import { CommonModule } from '@angular/common';
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -23,11 +24,16 @@ export class InputComponent implements ControlValueAccessor {
   @Input() disabled: boolean = false;
   @Input() error: boolean = false;
   @Input() valid: boolean = false;
+	@Input() label?: string;
 
   value: string = '';
 
   private onChange = (value: string) => {};
   private onTouched = () => {};
+
+	get capitalizedLabel(): string | undefined {
+    return this.label ? capitalizeFirstLetter(this.label) : undefined;
+  }
 
   writeValue(value: string): void {
     this.value = value || '';

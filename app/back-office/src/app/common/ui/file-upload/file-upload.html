@@ -1,0 +1,14 @@
+<div class="file-upload" [class.drag-over]="isDragOver" (drop)="onDrop($event)" (dragover)="onDragOver($event)"
+	(dragleave)="onDragLeave($event)">
+	<input #fileInput type="file" [accept]="accept" style="display: none" (change)="onFileChange($event)" />
+	<span *ngIf="file" class="file-name">{{ file.name }}</span>
+	<span *ngIf="previewUrl" class="file-preview">
+		<img [src]="previewUrl" alt="Prévisualisation" />
+	</span>
+	<div *ngIf="!file" class="file-upload-hint">
+		{{ 'COMMON.FILE_D&D' | translate }}
+		<app-button color="gray" size="sm" (click)="triggerInput(fileInput)">
+			{{ label }}
+		</app-button>
+	</div>
+</div>
