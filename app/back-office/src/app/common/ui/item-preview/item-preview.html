@@ -2,12 +2,14 @@
 	<img class="picture" *ngIf="imageUrl" [src]="imageUrl"
 		[ngStyle]="{'border-color': color || 'transparent', 'width': size + 'px', 'height': size + 'px'}" />
 
-	<div class="content" [ngStyle]="{
-			'border-color': color || 'transparent',
-			'margin-left': 'calc(-' + size + 'px / 2)',
-			'padding-left': 'calc(' + size + 'px / 1.5)'
-		}">
-		<b>{{ title | uppercase }}</b>
-		<span *ngIf="content" [innerHTML]="content"></span>
-	</div>
+	<ng-container *ngIf="title || content">
+		<div class="content" [ngStyle]="{
+				'border-color': color || 'transparent',
+				'margin-left': 'calc(-' + size + 'px / 2)',
+				'padding-left': 'calc(' + size + 'px / 1.5)'
+			}">
+			<b>{{ title | uppercase }}</b>
+			<span *ngIf="content" [innerHTML]="content"></span>
+		</div>
+	</ng-container>
 </div>

@@ -58,7 +58,10 @@
       "EDIT": "Edit company",
       "DELETE": "Delete company",
       "VIEW": "View company"
-    }
+    },
+    "CONTRACT_START_AT": "Contract start date",
+    "CONTRACT_END_AT": "Contract end date",
+    "TYPE": "Type of relationship"
   },
   "CV": {
     "TITLE": {
@@ -67,7 +70,11 @@
   },
   "CONTACT": {
     "ADD_BUTTON": "add contact",
-    "POSITION": "position"
+    "POSITION": "position",
+    "TITLE": {
+      "SINGLE": "Contact",
+      "PLURAL": "Contacts"
+    }
   },
   "COMMON": {
     "ACTIVE": "active",

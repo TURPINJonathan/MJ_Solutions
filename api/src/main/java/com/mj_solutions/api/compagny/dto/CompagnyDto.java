@@ -14,6 +14,9 @@ public class CompagnyDto {
 	private String description;
 	private String color;
 	private String website;
+	private CompagnyType type;
+	private LocalDateTime contractStartAt;
+	private LocalDateTime contractEndAt;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private List<ImageDto> pictures;

@@ -56,6 +56,9 @@ describe('CompagnyPage', () => {
         website: '',
         color: '',
         logo: '',
+        type: 'PROSPECT',
+        contractStartAt: null,
+        contractEndAt: null,
         createdAt: new Date(),
         updatedAt: new Date(),
         pictures: [{
@@ -141,6 +144,22 @@ describe('CompagnyPage', () => {
     expect(component.descriptionInvalid).toBeTrue();
     component.compagnyDescription = '12345';
     expect(component.descriptionInvalid).toBeFalse();
+
+    component.compagnyType = '' as 'CDI' | 'FREELANCE' | 'PROSPECT';
+    expect(component.typeInvalid).toBeTrue();
+    component.compagnyType = 'CDI';
+    expect(component.typeInvalid).toBeFalse();
+
+    component.compagnyType = 'CDI';
+    component.compagnyContractStartAt = null;
+    expect(component.getContractStartAtInvalid()).toBeTrue();
+    component.compagnyContractStartAt = new Date();
+    expect(component.getContractStartAtInvalid()).toBeFalse();
+
+    component.compagnyContractEndAt = null;
+    expect(component.getContractEndAtInvalid()).toBeTrue();
+    component.compagnyContractEndAt = new Date();
+    expect(component.getContractEndAtInvalid()).toBeFalse();
   });
 
   it('devrait désactiver le formulaire si un champ est invalide', () => {
@@ -148,12 +167,14 @@ describe('CompagnyPage', () => {
     component.compagnyWebsite = '';
     component.compagnyColor = '';
     component.compagnyDescription = '';
+    component.compagnyType = undefined as any;
     expect(component.formInvalid).toBeTrue();
 
     component.compagnyName = 'AB';
     component.compagnyWebsite = 'https://mj-solutions.fr';
     component.compagnyColor = '#fff';
     component.compagnyDescription = '12345';
+    component.compagnyType = 'CDI';
     expect(component.formInvalid).toBeFalse();
   });
 
@@ -164,6 +185,9 @@ describe('CompagnyPage', () => {
     component.compagnyWebsite = 'https://mj-solutions.fr';
     component.compagnyLogo = new File([''], 'logo.png', { type: 'image/png' });
     component.compagnyContacts = [];
+    component.compagnyType = 'CDI';
+    component.compagnyContractStartAt = new Date('2025-01-01');
+    component.compagnyContractEndAt = new Date('2025-12-31');
 
     fileServiceSpy.uploadLogo.and.returnValue(of({ success: true, data: { id: 123 } }));
     compagnyServiceSpy.createCompagny.and.returnValue(of({}));
@@ -184,6 +208,9 @@ describe('CompagnyPage', () => {
     component.compagnyWebsite = 'https://mj-solutions.fr';
     component.compagnyLogo = null;
     component.compagnyContacts = [];
+    component.compagnyType = 'FREELANCE';
+    component.compagnyContractStartAt = new Date('2025-01-01');
+    component.compagnyContractEndAt = new Date('2025-12-31');
 
     compagnyServiceSpy.createCompagny.and.returnValue(throwError(() => new Error('fail')));
 

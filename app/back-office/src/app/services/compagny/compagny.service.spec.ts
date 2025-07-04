@@ -33,6 +33,7 @@ describe('CompagnyService', () => {
     const mockCompagnies: Compagny[] = [{
       id: 1,
       name: 'Test',
+			type: 'PROSPECT',
       createdAt: new Date('2024-01-01T00:00:00Z'),
       updatedAt: new Date('2024-01-01T00:00:00Z')
     }];
@@ -50,6 +51,9 @@ describe('CompagnyService', () => {
     const mockResponse: Compagny = {
       id: 2,
       name: 'Nouvelle Compagnie',
+			type: 'CDI',
+			contractStartAt: new Date('2024-01-01T00:00:00Z'),
+			contractEndAt: new Date('2025-01-01T00:00:00Z'),
       createdAt: new Date('2024-01-01T00:00:00Z'),
       updatedAt: new Date('2024-01-01T00:00:00Z')
     };

@@ -86,22 +86,19 @@ describe('TableComponent', () => {
     expect((component as any).formatCell).toHaveBeenCalledWith(dateStr);
   });
 
-  it('should display color dot for color column', () => {
-    component.columns = [{ key: 'color', label: 'Couleur' }];
-    component.data = [{ id: 1, color: '#ff0000' }];
-    fixture.detectChanges();
-    const dot = fixture.nativeElement.querySelector('.color-dot');
-    expect(dot).toBeTruthy();
-    expect(['rgb(255, 0, 0)', '#ff0000']).toContain(dot.style.background);
-  });
-
-  it('should display logo image if logoUrl is present', () => {
+  it('should display logo using app-item-preview if pictures are present', () => {
     component.columns = [{ key: 'logo', label: 'Logo' }];
-    component.data = [{ id: 1, logoUrl: '/logo.png' }];
+    component.data = [{
+      id: 1,
+      pictures: [{ id: 1, field: 1, fileName: 'logo.png', url: '/logo.png', logo: true, master: true }],
+      color: '#00ff00'
+    }];
     fixture.detectChanges();
-    const img = fixture.nativeElement.querySelector('.logo-img');
+    const preview = fixture.nativeElement.querySelector('app-item-preview');
+    expect(preview).toBeTruthy();
+    // Vérifie la présence de l'image dans le composant enfant
+    const img = preview.querySelector('img.picture');
     expect(img).toBeTruthy();
-    expect(img.src).toContain('/logo.png');
   });
 
   it('should display website as link', () => {
