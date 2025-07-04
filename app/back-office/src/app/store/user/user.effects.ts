@@ -18,7 +18,9 @@ export class UserEffects {
         if (refreshToken) {
           return this.authService.refreshUser(refreshToken).pipe(
             map(res => {
-              localStorage.setItem('token', res.token);
+							if (res.token) {
+								localStorage.setItem('token', res.token);
+							}
               return UserActions.loadUserSuccess({ user: res.user });
             }),
             catchError(error => of(UserActions.loadUserFailure({ error })))
