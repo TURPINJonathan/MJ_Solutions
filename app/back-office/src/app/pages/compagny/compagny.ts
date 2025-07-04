@@ -12,6 +12,7 @@ import { CompagnyService } from '#services/compagny/compagny.service';
 import { CompagnyContact } from '#shared/models/compagny-contact.model';
 import { Compagny } from '#shared/models/compagny.model';
 import { Picture } from '#shared/models/picture.model';
+import { formatDate } from '#shared/utils/date.utils';
 import { isValidWebsite } from '#SUtils/validation.utils';
 import { ToastUtils } from '#utils/toastUtils';
 import { CommonModule } from '@angular/common';
@@ -43,7 +44,7 @@ export class CompagnyPage {
 	constructor(
 		private readonly compagnyService: CompagnyService,
 		private readonly fileService: FileService,
-		private translate: TranslateService,
+		public translate: TranslateService,
 		private toast: ToastUtils,
 	) {
 		this.loadCompagnies();
@@ -52,6 +53,8 @@ export class CompagnyPage {
 	compagnies: Compagny[] = [];
 	columns: { key: string, label: string }[] = [];
 	showDialog = false;
+	modalMode: 'create' | 'update' | 'show' = 'create';
+	selectedCompagny: Compagny | null = null;
 	isLoading = false;
 
 	compagnyName: string = '';
@@ -62,12 +65,12 @@ export class CompagnyPage {
 	compagnyContacts: CompagnyContact[] = [];
 
   isValidWebsite = isValidWebsite;
+	formatDate = formatDate;
 
 	ngOnInit() {
 		this.columns = [
 			{ key: 'name', label: 'COMMON.NAME' },
 			{ key: 'website', label: 'COMMON.WEBSITE' },
-			{ key: 'color', label: 'COMMON.COLOR' },
 			{ key: 'logo', label: 'COMMON.LOGO' },
 			{ key: 'createdAt', label: 'COMMON.CREATED_AT' },
 			{ key: 'updatedAt', label: 'COMMON.UPDATED_AT' }
@@ -90,6 +93,30 @@ export class CompagnyPage {
   get formInvalid() {
     return this.nameInvalid || this.websiteInvalid || this.colorInvalid || this.descriptionInvalid;
   }
+
+	get websiteLink(): string {
+		if (!this.selectedCompagny?.website) return '';
+		return `<a href="${this.selectedCompagny.website}" target="_blank" rel="noopener noreferrer">${this.selectedCompagny.website}</a>`;
+	}
+	
+	get selectedCompagnyPicture(): Picture | null {
+		return this.selectedCompagny?.pictures && this.selectedCompagny.pictures.length > 0
+			? this.selectedCompagny.pictures[0]
+			: null;
+	}
+
+	get modalHeaderTitle(): string {
+		switch (this.modalMode) {
+			case 'create':
+				return this.translate.instant('COMPAGNY.MODAL.CREATE');
+			case 'update':
+				return this.translate.instant('COMPAGNY.MODAL.UPDATE');
+			case 'show':
+				return this.translate.instant('COMPAGNY.MODAL.VIEW');
+			default:
+				return '';
+		}
+	}
 
 	loadCompagnies() {
 		this.compagnyService.getAllCompagnies().subscribe({
@@ -129,7 +156,9 @@ export class CompagnyPage {
 	}
 
 	openCreateCompagnyModal() {
+		this.modalMode = 'create';
 		this.showDialog = true;
+		this.selectedCompagny = null;
 	}
 
 	async onCreateCompagny(formData: any) {
@@ -138,6 +167,7 @@ export class CompagnyPage {
 		try {
 			let logoFileId: number | undefined;
 
+			// Upload du logo principal
 			if (this.compagnyLogo) {
 				const uploadData = new FormData();
 				uploadData.append('file', this.compagnyLogo);
@@ -149,6 +179,31 @@ export class CompagnyPage {
 				}
 			}
 
+			// Upload des images de contact si besoin
+			const contactsWithPictureIds = [];
+			for (const contact of this.compagnyContacts) {
+				let pictureId = null;
+				if (contact.picture instanceof File) {
+					const uploadData = new FormData();
+					uploadData.append('file', contact.picture);
+					uploadData.append('name', `${contact.firstname} ${contact.lastname}`);
+					const uploadResp: any = await firstValueFrom(this.fileService.uploadLogo(uploadData));
+					if (uploadResp?.success && uploadResp.data?.id) {
+						pictureId = uploadResp.data.id;
+					}
+				} else if (contact.picture && 'id' in contact.picture) {
+					pictureId = (contact.picture as Picture).id;
+				}
+				contactsWithPictureIds.push({
+					lastname: contact.lastname,
+					firstname: contact.firstname,
+					position: contact.position,
+					email: contact.email,
+					phone: contact.phone,
+					pictureId: pictureId
+				});
+			}
+
 			const createRequest = {
 				name: this.compagnyName,
 				description: this.compagnyDescription,
@@ -157,14 +212,7 @@ export class CompagnyPage {
 				pictures: logoFileId
 					? [{ fileId: logoFileId, isLogo: true, isMaster: true }]
 					: [],
-				contacts: this.compagnyContacts.map((contact: CompagnyContact) => ({
-					lastname: contact.lastname,
-					firstname: contact.firstname,
-					position: contact.position,
-					email: contact.email,
-					phone: contact.phone,
-					pictureId: (contact.picture && 'id' in contact.picture) ? (contact.picture as Picture).id : null
-				}))
+				contacts: contactsWithPictureIds
 			};
 
 			await firstValueFrom(this.compagnyService.createCompagny(createRequest));
@@ -187,6 +235,19 @@ export class CompagnyPage {
 	}
 
 	closeCreateCompagnyModal() {
+		this.compagnyName = '';
+		this.compagnyWebsite = '';
+		this.compagnyColor = '';
+		this.compagnyLogo = null;
+		this.compagnyDescription = '';
+		this.compagnyContacts = [];
 		this.showDialog = false;
+		this.selectedCompagny = null;
+	}
+
+	onShowCompagny(compagny: Compagny) {
+		this.modalMode = 'show';
+		this.selectedCompagny = compagny;
+		this.showDialog = true;
 	}
 }

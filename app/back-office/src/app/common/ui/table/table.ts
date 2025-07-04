@@ -3,12 +3,14 @@ import { capitalizeFirstLetter } from '#SUtils/string.utils';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ItemPreviewComponent } from '../item-preview/item-preview';
 
 @Component({
   selector: 'app-table',
   standalone: true,
   imports: [
     CommonModule,
+		ItemPreviewComponent
   ],
   templateUrl: './table.html',
   styleUrl: './table.scss'
@@ -42,7 +44,6 @@ export class TableComponent {
 	}
 
 	formatCell(value: any): string {
-    // DATE FORMATTING
     if (
       typeof value === 'string' &&
       /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(value)
@@ -59,6 +60,20 @@ export class TableComponent {
 		console.log('Row clicked:', row);
     this.rowClick.emit(row);
   }
+
+	getLogo(picture: any): string | null {
+		if (!picture) return null;
+		if (typeof picture === 'string') {
+			return picture.startsWith('http') ? picture : `assets/images/${picture}`;
+		}
+		if (picture instanceof File) {
+			return URL.createObjectURL(picture);
+		}
+		if (picture.url) {
+			return picture.url.startsWith('http') ? picture.url : `assets/images/${picture.url}`;
+		}
+		return null;
+	}
 
   onDeleteClick(row: any, event: MouseEvent) {
     event.stopPropagation();

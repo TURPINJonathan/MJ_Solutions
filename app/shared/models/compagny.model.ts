@@ -6,6 +6,7 @@ export interface Compagny {
 	name: string;
 	website?: string;
 	logoUrl?: string | null;
+	description?: string;
 	createdAt: Date;
 	updatedAt?: Date;
 	color?: string;

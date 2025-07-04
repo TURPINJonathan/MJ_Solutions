@@ -5,95 +5,139 @@
 			<span class="material-icons white-icon">add</span>
 		</app-button>
 
-		<app-dialog [open]="showDialog" (closed)="closeCreateCompagnyModal()"
-			[header]="'COMPAGNY.MODAL.CREATE' | translate">
-			<app-form [loading]="isLoading" (formSubmit)="onCreateCompagny($event)">
-				<div class="form-content">
-					<div class="company-main-fields">
-						<div class="company-main-fields-name">
-							<app-input type="text" placeholder="MJ Solutions" name="compagny-name" required [(ngModel)]="compagnyName"
-								[label]="'COMMON.NAME' | translate"></app-input>
-						</div>
-
-						<div class="company-main-fields-website">
-							<app-input type="text" placeholder="https://mj-solutions.fr" name="compagny-website" required
-								[(ngModel)]="compagnyWebsite" [label]="'COMMON.WEBSITE' | translate"></app-input>
-						</div>
-					</div>
-
-					<div class="company-main-fields-contacts">
-						<app-button color="accent" (click)="addContact()" type="button" size="xs">
-							{{ 'CONTACT.ADD_BUTTON' | translate | uppercase }}
-						</app-button>
-
-						<div *ngFor="let contact of compagnyContacts; let i = index" class="contact-card">
-							<div class="contact-fields">
-								<div class="contact-identity">
-									<app-input type="text" [label]="'COMMON.LASTNAME' | translate" [(ngModel)]="contact.lastname" required
-										name="contact-lastname">
-									</app-input>
-
-									<app-input type="text" [label]="'COMMON.FIRSTNAME' | translate" [(ngModel)]="contact.firstname"
-										required name="contact-firstname">
-									</app-input>
-
-									<app-input type="text" [label]="'CONTACT.POSITION' | translate" [(ngModel)]="contact.position"
-										name="contact-position">
-									</app-input>
-								</div>
-
-								<div class="contact-contacts">
-									<app-input type="text" [label]="'COMMON.EMAIL' | translate" [(ngModel)]="contact.email"
-										name="contact-email">
-									</app-input>
-
-									<app-input type="text" [label]="'COMMON.PHONE' | translate" [(ngModel)]="contact.phone"
-										name="contact-phone">
-									</app-input>
-								</div>
+		<app-dialog [open]="showDialog" (closed)="closeCreateCompagnyModal()" [header]="modalHeaderTitle">
+			<ng-container *ngIf="modalMode === 'create' || modalMode === 'update'; else showCompagny">
+				<app-form [loading]="isLoading" (formSubmit)="onCreateCompagny($event)">
+					<div class="form-content">
+						<div class="company-main-fields">
+							<div class="company-main-fields-name">
+								<app-input type="text" placeholder="MJ Solutions" name="compagny-name" required
+									[(ngModel)]="compagnyName" [label]="'COMMON.NAME' | translate"></app-input>
 							</div>
 
-							<div class="contact-actions">
-								<app-file-upload *ngIf="!contact.picture" [accept]="'image/*'"
-									(fileSelected)="contact.picture = $event">
+							<div class="company-main-fields-website">
+								<app-input type="text" placeholder="https://mj-solutions.fr" name="compagny-website" required
+									[(ngModel)]="compagnyWebsite" [label]="'COMMON.WEBSITE' | translate"></app-input>
+							</div>
+						</div>
+
+						<div class="company-main-fields-contacts">
+							<app-button color="accent" (click)="addContact()" type="button" size="xs">
+								{{ 'CONTACT.ADD_BUTTON' | translate | uppercase }}
+							</app-button>
+
+							<div *ngFor="let contact of compagnyContacts; let i = index" class="contact-card">
+								<div class="contact-fields">
+									<div class="contact-identity">
+										<app-input type="text" [label]="'COMMON.LASTNAME' | translate" [(ngModel)]="contact.lastname"
+											required name="contact-lastname">
+										</app-input>
+
+										<app-input type="text" [label]="'COMMON.FIRSTNAME' | translate" [(ngModel)]="contact.firstname"
+											required name="contact-firstname">
+										</app-input>
+
+										<app-input type="text" [label]="'CONTACT.POSITION' | translate" [(ngModel)]="contact.position"
+											name="contact-position">
+										</app-input>
+									</div>
+
+									<div class="contact-contacts">
+										<app-input type="text" [label]="'COMMON.EMAIL' | translate" [(ngModel)]="contact.email"
+											name="contact-email">
+										</app-input>
+
+										<app-input type="text" [label]="'COMMON.PHONE' | translate" [(ngModel)]="contact.phone"
+											name="contact-phone">
+										</app-input>
+									</div>
+								</div>
+
+								<div class="contact-actions">
+									<app-file-upload *ngIf="!contact.picture" [accept]="'image/*'"
+										(fileSelected)="contact.picture = $event">
+									</app-file-upload>
+
+									<app-item-preview *ngIf="contact.picture" [picture]="contact.picture" [color]="compagnyColor"
+										[title]="contact.lastname + ' ' + contact.firstname" [content]="'<i>' + (contact.position || '') + '</i><br/>' +
+										(contact.email ? '<a href=\'mailto:' + contact.email + '\'>' + contact.email + '</a><br/>' : '') +
+										(contact.phone ? '<a href=\'tel:' + contact.phone + '\'>' + contact.phone + '</a>' : '')
+									"></app-item-preview>
+
+									<app-button color="danger" (click)="removeContact(i)" type="button" size="xs">
+										{{ 'COMMON.DELETE' | translate | uppercase }}
+									</app-button>
+								</div>
+							</div>
+						</div>
+
+						<div class="company-media-fields">
+							<div class="company-media-color">
+								<app-input type="color" name="compagny-color" required [(ngModel)]="compagnyColor"
+									data-cy="compagny-color"></app-input>
+							</div>
+
+							<div class="company-media-logo">
+								<app-file-upload [accept]="'image/*'" (fileSelected)="compagnyLogo = $event">
 								</app-file-upload>
-
-								<app-item-preview *ngIf="contact.picture" [picture]="contact.picture" [color]="compagnyColor"
-									[title]="contact.lastname + ' ' + contact.firstname" [content]="'<i>' + (contact.position || '') + '</i><br/>' +
-									(contact.email ? '<a href=\'mailto:' + contact.email + '\'>' + contact.email + '</a><br/>' : '') +
-									(contact.phone ? '<a href=\'tel:' + contact.phone + '\'>' + contact.phone + '</a>' : '')
-								"></app-item-preview>
-
-								<app-button color="danger" (click)="removeContact(i)" type="button" size="xs">
-									{{ 'COMMON.DELETE' | translate | uppercase }}
-								</app-button>
 							</div>
+
+						</div>
+
+						<app-editor [(value)]="compagnyDescription" class="compagny-description"
+							[placeholder]="'COMMON.DESCRIPTION' | translate" data-cy="compagny-description"></app-editor>
+
+						<app-button type="submit" color="success" data-cy="submit-button" [loading]="isLoading" size="xs"
+							[disabled]="formInvalid">
+							{{ 'COMMON.SUBMIT' | translate | uppercase }}
+						</app-button>
+					</div>
+				</app-form>
+			</ng-container>
+
+			<ng-template #showCompagny>
+				<div class="form-content">
+					<div style="display: flex; align-items: center; justify-content: center;">
+						<app-item-preview *ngIf="selectedCompagny" [picture]="selectedCompagnyPicture"
+							[color]="selectedCompagny.color || ''" [title]="selectedCompagny.name || ''" [content]="websiteLink"
+							[size]="100"></app-item-preview>
+					</div>
+
+					<div *ngIf="selectedCompagny?.description">
+						<p class="content-subtitle" [style.color]="selectedCompagny?.color"
+							[style.borderColor]="selectedCompagny?.color">{{ 'COMMON.DESCRIPTION' | translate |
+							uppercase }}</p>
+						<span [innerHtml]="selectedCompagny?.description"></span>
+					</div>
+
+					<div *ngIf="selectedCompagny?.contacts">
+						<p class="content-subtitle" [style.color]="selectedCompagny?.color"
+							[style.borderColor]="selectedCompagny?.color">{{ 'CONTACT.TITLE.PLURAL' | translate |
+							uppercase }}</p>
+						<div class="show-contacts-container">
+							<ng-container *ngFor="let contact of selectedCompagny?.contacts">
+								<app-item-preview [picture]="contact.picture" [color]="selectedCompagny?.color || ''"
+									[title]="contact.lastname + ' ' + contact.firstname" [content]="'<i>' + (contact.position || '') + '</i><br/>' +
+												(contact.email ? '<a href=\'mailto:' + contact.email + '\'>' + contact.email + '</a><br/>' : '') +
+												(contact.phone ? '<a href=\'tel:' + contact.phone + '\'>' + contact.phone + '</a>' : '')
+											"></app-item-preview>
+							</ng-container>
 						</div>
 					</div>
 
-					<div class="company-media-fields">
-						<div class="company-media-color">
-							<app-input type="color" name="compagny-color" required [(ngModel)]="compagnyColor"
-								data-cy="compagny-color"></app-input>
-						</div>
+					<small [style.color]="selectedCompagny?.color">{{ 'COMMON.CREATED_AT' | translate }}&nbsp;{{
+						formatDate(selectedCompagny?.createdAt ||
+						'',
+						'weekdayLong', translate.currentLang || translate.defaultLang) }}</small>
 
-						<div class="company-media-logo">
-							<app-file-upload [accept]="'image/*'" (fileSelected)="compagnyLogo = $event">
-							</app-file-upload>
-						</div>
-
-					</div>
-
-					<app-editor [(value)]="compagnyDescription" class="compagny-description"
-						[placeholder]="'COMMON.DESCRIPTION' | translate" data-cy="compagny-description"></app-editor>
-
-					<app-button type="submit" color="success" data-cy="submit-button" [loading]="isLoading" size="xs"
-						[disabled]="formInvalid">
-						{{ 'COMMON.SUBMIT' | translate | uppercase }}
-					</app-button>
+					<ng-container *ngIf="selectedCompagny?.updatedAt">
+						<small [style.color]="selectedCompagny?.color">{{ 'COMMON.UPDATED_AT' | translate |
+							uppercase }}&nbsp;{{ formatDate(selectedCompagny?.updatedAt || '', 'weekdayLong', translate.currentLang ||
+							translate.defaultLang) }}</small>
+					</ng-container>
 				</div>
-			</app-form>
+			</ng-template>
 		</app-dialog>
 	</span>
 </div>
-<app-table [columns]="columns" [data]="compagnies" [showActions]="true"></app-table>
+<app-table [columns]="columns" [data]="compagnies" [showActions]="true" (rowClick)="onShowCompagny($event)"></app-table>

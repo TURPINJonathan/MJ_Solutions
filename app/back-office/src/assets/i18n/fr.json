@@ -67,7 +67,11 @@
   },
   "CONTACT": {
     "ADD_BUTTON": "ajouter un contact",
-    "POSITION": "poste"
+    "POSITION": "poste",
+    "TITLE": {
+      "SINGLE": "Contact",
+      "PLURAL": "Contacts"
+    }
   },
   "COMMON": {
     "ACTIVE": "actif",

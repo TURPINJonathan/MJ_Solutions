@@ -3,6 +3,20 @@
 	flex-direction: column;
 	gap: 10px;
 
+	.content-subtitle {
+		font-weight: bold;
+		border-bottom: 1px solid;
+		text-align: center;
+	}
+
+	.show-contacts-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-evenly;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
 	.company-main-fields {
 		display: flex;
 		flex-wrap: wrap;

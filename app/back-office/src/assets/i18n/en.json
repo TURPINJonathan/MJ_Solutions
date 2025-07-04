@@ -67,7 +67,11 @@
   },
   "CONTACT": {
     "ADD_BUTTON": "add contact",
-    "POSITION": "position"
+    "POSITION": "position",
+    "TITLE": {
+      "SINGLE": "Contact",
+      "PLURAL": "Contacts"
+    }
   },
   "COMMON": {
     "ACTIVE": "active",

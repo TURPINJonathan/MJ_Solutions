@@ -222,8 +222,16 @@ public class CompagnyService {
 				.position(contact.getPosition())
 				.email(contact.getEmail())
 				.phone(contact.getPhone())
-				.pictureId(contact.getPicture() != null ? contact.getPicture().getId() : null)
-				.pictureUrl(contact.getPicture() != null ? "/files/" + contact.getPicture().getId() + "/raw" : null)
+				.picture(contact.getPicture() != null
+						? CompagnyDto.ImageDto.builder()
+								.id(contact.getPicture().getId())
+								.fileId(contact.getPicture().getId())
+								.fileName(contact.getPicture().getName())
+								.url("/files/" + contact.getPicture().getId() + "/raw")
+								.isLogo(false)
+								.isMaster(false)
+								.build()
+						: null)
 				.build();
 	}
 }

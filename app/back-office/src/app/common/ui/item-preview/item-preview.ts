@@ -1,3 +1,4 @@
+import { environment } from '#env/environment';
 import { Picture } from '#shared/models/picture.model';
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
@@ -44,7 +45,9 @@ export class ItemPreviewComponent implements OnChanges, OnDestroy {
       this.objectUrl = URL.createObjectURL(this.picture);
       this.imageUrl = this.objectUrl;
     } else if ('url' in this.picture) {
-      this.imageUrl = this.picture.url;
+			this.imageUrl = this.picture.url.startsWith('http')
+				? this.picture.url
+				: environment.apiUrl + this.picture.url;
     } else {
       this.imageUrl = null;
     }
