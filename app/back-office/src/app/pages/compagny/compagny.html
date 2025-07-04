@@ -19,6 +19,28 @@
 								<app-input type="text" placeholder="https://mj-solutions.fr" name="compagny-website" required
 									[(ngModel)]="compagnyWebsite" [label]="'COMMON.WEBSITE' | translate"></app-input>
 							</div>
+
+							<ng-container *ngIf="compagnyType !== 'PROSPECT'">
+								<div class="company-main-fields-contract-start-at">
+									<app-input type="date" placeholder="jj/mm/aaaa" name="compagny-contract-start-at" required
+										[(ngModel)]="compagnyContractStartAt"
+										[label]="'COMPAGNY.CONTRACT_START_AT' | translate"></app-input>
+								</div>
+
+								<div class="company-main-fields-contract-end-at">
+									<app-input type="date" placeholder="jj/mm/aaaa" name="compagny-contract-end-at" required
+										[(ngModel)]="compagnyContractEndAt" [label]="'COMPAGNY.CONTRACT_END_AT' | translate"></app-input>
+								</div>
+							</ng-container>
+
+							<div class="company-main-fields-type">
+								<app-select name="compagny-type" [(ngModel)]="compagnyType" [label]="'COMPAGNY.TYPE' | translate"
+									[options]="[
+										{ value: 'CDI', label: 'CDI' },
+										{ value: 'FREELANCE', label: 'FREELANCE' },
+										{ value: 'PROSPECT', label: 'PROSPECT' }
+									]"></app-select>
+							</div>
 						</div>
 
 						<div class="company-main-fields-contacts">
@@ -101,6 +123,18 @@
 						<app-item-preview *ngIf="selectedCompagny" [picture]="selectedCompagnyPicture"
 							[color]="selectedCompagny.color || ''" [title]="selectedCompagny.name || ''" [content]="websiteLink"
 							[size]="100"></app-item-preview>
+
+					</div>
+					<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+						<p *ngIf="selectedCompagny?.type" [style.color]="selectedCompagny?.color">{{ selectedCompagny?.type }}</p>
+
+						<p *ngIf="selectedCompagny?.contractStartAt && selectedCompagny?.contractEndAt"
+							[style.color]="selectedCompagny?.color">{{
+							formatDate(selectedCompagny?.contractStartAt || '', 'weekdayLong', translate.currentLang ||
+							translate.defaultLang) | uppercase }} | {{ formatDate(selectedCompagny?.contractEndAt || '',
+							'weekdayLong',
+							translate.currentLang ||
+							translate.defaultLang) | uppercase }}</p>
 					</div>
 
 					<div *ngIf="selectedCompagny?.description">

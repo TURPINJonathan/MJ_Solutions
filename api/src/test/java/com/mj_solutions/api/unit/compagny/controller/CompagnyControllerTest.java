@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mj_solutions.api.common.controller.ApiExceptionHandler;
 import com.mj_solutions.api.compagny.controller.Compagnycontroller;
 import com.mj_solutions.api.compagny.dto.CompagnyDto;
@@ -37,6 +38,7 @@ class CompagnyControllerTest {
 	private CompagnyImageRepository compagnyImageRepository;
 
 	private MockMvc mockMvc;
+	private ObjectMapper objectMapper;
 
 	@BeforeEach
 	void setUp() {
@@ -47,6 +49,8 @@ class CompagnyControllerTest {
 				.standaloneSetup(controller)
 				.setControllerAdvice(new ApiExceptionHandler())
 				.build();
+		objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
 	}
 
 	@Test
@@ -89,7 +93,7 @@ class CompagnyControllerTest {
 
 		mockMvc.perform(post("/compagny/create")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(req)))
+				.content(objectMapper.writeValueAsString(req)))
 				.andExpect(status().isCreated());
 	}
 
@@ -106,7 +110,7 @@ class CompagnyControllerTest {
 
 		mockMvc.perform(patch("/compagny/update/1")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(req)))
+				.content(objectMapper.writeValueAsString(req)))
 				.andExpect(status().isOk());
 	}
 

@@ -5,6 +5,7 @@ import { FileUploadComponent } from '#common/ui/file-upload/file-upload';
 import { FormComponent } from '#common/ui/form/form';
 import { InputComponent } from '#common/ui/input/input';
 import { ItemPreviewComponent } from '#common/ui/item-preview/item-preview';
+import { SelectComponent } from '#common/ui/select/select';
 import { TableComponent } from '#common/ui/table/table';
 import { environment } from '#env/environment';
 import { FileService } from '#services/common/file.service';
@@ -35,7 +36,8 @@ CommonModule,
 		InputComponent,
 		FileUploadComponent,
 		EditorComponent,
-		ItemPreviewComponent
+		ItemPreviewComponent,
+		SelectComponent
 	],
   templateUrl: './compagny.html',
   styleUrl: './compagny.scss'
@@ -62,6 +64,9 @@ export class CompagnyPage {
 	compagnyColor: string = '';
 	compagnyLogo: File | null = null;
 	compagnyDescription: string = '';
+	compagnyContractStartAt: Date | null = null;
+	compagnyContractEndAt: Date | null = null;
+	compagnyType: 'CDI' | 'FREELANCE' | 'PROSPECT' = 'CDI'
 	compagnyContacts: CompagnyContact[] = [];
 
   isValidWebsite = isValidWebsite;
@@ -72,6 +77,7 @@ export class CompagnyPage {
 			{ key: 'name', label: 'COMMON.NAME' },
 			{ key: 'website', label: 'COMMON.WEBSITE' },
 			{ key: 'logo', label: 'COMMON.LOGO' },
+			{ key: 'type', label: 'COMPAGNY.TYPE' },
 			{ key: 'createdAt', label: 'COMMON.CREATED_AT' },
 			{ key: 'updatedAt', label: 'COMMON.UPDATED_AT' }
 		]
@@ -89,6 +95,15 @@ export class CompagnyPage {
   get descriptionInvalid() {
     return !this.compagnyDescription || this.compagnyDescription.trim().length < 5;
   }
+	get typeInvalid() {
+		return !this.compagnyType;
+	}
+	getContractStartAtInvalid() {
+		return !this.compagnyContractStartAt || isNaN(this.compagnyContractStartAt.getTime());
+	}
+	getContractEndAtInvalid() {
+		return !this.compagnyContractEndAt || isNaN(this.compagnyContractEndAt.getTime());
+	}
 
   get formInvalid() {
     return this.nameInvalid || this.websiteInvalid || this.colorInvalid || this.descriptionInvalid;
@@ -209,6 +224,9 @@ export class CompagnyPage {
 				description: this.compagnyDescription,
 				color: this.compagnyColor,
 				website: this.compagnyWebsite,
+				contractStartAt: this.compagnyContractStartAt ? formatDate(this.compagnyContractStartAt) : null,
+				contractEndAt: this.compagnyContractEndAt ? formatDate(this.compagnyContractEndAt) : null,
+				type: this.compagnyType,
 				pictures: logoFileId
 					? [{ fileId: logoFileId, isLogo: true, isMaster: true }]
 					: [],
@@ -240,6 +258,9 @@ export class CompagnyPage {
 		this.compagnyColor = '';
 		this.compagnyLogo = null;
 		this.compagnyDescription = '';
+		this.compagnyContractStartAt = null;
+		this.compagnyContractEndAt = null;
+		this.compagnyType = 'CDI';
 		this.compagnyContacts = [];
 		this.showDialog = false;
 		this.selectedCompagny = null;
