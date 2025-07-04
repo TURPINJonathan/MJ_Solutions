@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,13 +20,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mj_solutions.api.common.controller.ApiExceptionHandler;
 import com.mj_solutions.api.compagny.controller.Compagnycontroller;
 import com.mj_solutions.api.compagny.dto.CompagnyDto;
+import com.mj_solutions.api.compagny.dto.CompagnyType;
 import com.mj_solutions.api.compagny.dto.CreateCompagnyRequest;
 import com.mj_solutions.api.compagny.dto.UpdateCompagnyRequest;
 import com.mj_solutions.api.compagny.repository.CompagnyImageRepository;
 import com.mj_solutions.api.compagny.repository.CompagnyRepository;
 import com.mj_solutions.api.compagny.service.CompagnyService;
 
-class CompagnycontrollerTest {
+class CompagnyControllerTest {
 
 	@Mock
 	private CompagnyService compagnyService;
@@ -50,7 +52,7 @@ class CompagnycontrollerTest {
 	@Test
 	void getAllCompagnies_shouldReturn200() throws Exception {
 		when(compagnyService.getAllCompagnies()).thenReturn(List.of(
-				CompagnyDto.builder().id(1L).name("A").build()));
+				CompagnyDto.builder().id(1L).name("A").type(CompagnyType.CDI).build()));
 
 		mockMvc.perform(get("/compagny/all"))
 				.andExpect(status().isOk());
@@ -66,7 +68,8 @@ class CompagnycontrollerTest {
 
 	@Test
 	void getCompagny_shouldReturn200() throws Exception {
-		CompagnyDto dto = CompagnyDto.builder().id(1L).name("A").build();
+		CompagnyDto dto = CompagnyDto.builder().id(1L).name("A").type(CompagnyType.FREELANCE)
+				.contractStartAt(LocalDateTime.now()).build();
 		when(compagnyService.getCompagny(1L)).thenReturn(dto);
 
 		mockMvc.perform(get("/compagny/1"))
@@ -75,8 +78,13 @@ class CompagnycontrollerTest {
 
 	@Test
 	void createCompagny_shouldReturn201() throws Exception {
-		CreateCompagnyRequest req = CreateCompagnyRequest.builder().name("A").build();
-		CompagnyDto dto = CompagnyDto.builder().id(1L).name("A").build();
+		CreateCompagnyRequest req = CreateCompagnyRequest.builder()
+				.name("A")
+				.type(CompagnyType.PROSPECT)
+				.contractStartAt(LocalDateTime.now())
+				.build();
+		CompagnyDto dto = CompagnyDto.builder().id(1L).name("A").type(CompagnyType.PROSPECT)
+				.contractStartAt(req.getContractStartAt()).build();
 		when(compagnyService.createCompagny(any())).thenReturn(dto);
 
 		mockMvc.perform(post("/compagny/create")
@@ -87,8 +95,13 @@ class CompagnycontrollerTest {
 
 	@Test
 	void updateCompagny_shouldReturn200() throws Exception {
-		UpdateCompagnyRequest req = UpdateCompagnyRequest.builder().name("B").build();
-		CompagnyDto dto = CompagnyDto.builder().id(1L).name("B").build();
+		UpdateCompagnyRequest req = UpdateCompagnyRequest.builder()
+				.name("B")
+				.type(CompagnyType.CDI)
+				.contractEndAt(LocalDateTime.now())
+				.build();
+		CompagnyDto dto = CompagnyDto.builder().id(1L).name("B").type(CompagnyType.CDI)
+				.contractEndAt(req.getContractEndAt()).build();
 		when(compagnyService.updateCompagny(eq(1L), any())).thenReturn(dto);
 
 		mockMvc.perform(patch("/compagny/update/1")

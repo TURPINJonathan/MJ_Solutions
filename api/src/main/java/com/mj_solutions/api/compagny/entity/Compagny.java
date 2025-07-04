@@ -3,9 +3,13 @@ package com.mj_solutions.api.compagny.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.mj_solutions.api.compagny.dto.CompagnyType;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,6 +45,16 @@ public class Compagny {
 
 	@Column()
 	private String website;
+
+	@Column(name = "contract_start_at", nullable = true)
+	private LocalDateTime contractStartAt;
+
+	@Column(name = "contract_end_at", nullable = true)
+	private LocalDateTime contractEndAt;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private CompagnyType type;
 
 	@OneToMany(mappedBy = "compagny", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CompagnyImage> pictures;

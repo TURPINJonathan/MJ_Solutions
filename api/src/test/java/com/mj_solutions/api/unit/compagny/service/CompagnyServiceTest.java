@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.mj_solutions.api.compagny.dto.CompagnyDto;
+import com.mj_solutions.api.compagny.dto.CompagnyType;
 import com.mj_solutions.api.compagny.dto.CreateCompagnyRequest;
 import com.mj_solutions.api.compagny.dto.UpdateCompagnyRequest;
 import com.mj_solutions.api.compagny.entity.Compagny;
@@ -41,31 +43,59 @@ class CompagnyServiceTest {
 
 	@Test
 	void createCompagny_shouldSaveAndReturnDto() {
+		LocalDateTime now = LocalDateTime.now();
 		CreateCompagnyRequest req = CreateCompagnyRequest.builder()
 				.name("Test")
 				.description("desc")
 				.color("red")
 				.website("site")
+				.type(CompagnyType.CDI)
+				.contractStartAt(now)
+				.contractEndAt(now.plusYears(1))
 				.build();
 
-		Compagny saved = Compagny.builder().id(1L).name("Test").description("desc").color("red").website("site").build();
+		Compagny saved = Compagny.builder()
+				.id(1L)
+				.name("Test")
+				.description("desc")
+				.color("red")
+				.website("site")
+				.type(CompagnyType.CDI)
+				.contractStartAt(now)
+				.contractEndAt(now.plusYears(1))
+				.build();
 		when(compagnyRepository.save(any(Compagny.class))).thenReturn(saved);
 
 		CompagnyDto dto = compagnyService.createCompagny(req);
 
 		assertThat(dto).isNotNull();
 		assertThat(dto.getName()).isEqualTo("Test");
+		assertThat(dto.getType()).isEqualTo(CompagnyType.CDI);
+		assertThat(dto.getContractStartAt()).isEqualTo(now);
+		assertThat(dto.getContractEndAt()).isEqualTo(now.plusYears(1));
 	}
 
 	@Test
 	void getCompagny_shouldReturnDto() {
-		Compagny compagny = Compagny.builder().id(1L).name("Test").description("desc").color("red").build();
+		LocalDateTime now = LocalDateTime.now();
+		Compagny compagny = Compagny.builder()
+				.id(1L)
+				.name("Test")
+				.description("desc")
+				.color("red")
+				.type(CompagnyType.FREELANCE)
+				.contractStartAt(now)
+				.contractEndAt(null)
+				.build();
 		when(compagnyRepository.findById(1L)).thenReturn(Optional.of(compagny));
 
 		CompagnyDto dto = compagnyService.getCompagny(1L);
 
 		assertThat(dto).isNotNull();
 		assertThat(dto.getId()).isEqualTo(1L);
+		assertThat(dto.getType()).isEqualTo(CompagnyType.FREELANCE);
+		assertThat(dto.getContractStartAt()).isEqualTo(now);
+		assertThat(dto.getContractEndAt()).isNull();
 	}
 
 	@Test
@@ -76,26 +106,48 @@ class CompagnyServiceTest {
 
 	@Test
 	void getAllCompagnies_shouldReturnList() {
-		Compagny c1 = Compagny.builder().id(1L).name("A").description("d").color("c").build();
-		Compagny c2 = Compagny.builder().id(2L).name("B").description("d2").color("c2").build();
+		LocalDateTime now = LocalDateTime.now();
+		Compagny c1 = Compagny.builder().id(1L).name("A").description("d").color("c").type(CompagnyType.PROSPECT)
+				.contractStartAt(now).build();
+		Compagny c2 = Compagny.builder().id(2L).name("B").description("d2").color("c2").type(CompagnyType.CDI)
+				.contractStartAt(null).build();
 		when(compagnyRepository.findAll()).thenReturn(List.of(c1, c2));
 
 		List<CompagnyDto> list = compagnyService.getAllCompagnies();
 
 		assertThat(list).hasSize(2);
+		assertThat(list.get(0).getType()).isEqualTo(CompagnyType.PROSPECT);
+		assertThat(list.get(1).getType()).isEqualTo(CompagnyType.CDI);
 	}
 
 	@Test
 	void updateCompagny_shouldUpdateFields() {
-		Compagny compagny = Compagny.builder().id(1L).name("Old").description("desc").color("red").build();
+		LocalDateTime now = LocalDateTime.now();
+		Compagny compagny = Compagny.builder()
+				.id(1L)
+				.name("Old")
+				.description("desc")
+				.color("red")
+				.type(CompagnyType.PROSPECT)
+				.contractStartAt(now)
+				.contractEndAt(null)
+				.build();
 		when(compagnyRepository.findById(1L)).thenReturn(Optional.of(compagny));
 		when(compagnyRepository.save(any(Compagny.class))).thenReturn(compagny);
 
-		UpdateCompagnyRequest req = UpdateCompagnyRequest.builder().name("NewName").build();
+		UpdateCompagnyRequest req = UpdateCompagnyRequest.builder()
+				.name("NewName")
+				.type(CompagnyType.FREELANCE)
+				.contractStartAt(now.plusDays(1))
+				.contractEndAt(now.plusYears(1))
+				.build();
 
 		CompagnyDto dto = compagnyService.updateCompagny(1L, req);
 
 		assertThat(dto.getName()).isEqualTo("NewName");
+		assertThat(dto.getType()).isEqualTo(CompagnyType.FREELANCE);
+		assertThat(dto.getContractStartAt()).isEqualTo(now.plusDays(1));
+		assertThat(dto.getContractEndAt()).isEqualTo(now.plusYears(1));
 	}
 
 	@Test
