@@ -20,25 +20,28 @@ describe('ItemPreviewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display the title in uppercase', () => {
+  it('should display the title in uppercase if provided', () => {
     component.title = 'test title';
+    component.content = '';
     fixture.detectChanges();
     const titleElem = fixture.debugElement.query(By.css('b'));
     expect(titleElem.nativeElement.textContent).toBe('TEST TITLE');
   });
 
   it('should display the content if provided', () => {
+    component.title = '';
     component.content = 'Ceci est un <i>test</i>';
     fixture.detectChanges();
     const contentElem = fixture.debugElement.query(By.css('.content span'));
     expect(contentElem.nativeElement.innerHTML).toContain('Ceci est un <i>test</i>');
   });
 
-  it('should not display the content span if content is empty', () => {
+  it('should not display the content div if both title and content are empty', () => {
+    component.title = '';
     component.content = '';
     fixture.detectChanges();
-    const contentElem = fixture.debugElement.query(By.css('.content span'));
-    expect(contentElem).toBeNull();
+    const contentDiv = fixture.debugElement.query(By.css('.content'));
+    expect(contentDiv).toBeNull();
   });
 
   it('should display the image if imageUrl is set', () => {
@@ -70,23 +73,37 @@ describe('ItemPreviewComponent', () => {
     expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:http://test/image');
   });
 
-	it('should apply correct styles to image and content', () => {
-		component.picture = { url: 'http://example.com/image.png' } as any;
-		component.color = '#123456';
-		component.size = 80;
-		component.ngOnChanges({ picture: true } as any);
-		fixture.detectChanges();
+  it('should apply correct styles to image', () => {
+    component.picture = { url: 'http://example.com/image.png' } as any;
+    component.color = '#123456';
+    component.size = 80;
+    component.title = '';
+    component.content = '';
+    component.ngOnChanges({ picture: true } as any);
+    fixture.detectChanges();
 
-		const imgElem = fixture.debugElement.query(By.css('img.picture')).nativeElement as HTMLImageElement;
-		const contentElem = fixture.debugElement.query(By.css('.content')).nativeElement as HTMLElement;
-		const imgStyles = getComputedStyle(imgElem);
-		const contentStyles = getComputedStyle(contentElem);
+    const imgElem = fixture.debugElement.query(By.css('img.picture')).nativeElement as HTMLImageElement;
+    const imgStyles = getComputedStyle(imgElem);
 
-		expect(imgStyles.borderColor).toBe('rgb(18, 52, 86)');
-		expect(imgStyles.width).toBe('80px');
-		expect(imgStyles.height).toBe('80px');
-		expect(contentStyles.borderColor).toBe('rgb(18, 52, 86)');
-		expect(contentStyles.marginLeft).toBe('-40px');
-		expect(contentStyles.paddingLeft).toBe('53.3333px');
-	});
+    expect(imgStyles.borderColor).toBe('rgb(18, 52, 86)');
+    expect(imgStyles.width).toBe('80px');
+    expect(imgStyles.height).toBe('80px');
+  });
+
+  it('should apply correct styles to content if present', () => {
+    component.picture = { url: 'http://example.com/image.png' } as any;
+    component.color = '#123456';
+    component.size = 80;
+    component.title = 'test';
+    component.content = '';
+    component.ngOnChanges({ picture: true } as any);
+    fixture.detectChanges();
+
+    const contentElem = fixture.debugElement.query(By.css('.content')).nativeElement as HTMLElement;
+    const contentStyles = getComputedStyle(contentElem);
+
+    expect(contentStyles.borderColor).toBe('rgb(18, 52, 86)');
+    expect(contentStyles.marginLeft).toBe('-40px');
+    expect(contentStyles.paddingLeft).toBe('53.3333px');
+  });
 });

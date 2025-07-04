@@ -6,6 +6,10 @@ export interface Compagny {
 	name: string;
 	website?: string;
 	logoUrl?: string | null;
+	description?: string;
+	contractStartAt?: Date;
+	contractEndAt?: Date;
+	type: 'CDI' | 'FREELANCE' | 'PROSPECT';
 	createdAt: Date;
 	updatedAt?: Date;
 	color?: string;

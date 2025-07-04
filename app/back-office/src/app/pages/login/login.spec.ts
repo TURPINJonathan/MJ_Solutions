@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { of, throwError, Subject } from 'rxjs';
 import { provideMockStore } from '@ngrx/store/testing';
+import { Subject, of, throwError } from 'rxjs';
 
-import { LoginPage } from './login';
-import { AuthService } from '#services/auth/auth.service';
-import { ToastUtils } from '#utils/toastUtils';
-import { InputComponent } from '#common/ui/input/input';
 import { ButtonComponent } from '#common/ui/button/button';
 import { CardComponent } from '#common/ui/card/card';
 import { FormComponent } from '#common/ui/form/form';
+import { InputComponent } from '#common/ui/input/input';
 import { LanguageSwitcherComponent } from '#common/ui/language-switcher/language-switcher';
-import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from '#services/auth/auth.service';
+import { ToastUtils } from '#utils/toastUtils';
 import { Store } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { LoginPage } from './login';
 
 describe('LoginPage', () => {
   let fixture: ComponentFixture<LoginPage>;
@@ -91,15 +91,17 @@ describe('LoginPage', () => {
     expect(authServiceSpy.login).toHaveBeenCalledWith('user@example.com', 'ValidPassword123!');
   });
 
-  it('should show success toast and navigate on successful login', fakeAsync(() => {
-    component.email = 'user@example.com';
-    component.password = 'ValidPassword123!';
-    authServiceSpy.login.and.returnValue(of({ token: 'abc' }));
-    component.onSubmit(new Event('submit'));
-    tick();
-    expect(toastSpy.success).toHaveBeenCalled();
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/dashboard']);
-  }));
+	it('should show success toast and navigate on successful login', fakeAsync(() => {
+		component.email = 'user@example.com';
+		component.password = 'ValidPassword123!';
+		const user = { id: '1', email: 'user@example.com', firstName: 'Test', lastName: 'User', role: 'ROLE_USER', createdAt: new Date(), updatedAt: new Date() };
+		authServiceSpy.login.and.returnValue(of({ token: 'abc', refreshToken: 'refresh-xyz', user }));
+
+		component.onSubmit(new Event('submit'));
+		tick();
+		expect(toastSpy.success).toHaveBeenCalled();
+		expect(routerSpy.navigate).toHaveBeenCalledWith(['/dashboard']);
+	}));
 
   it('should show error toast if login returns no token', fakeAsync(() => {
     component.email = 'user@example.com';
@@ -143,20 +145,21 @@ describe('LoginPage', () => {
     expect(component.passwordTouched).toBeTrue();
   });
 
-  it('should store token and refreshToken in localStorage on successful login', fakeAsync(() => {
-    component.email = 'user@example.com';
-    component.password = 'ValidPassword123!';
-    authServiceSpy.login.and.returnValue(of({ token: 'abc', refreshToken: 'refresh-xyz' }));
+	it('should store token and refreshToken in localStorage on successful login', fakeAsync(() => {
+		component.email = 'user@example.com';
+		component.password = 'ValidPassword123!';
+		const user = { id: '1', email: 'user@example.com', firstName: 'Test', lastName: 'User', role: 'ROLE_USER', createdAt: new Date(), updatedAt: new Date() };
+		authServiceSpy.login.and.returnValue(of({ token: 'abc', refreshToken: 'refresh-xyz', user }));
 
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
+		localStorage.removeItem('token');
+		localStorage.removeItem('refreshToken');
 
-    component.onSubmit(new Event('submit'));
-    tick();
+		component.onSubmit(new Event('submit'));
+		tick();
 
-    expect(localStorage.getItem('token')).toBe('abc');
-    expect(localStorage.getItem('refreshToken')).toBe('refresh-xyz');
-  }));
+		expect(localStorage.getItem('token')).toBe('abc');
+		expect(localStorage.getItem('refreshToken')).toBe('refresh-xyz');
+	}));
 
   it('should not store refreshToken in localStorage on login error', fakeAsync(() => {
     component.email = 'user@example.com';
@@ -177,7 +180,7 @@ describe('LoginPage', () => {
 		component.email = 'user@example.com';
 		component.password = 'ValidPassword123!';
 		const user = { id: '1', email: 'user@example.com', firstName: 'Test', lastName: 'User', role: 'ROLE_USER', createdAt: new Date(), updatedAt: new Date() };
-		authServiceSpy.login.and.returnValue(of({ token: 'abc', user }));
+		authServiceSpy.login.and.returnValue(of({ token: 'abc', refreshToken: 'refresh-xyz', user }));
 
 		component.onSubmit(new Event('submit'));
 		tick();

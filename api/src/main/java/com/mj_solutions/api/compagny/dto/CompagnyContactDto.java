@@ -12,6 +12,5 @@ public class CompagnyContactDto {
 	private String position;
 	private String email;
 	private String phone;
-	private Long pictureId;
-	private String pictureUrl;
+	private CompagnyDto.ImageDto picture;
 }

@@ -5,13 +5,13 @@ import { InputComponent } from '#common/ui/input/input';
 import { LanguageSwitcherComponent } from '#common/ui/language-switcher/language-switcher';
 import { AuthService } from '#services/auth/auth.service';
 import { isValidEmail, isValidPassword } from '#shared/utils/validation.utils';
+import * as UserActions from '#store/user/user.actions';
 import { ToastUtils } from '#utils/toastUtils';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import * as UserActions from '#store/user/user.actions';
 
 @Component({
 	selector: 'app-login',
@@ -65,21 +65,23 @@ export class LoginPage {
 
     this.isLoading = true;
     this.authService.login(this.email, this.password).subscribe({
-      next: (res) => {
-        this.isLoading = false;
-        if (res?.token) {
-          localStorage.setItem('token', res.token);
+			next: (res) => {
+				this.isLoading = false;
+				if (res?.token && res?.refreshToken && res?.user) {
+					localStorage.setItem('token', res.token);
 					localStorage.setItem('refreshToken', res.refreshToken);
 
-					this.store.dispatch(UserActions.loadUserSuccess({user: res.user}));
-					
-          this.toast.success(this.translate.instant('LOGIN.SUCCESS'), this.translate.instant('LOGIN.CONNECTION'));
-  
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.toast.error(this.translate.instant('LOGIN.CHECK_CREDENTIALS'), this.translate.instant('LOGIN.ERROR_CONNECTION'));
-        }
-      },
+					this.store.dispatch(UserActions.loadUserSuccess({ user: res.user }));
+
+					this.toast.success(this.translate.instant('LOGIN.SUCCESS'), this.translate.instant('LOGIN.CONNECTION'));
+					this.router.navigate(['/dashboard']);
+				} else {
+					this.toast.error(
+						this.translate.instant('LOGIN.CHECK_CREDENTIALS'),
+						this.translate.instant('LOGIN.ERROR_CONNECTION')
+					);
+				}
+			},
       error: (err) => {
 				console.error('Login error:', err);
         this.isLoading = false;

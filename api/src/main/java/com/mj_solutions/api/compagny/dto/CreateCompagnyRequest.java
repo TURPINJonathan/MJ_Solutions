@@ -1,5 +1,6 @@
 package com.mj_solutions.api.compagny.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Builder;
@@ -12,6 +13,9 @@ public class CreateCompagnyRequest {
 	private String description;
 	private String color;
 	private String website;
+	private CompagnyType type;
+	private LocalDateTime contractStartAt;
+	private LocalDateTime contractEndAt;
 	private List<ImageRequest> pictures;
 	private List<ContactRequest> contacts;
 

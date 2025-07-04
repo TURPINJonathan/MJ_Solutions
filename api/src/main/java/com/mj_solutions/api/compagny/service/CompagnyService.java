@@ -36,6 +36,9 @@ public class CompagnyService {
 				.description(request.getDescription())
 				.color(request.getColor())
 				.website(request.getWebsite())
+				.type(request.getType())
+				.contractStartAt(request.getContractStartAt())
+				.contractEndAt(request.getContractEndAt())
 				.build();
 
 		// Images
@@ -116,6 +119,16 @@ public class CompagnyService {
 			compagny.setWebsite(request.getWebsite());
 		}
 
+		if (request.getType() != null) {
+			compagny.setType(request.getType());
+		}
+		if (request.getContractStartAt() != null) {
+			compagny.setContractStartAt(request.getContractStartAt());
+		}
+		if (request.getContractEndAt() != null) {
+			compagny.setContractEndAt(request.getContractEndAt());
+		}
+
 		// Gestion des images : si le champ pictures est présent, on remplace tout
 		if (request.getPictures() != null) {
 			compagnyImageRepository.deleteAll(compagny.getPictures());
@@ -180,6 +193,9 @@ public class CompagnyService {
 				.description(compagny.getDescription())
 				.color(compagny.getColor())
 				.website(compagny.getWebsite())
+				.type(compagny.getType())
+				.contractStartAt(compagny.getContractStartAt())
+				.contractEndAt(compagny.getContractEndAt())
 				.createdAt(compagny.getCreatedAt())
 				.updatedAt(compagny.getUpdatedAt())
 				.pictures(toImageDtoList(compagny.getPictures()))
@@ -222,8 +238,16 @@ public class CompagnyService {
 				.position(contact.getPosition())
 				.email(contact.getEmail())
 				.phone(contact.getPhone())
-				.pictureId(contact.getPicture() != null ? contact.getPicture().getId() : null)
-				.pictureUrl(contact.getPicture() != null ? "/files/" + contact.getPicture().getId() + "/raw" : null)
+				.picture(contact.getPicture() != null
+						? CompagnyDto.ImageDto.builder()
+								.id(contact.getPicture().getId())
+								.fileId(contact.getPicture().getId())
+								.fileName(contact.getPicture().getName())
+								.url("/files/" + contact.getPicture().getId() + "/raw")
+								.isLogo(false)
+								.isMaster(false)
+								.build()
+						: null)
 				.build();
 	}
 }

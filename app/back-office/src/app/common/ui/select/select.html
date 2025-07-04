@@ -1,0 +1,8 @@
+<div class="select-wrapper">
+	<label *ngIf="label" [for]="name" class="select-label">{{ capitalizedLabel }}</label>
+	<select [attr.name]="name" [id]="name" [required]="required" [disabled]="disabled"
+		[ngClass]="{'select-error': error, 'select-valid': valid}" [value]="value" (change)="onSelect($event)">
+		<option value="" disabled selected hidden>{{ placeholder }}</option>
+		<option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
+	</select>
+</div>
