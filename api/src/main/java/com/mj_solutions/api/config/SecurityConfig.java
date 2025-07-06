@@ -39,7 +39,7 @@ public class SecurityConfig {
 								"http://localhost:4200",
 								"https://preprod.mj-solutions.fr",
 								"https://mj-solutions.fr")
-						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
 						.allowedHeaders("*")
 						.allowCredentials(true);
 			}

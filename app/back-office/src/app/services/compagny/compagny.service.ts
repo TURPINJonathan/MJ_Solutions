@@ -17,6 +17,10 @@ export class CompagnyService {
 	}
 
 	createCompagny(data: any) {
-  return this.http.post(`${environment.apiUrl}/compagny/create`, data);
-}
+		return this.http.post(`${environment.apiUrl}/compagny/create`, data);
+	}
+	
+	updateCompagny(id: number, data: any) {
+			return this.http.patch(`${environment.apiUrl}/compagny/update/${id}`, data);
+	}
 }
