@@ -224,8 +224,12 @@ export class CompagnyPage {
 				description: this.compagnyDescription,
 				color: this.compagnyColor,
 				website: this.compagnyWebsite,
-				contractStartAt: this.compagnyContractStartAt ? formatDate(this.compagnyContractStartAt) : null,
-				contractEndAt: this.compagnyContractEndAt ? formatDate(this.compagnyContractEndAt) : null,
+				contractStartAt: this.compagnyContractStartAt
+						? new Date(this.compagnyContractStartAt).toISOString()
+						: null,
+				contractEndAt: this.compagnyContractEndAt
+						? new Date(this.compagnyContractEndAt).toISOString()
+						: null,
 				type: this.compagnyType,
 				pictures: logoFileId
 					? [{ fileId: logoFileId, isLogo: true, isMaster: true }]
