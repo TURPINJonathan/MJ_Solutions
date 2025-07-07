@@ -145,4 +145,74 @@ describe('Back-Office Compagny', () => {
     cy.wait('@createCompagnyFail');
     cy.get('.toast-error,.toast--error').should('exist');
   });
+
+  it('should update a compagny', () => {
+    cy.intercept('GET', '**/compagny/all', {
+      statusCode: 200,
+      body: [
+        {
+          id: 10,
+          name: 'Compagnie À Modifier',
+          website: 'https://old.fr',
+          color: '#111111',
+          logo: '',
+          contractEndAt: '2025-12-31',
+          contractStartAt: '2025-01-01',
+          type: 'CDI',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          pictures: [],
+          contacts: []
+        }
+      ]
+    }).as('getCompagniesUpdate');
+
+    cy.reload();
+    cy.wait('@getCompagniesUpdate');
+    cy.contains('Compagnie À Modifier').parents('tr').within(() => {
+      cy.get('.btn-update').click({ force: true });
+    });
+		cy.get('input[name="compagny-name"]').clear({ force: true }).type('Compagnie Modifiée', { force: true });
+		cy.get('input[name="compagny-website"]').clear({ force: true }).type('https://modifie.fr', { force: true });
+		cy.get('input[name="compagny-color"]').invoke('val', '#abcdef').trigger('input');
+		cy.get('[ng-reflect-placeholder="description"] .ql-editor').clear({ force: true }).type('Description modifiée', { force: true });
+    cy.intercept('PATCH', '**/compagny/update/10').as('updateCompagny');
+    cy.get('button[type="submit"]').should('not.be.disabled').click({ force: true });
+    cy.wait('@updateCompagny').its('request.body').should((body) => {
+      expect(body.name).to.eq('Compagnie Modifiée');
+    });
+    cy.get('.toast-success,.toast--success').should('exist');
+  });
+
+	it('should delete a compagny', () => {
+		cy.intercept('GET', '**/compagny/all', {
+			statusCode: 200,
+			body: [
+				{
+					id: 20,
+					name: 'Compagnie À Supprimer',
+					website: 'https://delete.fr',
+					color: '#222222',
+					logo: '',
+					contractEndAt: '2025-12-31',
+					contractStartAt: '2025-01-01',
+					type: 'CDI',
+					createdAt: new Date().toISOString(),
+					updatedAt: new Date().toISOString(),
+					pictures: [],
+					contacts: []
+				}
+			]
+		}).as('getCompagniesDelete');
+
+		cy.intercept('DELETE', '**/compagny/delete/20').as('deleteCompagny');
+
+		cy.reload();
+		cy.wait('@getCompagniesDelete');
+		cy.contains('Compagnie À Supprimer').parents('tr').within(() => {
+			cy.get('.btn-delete').click({ force: true });
+		});
+		cy.wait('@deleteCompagny');
+		cy.get('.toast-success,.toast--success').should('exist');
+	});
 });

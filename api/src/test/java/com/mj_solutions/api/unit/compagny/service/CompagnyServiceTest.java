@@ -121,6 +121,34 @@ class CompagnyServiceTest {
 	}
 
 	@Test
+	void getAllActiveCompagnies_shouldReturnOnlyActive() {
+		LocalDateTime now = LocalDateTime.now();
+		Compagny active = Compagny.builder().id(1L).name("A").deletedAt(null).build();
+		Compagny deleted = Compagny.builder().id(2L).name("B").deletedAt(now).build();
+		when(compagnyRepository.findAllByDeletedAtIsNull()).thenReturn(List.of(active, deleted));
+		when(compagnyRepository.findAllByDeletedAtIsNull()).thenReturn(List.of(active));
+
+		List<CompagnyDto> list = compagnyService.getAllActiveCompagnies();
+
+		assertThat(list).hasSize(1);
+		assertThat(list.get(0).getId()).isEqualTo(1L);
+	}
+
+	@Test
+	void toDto_shouldMapDeletedAt() {
+		LocalDateTime now = LocalDateTime.now();
+		Compagny compagny = Compagny.builder()
+				.id(1L)
+				.name("Test")
+				.deletedAt(now)
+				.build();
+
+		CompagnyDto dto = compagnyService.toDto(compagny);
+
+		assertThat(dto.getDeletedAt()).isEqualTo(now);
+	}
+
+	@Test
 	void updateCompagny_shouldUpdateFields() {
 		LocalDateTime now = LocalDateTime.now();
 		Compagny compagny = Compagny.builder()

@@ -55,7 +55,7 @@ class CompagnyControllerTest {
 
 	@Test
 	void getAllCompagnies_shouldReturn200() throws Exception {
-		when(compagnyService.getAllCompagnies()).thenReturn(List.of(
+		when(compagnyService.getAllActiveCompagnies()).thenReturn(List.of(
 				CompagnyDto.builder().id(1L).name("A").type(CompagnyType.CDI).build()));
 
 		mockMvc.perform(get("/compagny/all"))
@@ -64,7 +64,7 @@ class CompagnyControllerTest {
 
 	@Test
 	void getAllCompagnies_shouldReturnErrorIfEmpty() throws Exception {
-		when(compagnyService.getAllCompagnies()).thenReturn(List.of());
+		when(compagnyService.getAllActiveCompagnies()).thenReturn(List.of());
 
 		mockMvc.perform(get("/compagny/all"))
 				.andExpect(status().isUnprocessableEntity());
@@ -120,5 +120,31 @@ class CompagnyControllerTest {
 
 		mockMvc.perform(delete("/compagny/delete/1"))
 				.andExpect(status().isNoContent());
+	}
+
+	@Test
+	void getCompagny_shouldReturnDeletedAt() throws Exception {
+		LocalDateTime now = LocalDateTime.now();
+		CompagnyDto dto = CompagnyDto.builder().id(1L).name("A").deletedAt(now).build();
+		when(compagnyService.getCompagny(1L)).thenReturn(dto);
+
+		mockMvc.perform(get("/compagny/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.deletedAt").isArray());
+		;
+	}
+
+	@Test
+	void getAllCompagnies_shouldNotReturnDeleted() throws Exception {
+		LocalDateTime now = LocalDateTime.now();
+		CompagnyDto active = CompagnyDto.builder().id(1L).name("A").deletedAt(null).build();
+		CompagnyDto deleted = CompagnyDto.builder().id(2L).name("B").deletedAt(now).build();
+		when(compagnyService.getAllActiveCompagnies()).thenReturn(List.of(active));
+		when(compagnyService.getAllCompagnies()).thenReturn(List.of(active, deleted));
+
+		mockMvc.perform(get("/compagny/all"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$[0].id").value(1L))
+				.andExpect(jsonPath("$[0].deletedAt").doesNotExist());
 	}
 }
