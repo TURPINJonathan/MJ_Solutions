@@ -103,7 +103,7 @@ export class CompagnyPage {
   get modalHeaderTitle(): string {
     switch (this.modalMode) {
       case 'create': return this.translate.instant('COMPAGNY.MODAL.CREATE');
-      case 'update': return this.translate.instant('COMPAGNY.MODAL.UPDATE');
+      case 'update': return this.translate.instant('COMPAGNY.MODAL.EDIT');
       case 'show':   return this.translate.instant('COMPAGNY.MODAL.VIEW');
       default:       return '';
     }
@@ -189,6 +189,23 @@ export class CompagnyPage {
     this.selectedCompagny = compagny;
     this.showDialog = true;
   }
+
+	onDeleteCompagny(compagny: Compagny) {
+		this.isLoading = true;
+		
+		this.compagnyService.deleteCompagny(Number(compagny.id)).subscribe({
+			next: () => {
+				this.toast.success(this.translate.instant('TOAST.COMPAGNY.SUCCESS_DELETED'), this.translate.instant('TOAST.TITLE.SUCCESS'));
+				this.loadCompagnies();
+			},
+			error: (error) => {
+				this.toast.error(this.translate.instant('TOAST.COMPAGNY.ERROR_DELETED'), this.translate.instant('TOAST.TITLE.ERROR'));
+				console.error('Error deleting compagny:', error);
+			}
+		}).add(() => {
+			this.isLoading = false;
+		});
+	}
 
   onLogoSelected(file: File) {
     this.compagnyLogo = file;

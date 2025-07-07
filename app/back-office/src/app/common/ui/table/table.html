@@ -22,10 +22,10 @@
 				</td>
 				<td *ngIf="showActions">
 					<div class="actions">
-						<button type="button" (click)="onUpdateClick(row, $event)" aria-label="Modifier">
+						<button type="button" class="btn-update" (click)="onUpdateClick(row, $event)" aria-label="Modifier">
 							✏️
 						</button>
-						<button type="button" (click)="onDeleteClick(row, $event)" aria-label="Supprimer">
+						<button type="button" class="btn-delete" (click)="onDeleteClick(row, $event)" aria-label="Supprimer">
 							🗑️
 						</button>
 					</div>

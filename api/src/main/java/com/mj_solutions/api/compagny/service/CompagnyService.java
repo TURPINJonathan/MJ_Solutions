@@ -99,6 +99,13 @@ public class CompagnyService {
 				.collect(Collectors.toList());
 	}
 
+	@Transactional(readOnly = true)
+	public List<CompagnyDto> getAllActiveCompagnies() {
+		return compagnyRepository.findAllByDeletedAtIsNull().stream()
+				.map(this::toDto)
+				.collect(Collectors.toList());
+	}
+
 	// UPDATE
 	@Transactional
 	public CompagnyDto updateCompagny(Long id, UpdateCompagnyRequest request) {
@@ -202,6 +209,7 @@ public class CompagnyService {
 				.contractEndAt(compagny.getContractEndAt())
 				.createdAt(compagny.getCreatedAt())
 				.updatedAt(compagny.getUpdatedAt())
+				.deletedAt(compagny.getDeletedAt())
 				.pictures(toImageDtoList(compagny.getPictures()))
 				.contacts(toContactDtoList(compagny.getContacts()))
 				.build();

@@ -52,7 +52,7 @@ public class Compagnycontroller {
 
 	@GetMapping("/all")
 	public ResponseEntity<List<CompagnyDto>> getAllCompagnies() {
-		List<CompagnyDto> compagnies = compagnyService.getAllCompagnies();
+		List<CompagnyDto> compagnies = compagnyService.getAllActiveCompagnies();
 		if (compagnies == null || compagnies.isEmpty()) {
 			throw new IllegalArgumentException("No compagnies found.");
 		}

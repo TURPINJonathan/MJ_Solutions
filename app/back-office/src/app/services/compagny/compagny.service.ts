@@ -23,4 +23,8 @@ export class CompagnyService {
 	updateCompagny(id: number, data: any) {
 			return this.http.patch(`${environment.apiUrl}/compagny/update/${id}`, data);
 	}
+
+	deleteCompagny(id: number) {
+		return this.http.delete(`${environment.apiUrl}/compagny/delete/${id}`);
+	}
 }
