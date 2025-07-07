@@ -20,13 +20,15 @@
 						<span *ngSwitchDefault>{{ formatCell(row[col.key]) }}</span>
 					</ng-container>
 				</td>
-				<td *ngIf="showActions" class="actions">
-					<button type="button" (click)="onUpdateClick(row, $event)" aria-label="Modifier">
-						✏️
-					</button>
-					<button type="button" (click)="onDeleteClick(row, $event)" aria-label="Supprimer">
-						🗑️
-					</button>
+				<td *ngIf="showActions">
+					<div class="actions">
+						<button type="button" class="btn-update" (click)="onUpdateClick(row, $event)" aria-label="Modifier">
+							✏️
+						</button>
+						<button type="button" class="btn-delete" (click)="onDeleteClick(row, $event)" aria-label="Supprimer">
+							🗑️
+						</button>
+					</div>
 				</td>
 			</tr>
 		</tbody>

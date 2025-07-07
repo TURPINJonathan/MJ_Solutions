@@ -7,7 +7,7 @@
 
 		<app-dialog [open]="showDialog" (closed)="closeCreateCompagnyModal()" [header]="modalHeaderTitle">
 			<ng-container *ngIf="modalMode === 'create' || modalMode === 'update'; else showCompagny">
-				<app-form [loading]="isLoading" (formSubmit)="onCreateCompagny($event)">
+				<app-form [loading]="isLoading" (formSubmit)="onSubmitCompagny($event)">
 					<div class="form-content">
 						<div class="company-main-fields">
 							<div class="company-main-fields-name">
@@ -174,4 +174,5 @@
 		</app-dialog>
 	</span>
 </div>
-<app-table [columns]="columns" [data]="compagnies" [showActions]="true" (rowClick)="onShowCompagny($event)"></app-table>
+<app-table [columns]="columns" [data]="compagnies" [showActions]="true" (rowClick)="onShowCompagny($event)"
+	(updateClick)="onUpdateClick($event)" (deleteClick)="onDeleteCompagny($event)"></app-table>

@@ -17,10 +17,10 @@ import { TranslateModule } from '@ngx-translate/core';
 export class FileUploadComponent {
   @Input() accept: string = '*/*';
   @Input() label: string = 'Choisir un fichier';
+	@Input() previewUrl?: string | ArrayBuffer | null;
   @Output() fileSelected = new EventEmitter<File>();
 
   file?: File;
-  previewUrl?: string | ArrayBuffer | null;
   isDragOver = false;
 
   onFileChange(event: Event) {

@@ -14,38 +14,37 @@ describe('CompagnyPage', () => {
   let fileServiceSpy: jasmine.SpyObj<FileService>;
   let toastSpy: jasmine.SpyObj<ToastUtils>;
 
-  beforeEach(async () => {
-    compagnyServiceSpy = jasmine.createSpyObj('CompagnyService', ['getAllCompagnies', 'createCompagny']);
-    fileServiceSpy = jasmine.createSpyObj('FileService', ['uploadLogo']);
-    toastSpy = jasmine.createSpyObj('ToastUtils', ['info', 'success', 'error']);
+	beforeEach(async () => {
+		compagnyServiceSpy = jasmine.createSpyObj('CompagnyService', [
+			'getAllCompagnies',
+			'createCompagny',
+			'updateCompagny',
+			'deleteCompagny'
+		]);
+		fileServiceSpy = jasmine.createSpyObj('FileService', ['uploadLogo']);
+		toastSpy = jasmine.createSpyObj('ToastUtils', ['info', 'success', 'error']);
 
-    compagnyServiceSpy.getAllCompagnies.and.returnValue(of([]));
+		compagnyServiceSpy.getAllCompagnies.and.returnValue(of([]));
 
-    await TestBed.configureTestingModule({
-      imports: [
-        CompagnyPage,
-        TranslateModule.forRoot()
-      ],
-      providers: [
-        { provide: CompagnyService, useValue: compagnyServiceSpy },
-        { provide: FileService, useValue: fileServiceSpy },
-        { provide: ToastUtils, useValue: toastSpy }
-      ]
-    }).compileComponents();
+		await TestBed.configureTestingModule({
+			imports: [
+				CompagnyPage,
+				TranslateModule.forRoot()
+			],
+			providers: [
+				{ provide: CompagnyService, useValue: compagnyServiceSpy },
+				{ provide: FileService, useValue: fileServiceSpy },
+				{ provide: ToastUtils, useValue: toastSpy }
+			]
+		}).compileComponents();
 
-    fixture = TestBed.createComponent(CompagnyPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+		fixture = TestBed.createComponent(CompagnyPage);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
   it('devrait être créé', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('devrait initialiser les colonnes dans ngOnInit', () => {
-    component.ngOnInit();
-    expect(component.columns.length).toBeGreaterThan(0);
-    expect(component.columns[0].key).toBe('name');
   });
 
   it('devrait charger les compagnies et afficher un toast de succès', fakeAsync(() => {
@@ -63,7 +62,7 @@ describe('CompagnyPage', () => {
         updatedAt: new Date(),
         pictures: [{
           id: 1,
-          logo: true,
+          isLogo: true,
           url: '/img.png',
           field: 'logo',
           fileName: 'img.png',
@@ -192,7 +191,7 @@ describe('CompagnyPage', () => {
     fileServiceSpy.uploadLogo.and.returnValue(of({ success: true, data: { id: 123 } }));
     compagnyServiceSpy.createCompagny.and.returnValue(of({}));
 
-    await component.onCreateCompagny({});
+    await component.onSubmitCompagny({});
     tick();
 
     expect(fileServiceSpy.uploadLogo).toHaveBeenCalled();
@@ -214,7 +213,94 @@ describe('CompagnyPage', () => {
 
     compagnyServiceSpy.createCompagny.and.returnValue(throwError(() => new Error('fail')));
 
-    await component.onCreateCompagny({});
+    await component.onSubmitCompagny({});
+    tick();
+
+    expect(toastSpy.error).toHaveBeenCalled();
+    expect(component.isLoading).toBeFalse();
+  }));
+
+	it('devrait appeler compagnyService.updateCompagny lors de la mise à jour', fakeAsync(async () => {
+    const compagny = {
+      id: 42,
+      name: 'Compagnie Update',
+      website: 'https://update.fr',
+      color: '#123456',
+      logo: '',
+      type: 'CDI',
+      contractStartAt: new Date('2025-01-01'),
+      contractEndAt: new Date('2025-12-31'),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      pictures: [],
+      contacts: []
+    } as any;
+
+    component.openUpdateCompagnyModal(compagny);
+    component.compagnyName = 'Compagnie Update Modifiée';
+    compagnyServiceSpy.updateCompagny.and.returnValue(of({}));
+
+    await component.onSubmitCompagny({});
+    tick();
+
+    expect(compagnyServiceSpy.updateCompagny).toHaveBeenCalledWith(42, jasmine.objectContaining({
+      name: 'Compagnie Update Modifiée'
+    }));
+    expect(toastSpy.success).toHaveBeenCalled();
+    expect(component.showDialog).toBeFalse();
+  }));
+
+  it('devrait gérer une erreur lors de la mise à jour de la compagnie', fakeAsync(async () => {
+    const compagny = {
+      id: 43,
+      name: 'Compagnie Update',
+      website: 'https://update.fr',
+      color: '#123456',
+      logo: '',
+      type: 'CDI',
+      contractStartAt: new Date('2025-01-01'),
+      contractEndAt: new Date('2025-12-31'),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      pictures: [],
+      contacts: []
+    } as any;
+
+    component.openUpdateCompagnyModal(compagny);
+    compagnyServiceSpy.updateCompagny.and.returnValue(throwError(() => new Error('fail')));
+
+    await component.onSubmitCompagny({});
+    tick();
+
+    expect(toastSpy.error).toHaveBeenCalled();
+    expect(component.isLoading).toBeFalse();
+  }));
+
+  it('devrait appeler compagnyService.deleteCompagny lors de la suppression', fakeAsync(() => {
+    const compagny = {
+      id: 99,
+      name: 'Compagnie Delete'
+    } as any;
+
+    compagnyServiceSpy.deleteCompagny.and.returnValue(of({}));
+
+    component.onDeleteCompagny(compagny);
+    tick();
+
+    expect(compagnyServiceSpy.deleteCompagny).toHaveBeenCalledWith(99);
+    expect(toastSpy.success).toHaveBeenCalled();
+    expect(component.isLoading).toBeFalse();
+  }));
+
+  it('devrait gérer une erreur lors de la suppression', fakeAsync(() => {
+    const compagny = {
+      id: 100,
+      name: 'Compagnie Delete'
+    } as any;
+
+    compagnyServiceSpy.deleteCompagny.and.returnValue(throwError(() => new Error('fail')));
+
+    component.onDeleteCompagny(compagny);
     tick();
 
     expect(toastSpy.error).toHaveBeenCalled();

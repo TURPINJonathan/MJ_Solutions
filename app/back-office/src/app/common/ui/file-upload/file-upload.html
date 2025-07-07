@@ -5,7 +5,7 @@
 	<span *ngIf="previewUrl" class="file-preview">
 		<img [src]="previewUrl" alt="Prévisualisation" />
 	</span>
-	<div *ngIf="!file" class="file-upload-hint">
+	<div *ngIf="!file && !previewUrl" class="file-upload-hint">
 		{{ 'COMMON.FILE_D&D' | translate }}
 		<app-button color="gray" size="sm" (click)="triggerInput(fileInput)">
 			{{ label }}
