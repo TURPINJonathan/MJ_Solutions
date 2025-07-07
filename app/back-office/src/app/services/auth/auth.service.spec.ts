@@ -9,6 +9,7 @@ describe('AuthService', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
+		localStorage.clear();
     TestBed.configureTestingModule({
       providers: [
 				AuthService,
