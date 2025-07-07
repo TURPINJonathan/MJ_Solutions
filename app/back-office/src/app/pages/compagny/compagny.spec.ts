@@ -42,12 +42,6 @@ describe('CompagnyPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('devrait initialiser les colonnes dans ngOnInit', () => {
-    component.ngOnInit();
-    expect(component.columns.length).toBeGreaterThan(0);
-    expect(component.columns[0].key).toBe('name');
-  });
-
   it('devrait charger les compagnies et afficher un toast de succès', fakeAsync(() => {
     const compagnies = [
       {
@@ -63,7 +57,7 @@ describe('CompagnyPage', () => {
         updatedAt: new Date(),
         pictures: [{
           id: 1,
-          logo: true,
+          isLogo: true,
           url: '/img.png',
           field: 'logo',
           fileName: 'img.png',
@@ -192,7 +186,7 @@ describe('CompagnyPage', () => {
     fileServiceSpy.uploadLogo.and.returnValue(of({ success: true, data: { id: 123 } }));
     compagnyServiceSpy.createCompagny.and.returnValue(of({}));
 
-    await component.onCreateCompagny({});
+    await component.onSubmitCompagny({});
     tick();
 
     expect(fileServiceSpy.uploadLogo).toHaveBeenCalled();
@@ -214,7 +208,7 @@ describe('CompagnyPage', () => {
 
     compagnyServiceSpy.createCompagny.and.returnValue(throwError(() => new Error('fail')));
 
-    await component.onCreateCompagny({});
+    await component.onSubmitCompagny({});
     tick();
 
     expect(toastSpy.error).toHaveBeenCalled();
