@@ -1,0 +1,11 @@
+<div class="page-crud-container">
+	<h1>{{ 'TECHNOLOGY.TITLE.PLURAL' | translate | uppercase }}</h1>
+	<span class="container-content">
+		<app-button color="success" (click)="openCreateTechnologyModal()" [rounded]="true" [width]="35" [height]="35">
+			<span class="material-icons white-icon">add</span>
+		</app-button>
+	</span>
+</div>
+
+<app-table [columns]="columns" [data]="technologies" [showActions]="true" (rowClick)="onRowClick($event)"
+	(updateClick)="openUpdateTechnologyModal($event)" (deleteClick)="deleteTechnology($event)"></app-table>

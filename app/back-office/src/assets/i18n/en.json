@@ -63,6 +63,22 @@
     "CONTRACT_END_AT": "Contract end date",
     "TYPE": "Type of relationship"
   },
+  "TECHNOLOGY": {
+    "TITLE": {
+      "SINGLE": "Technology",
+      "PLURAL": "Technologies"
+    },
+    "MODAL": {
+      "CREATE": "Create a new technology",
+      "EDIT": "Edit technology",
+      "DELETE": "Delete technology",
+      "VIEW": "View technology"
+    },
+    "NAME": "Technology name",
+    "DESCRIPTION": "Technology description",
+    "TYPE": "Type",
+    "PROFICIENCY": "Proficiency"
+  },
   "CV": {
     "TITLE": {
       "SINGLE": "CV"
@@ -97,6 +113,7 @@
     "ID": "id",
     "INACTIVE": "inactive",
     "INFO": "info",
+    "IS_FAVORITE": "Favorite",
     "LASTNAME": "lastname",
     "LOADING": "loading",
     "LOGO": "logo",

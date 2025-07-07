@@ -32,6 +32,7 @@ export class Header {
       label: 'CV.TITLE.SINGLE',
       subMenu: [
         { label: 'COMPAGNY.TITLE.PLURAL', route: '/compagny' },
+				{ label: 'TECHNOLOGY.TITLE.PLURAL', route: '/technology' },
       ]
     },
     {
