@@ -1,9 +1,10 @@
 // app.routes.ts
 import { AuthGuard } from '#guards/auth-guard';
+import { CompagnyPage } from '#pages/compagny/compagny';
 import { DashboardPage } from '#pages/dashboard/dashboard';
 import { LoginPage } from '#pages/login/login';
+import { TechnologyPage } from '#pages/technology/technology';
 import { Routes } from '@angular/router';
-import { CompagnyPage } from '#pages/compagny/compagny';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -14,6 +15,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardPage },
 			{ path: 'compagny', component: CompagnyPage},
+			{ path: 'technology', component: TechnologyPage },
       { path: '', redirectTo: 'login', pathMatch: 'full' }
     ]
   },

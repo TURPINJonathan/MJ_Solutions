@@ -36,5 +36,21 @@ body {
 		.uppercase {
 			text-transform: uppercase;
 		}
+
+		.page-crud-container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+
+			h1 { 
+				margin: 0 auto;
+			}
+
+			.container-content {
+				position: absolute;
+				right: 0;
+			}
+		}
 	}
 }
