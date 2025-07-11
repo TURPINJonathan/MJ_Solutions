@@ -1,0 +1,33 @@
+.proficiency-bar {
+  position: relative;
+  height: 18px;
+  background: var(--color-bg);
+  border-radius: 9px;
+  overflow: hidden;
+  width: 80px;
+  margin: 0 auto;
+	border: 1px solid var(--color-j);
+
+	.proficiency-fill {
+		height: 100%;
+		background: var(--color-j);
+		transition: width 0.3s;
+	}
+
+	.proficiency-label {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		text-align: center;
+		font-size: 12px;
+		line-height: 18px;
+		color: #222;
+		pointer-events: none;
+	}
+
+	.editable {
+		cursor: ew-resize;
+	}
+}
