@@ -37,6 +37,21 @@
       "SUCCESS_DELETED": "Company deleted successfully!",
       "SUCCESS_LIST": "Company list retrieved successfully!",
       "SUCCESS_COMPAGNY": "Company retrieved successfully!"
+    },
+    "TECHNOLOGY": {
+      "EMPTY_LIST": "No technology found",
+      "ERROR_CREATED": "Error creating technology",
+      "ERROR_UPDATE": "Error updating technology",
+      "ERROR_DELETE": "Error deleting technology",
+      "ERROR_TECHNOLOGY": "Error retrieving technology",
+      "ERROR_LIST": "Error retrieving technology list",
+      "ERROR_TECHNOLOGY_NOT_FOUND": "Technology not found",
+      "ERROR_TECHNOLOGY_EXISTS": "A technology with this name already exists",
+      "SUCCESS_CREATED": "Technology created successfully!",
+      "SUCCESS_UPDATED": "Technology updated successfully!",
+      "SUCCESS_DELETED": "Technology deleted successfully!",
+      "SUCCESS_LIST": "Technology list retrieved successfully!",
+      "SUCCESS_TECHNOLOGY": "Technology retrieved successfully!"
     }
   },
   "DASHBOARD": {

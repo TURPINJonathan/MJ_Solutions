@@ -47,16 +47,16 @@ describe('FileUploadComponent', () => {
     expect(fileName.nativeElement.textContent).toContain('foo.txt');
   });
 
-  it('should show preview for image files', (done) => {
-    const file = new File([new Blob()], 'image.png', { type: 'image/png' });
-    spyOn(component.fileSelected, 'emit');
-    component.setFile(file);
+	it('should show preview for image files', (done) => {
+		const file = new File(['dummy image data'], 'image.png', { type: 'image/png' });
+		spyOn(component.fileSelected, 'emit');
+		component.setFile(file);
 
-    setTimeout(() => {
-      expect(component.previewUrl).toContain('data:image/png');
-      done();
-    }, 50);
-  });
+		setTimeout(() => {
+			expect(component.previewUrl).toContain('data:image/png');
+			done();
+		}, 50);
+	});
 
   it('should set isDragOver to true on dragover and false on dragleave', () => {
     const dragOverEvent = new DragEvent('dragover');

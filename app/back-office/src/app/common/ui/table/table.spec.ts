@@ -109,4 +109,20 @@ describe('TableComponent', () => {
     expect(link).toBeTruthy();
     expect(link.href).toBe('https://test.fr/');
   });
+
+	it('should display app-icon for isFavorite column', () => {
+		component.columns = [{ key: 'isFavorite', label: 'Favori' }];
+		component.data = [{ id: 1, isFavorite: true }];
+		fixture.detectChanges();
+		const icon = fixture.nativeElement.querySelector('app-icon');
+		expect(icon).toBeTruthy();
+	});
+	
+	it('should display app-level-bar for proficiency column', () => {
+		component.columns = [{ key: 'proficiency', label: 'Niveau' }];
+		component.data = [{ id: 1, proficiency: 75, color: '#00ff00' }];
+		fixture.detectChanges();
+		const bar = fixture.nativeElement.querySelector('app-level-bar');
+		expect(bar).toBeTruthy();
+	});
 });

@@ -30,7 +30,6 @@ export class Footer {
 		const refreshToken = localStorage.getItem('refreshToken');
 		this.authService.logout(refreshToken).subscribe({
 			next: () => {
-				console.log('Logout successful');
 				localStorage.removeItem('token');
 				localStorage.removeItem('refreshToken');
 				this.toast.success(this.translate.instant('LOGOUT.SUCCESS'), this.translate.instant('LOGOUT.TITLE'));
