@@ -14,9 +14,24 @@
 							<app-item-preview *ngIf="row.pictures?.length" [picture]="row.pictures[0]" [color]="row.color || ''"
 								[size]="30">
 							</app-item-preview>
+
+							<app-item-preview *ngIf="row.logo" [picture]="row.logo" [color]="row.color || ''" [size]="30">
+							</app-item-preview>
 						</div>
 						<a *ngSwitchCase="'website'" [href]="row[col.key]" target="_blank" rel="noopener noreferrer">{{ row[col.key]
 							}}</a>
+
+						<ng-container *ngSwitchCase="'types'">
+							{{ formatTypes(row[col.key]) }}
+						</ng-container>
+
+						<ng-container *ngSwitchCase="'proficiency'">
+							<app-level-bar [value]="row[col.key]" [color]="row.color ?? null"></app-level-bar>
+						</ng-container>
+
+						<ng-container *ngSwitchCase="'isFavorite'">
+							<app-icon *ngIf="row[col.key]" name="star" color="gold"></app-icon>
+						</ng-container>
 						<span *ngSwitchDefault>{{ formatCell(row[col.key]) }}</span>
 					</ng-container>
 				</td>

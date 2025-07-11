@@ -1,22 +1,27 @@
+import { IconComponent } from '#common/ui/icon/icon';
+import { ItemPreviewComponent } from '#common/ui/item-preview/item-preview';
+import { LevelBarComponent } from '#common/ui/level-bar/level-bar';
 import { formatDate } from '#SUtils/date.utils';
 import { capitalizeFirstLetter } from '#SUtils/string.utils';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ItemPreviewComponent } from '../item-preview/item-preview';
 
 @Component({
   selector: 'app-table',
   standalone: true,
   imports: [
     CommonModule,
-		ItemPreviewComponent
+		ItemPreviewComponent,
+		IconComponent,
+		LevelBarComponent
   ],
   templateUrl: './table.html',
   styleUrl: './table.scss'
 })
 export class TableComponent {
   private _columns: { key: string, label: string }[] = [];
+
 	@Input()
 	set columns(cols: { key: string, label: string }[]) {
 		this._columns = cols?.map(col => ({
@@ -54,6 +59,12 @@ export class TableComponent {
       return formatDate(value, 'long', this.translate.currentLang || this.translate.defaultLang);
     }
     return value;
+	}
+
+	formatTypes(types: string[]): string {
+		if (!types || types.length === 0) return '';
+		
+		return types.map(type => type.toUpperCase()).join(', ');
 	}
 
   onRowClick(row: any) {
