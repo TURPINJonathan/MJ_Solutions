@@ -3,6 +3,6 @@ export interface Picture {
 	field: number;
 	fileName: string;
 	url: string;
-	logo: boolean;
-	master: boolean;
+	logo?: boolean;
+	master?: boolean;
 }

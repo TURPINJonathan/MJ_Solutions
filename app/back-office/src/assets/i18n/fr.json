@@ -37,6 +37,21 @@
       "SUCCESS_DELETED": "Entreprise supprimée avec succès !",
       "SUCCESS_LIST": "Liste des entreprises récupérée avec succès !",
       "SUCCESS_COMPAGNY": "Entreprise récupérée avec succès !"
+    },
+    "TECHNOLOGY": {
+      "EMPTY_LIST": "Aucune technologie trouvée",
+      "ERROR_CREATED": "Erreur lors de la création de la technologie",
+      "ERROR_UPDATE": "Erreur lors de la mise à jour de la technologie",
+      "ERROR_DELETE": "Erreur lors de la suppression de la technologie",
+      "ERROR_TECHNOLOGY": "Erreur lors de la récupération de la technologie",
+      "ERROR_LIST": "Erreur lors de la récupération de la liste des technologies",
+      "ERROR_TECHNOLOGY_NOT_FOUND": "Technologie non trouvée",
+      "ERROR_TECHNOLOGY_EXISTS": "Une technologie avec ce nom existe déjà",
+      "SUCCESS_CREATED": "Technologie créée avec succès !",
+      "SUCCESS_UPDATED": "Technologie mise à jour avec succès !",
+      "SUCCESS_DELETED": "Technologie supprimée avec succès !",
+      "SUCCESS_LIST": "Liste des technologies récupérée avec succès !",
+      "SUCCESS_TECHNOLOGY": "Technologie récupérée avec succès !"
     }
   },
   "DASHBOARD": {

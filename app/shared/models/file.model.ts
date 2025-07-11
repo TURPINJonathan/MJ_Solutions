@@ -1,11 +1,13 @@
 export interface File {
-	id: number;
-	createdAt: Date;
-	filename: string;
-	data: string;
-	name: string;
-	alt: string;
-	originalSize: number;
-	contentType: string;
-	originalFilename: string;
+  id: number;
+  name: string;
+  filename: string;
+  originalFilename: string;
+  alt?: string;
+  contentType: string;
+  originalSize: number;
+  createdAt: string; 
+  updatedAt?: string;
+  deletedAt?: string;
+  data?: string;
 }

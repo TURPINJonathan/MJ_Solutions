@@ -39,17 +39,23 @@ export class ItemPreviewComponent implements OnChanges, OnDestroy {
       URL.revokeObjectURL(this.objectUrl);
       this.objectUrl = null;
     }
+		
     if (!this.picture) {
       this.imageUrl = null;
     } else if (this.picture instanceof File) {
       this.objectUrl = URL.createObjectURL(this.picture);
       this.imageUrl = this.objectUrl;
-    } else if ('url' in this.picture) {
+		} else if (typeof this.picture === 'object' && this.picture !== null && 'url' in this.picture) {
 			this.imageUrl = this.picture.url.startsWith('http')
 				? this.picture.url
 				: environment.apiUrl + this.picture.url;
-    } else {
-      this.imageUrl = null;
-    }
+		} else if (typeof this.picture === 'string') {
+			const pictureStr: string = this.picture;
+			this.imageUrl = pictureStr.startsWith('http')
+				? pictureStr
+				: environment.apiUrl + pictureStr;
+		} else {
+			this.imageUrl = null;
+		}
   }
 }
