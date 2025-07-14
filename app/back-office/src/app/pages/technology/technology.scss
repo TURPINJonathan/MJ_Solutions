@@ -1,0 +1,62 @@
+.form-content {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	.content-subtitle {
+		font-weight: bold;
+		border-bottom: 1px solid;
+		text-align: center;
+	}
+
+	.technology-main-fields {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		gap: 10px;
+		
+		.technology-main-fields-container {
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			gap: 10px;
+			
+			> :first-child {
+				flex: 1 1 200px;
+			}
+
+			> :last-child {
+				flex: 0 1 200px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+
+	}
+
+	.technology-types-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		
+		.type-container {
+			flex: 1 1 250px; /* Ajuste la largeur des toggles */
+			min-width: 250px; /* Largeur minimale pour éviter les trop petits boutons */
+		}
+	}
+
+	.technology-media-fields {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+
+		.technology-media-color {
+			flex: 0 0 150px;
+		}
+
+		.technology-media-logo {
+			flex: 1;
+		}
+	}
+}

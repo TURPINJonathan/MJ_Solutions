@@ -1,11 +1,111 @@
 <div class="page-crud-container">
 	<h1>{{ 'TECHNOLOGY.TITLE.PLURAL' | translate | uppercase }}</h1>
 	<span class="container-content">
-		<app-button color="success" (click)="openCreateTechnologyModal()" [rounded]="true" [width]="35" [height]="35">
+		<app-button color="success" (click)="openCreateModal()" [rounded]="true" [width]="35" [height]="35">
 			<span class="material-icons white-icon">add</span>
 		</app-button>
+
+		<app-dialog [open]="showDialog" (closed)="closeModal()" [header]="modalHeaderTitle">
+			<ng-container *ngIf="modalMode === 'create' || modalMode === 'update'; else showTechnology">
+				<app-form [loading]="isLoading" (formSubmit)="onSubmitForm($event)">
+					<div class="form-content">
+						<div class="technology-main-fields">
+							<div class="technology-main-fields-container">
+								<div class="technology-main-fields-name">
+									<app-input type="text" placeholder="React" name="technology-name" required
+										[(ngModel)]="technologyName" [label]="'COMMON.NAME' | translate"></app-input>
+								</div>
+
+								<div class="technology-main-fields-proficiency">
+									<app-level-bar [value]="technologyProficiency" [color]="technologyColor" [mode]="'edit'"
+										(backgroundColor)="'var(--color-uni-gray)'" (valueChange)="technologyProficiency = $event">
+									</app-level-bar>
+								</div>
+							</div>
+
+							<div class="technology-main-fields-container">
+								<div class="technology-main-fields-documentation">
+									<app-input type="text" placeholder="https://react.dev" name="technology-documentation"
+										[(ngModel)]="technologyDocumentationUrl"
+										[label]="'TECHNOLOGY.DOCUMENTATION_URL' | translate"></app-input>
+								</div>
+
+								<div class="technology-main-fields-is-favorite">
+									<app-toggle [(checked)]="technologyIsFavorite" [label]="'COMMON.IS_FAVORITE' | translate"
+										[showLabel]="true">
+									</app-toggle>
+								</div>
+							</div>
+						</div>
+
+						<div class="technology-types-container">
+							<div *ngFor="let type of technologyTypesList" class="type-container">
+								<app-toggle [label]="formatStringLabel(type)" [checked]="technologyTypes.includes(type)"
+									(showLabel)="true" (checkedChange)="onToggleType(type, $event)">
+								</app-toggle>
+							</div>
+						</div>
+
+						<div class="technology-media-fields">
+							<div class="technology-media-color">
+								<app-input type="color" name="technology-color" required [(ngModel)]="technologyColor"
+									data-cy="technology-color"></app-input>
+							</div>
+
+							<div class="technology-media-logo">
+								<app-file-upload [accept]="'image/*'" (fileSelected)="onLogoSelected($event)"
+									[previewUrl]="technologyLogoPreviewUrl">
+								</app-file-upload>
+							</div>
+						</div>
+
+						<app-editor [(value)]="technologyDescription" class="technology-description"
+							[placeholder]="'COMMON.DESCRIPTION' | translate" data-cy="technology-description"></app-editor>
+
+						<app-button type="submit" color="success" data-cy="submit-button" [loading]="isLoading" size="xs"
+							[disabled]="formInvalid">
+							{{ 'COMMON.SUBMIT' | translate | uppercase }}
+						</app-button>
+					</div>
+				</app-form>
+			</ng-container>
+
+			<ng-template #showTechnology>
+				<div class="form-content">
+					<div style="display: flex; align-items: center; justify-content: center;">
+						<app-item-preview *ngIf="selectedItem" [picture]="selectedItem.logo ?? null"
+							[color]="selectedItem.color || ''" [title]="selectedItem.name || ''"
+							[content]="selectedItem.documentationUrl ?? ''"></app-item-preview>
+					</div>
+					<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+						<p *ngIf="selectedItem?.types" [style.color]="selectedItem?.color">{{ formatTypes(selectedItem?.types) }}
+						</p>
+						<p *ngIf="selectedItem?.proficiency !== undefined" [style.color]="selectedItem?.color">
+							{{ 'TECHNOLOGY.PROFICIENCY' | translate }} : {{ selectedItem?.proficiency }}
+						</p>
+						<p *ngIf="selectedItem?.isFavorite" [style.color]="selectedItem?.color">
+							{{ 'COMMON.IS_FAVORITE' | translate }}
+						</p>
+					</div>
+
+					<div *ngIf="selectedItem?.description">
+						<p class="content-subtitle" [style.color]="selectedItem?.color" [style.borderColor]="selectedItem?.color">{{
+							'COMMON.DESCRIPTION' | translate | uppercase }}</p>
+						<span [innerHtml]="selectedItem?.description"></span>
+					</div>
+
+					<small [style.color]="selectedItem?.color">{{ 'COMMON.CREATED_AT' | translate }}&nbsp;{{
+						selectedItem?.createdAt }}</small>
+
+					<ng-container *ngIf="selectedItem?.updatedAt">
+						<small [style.color]="selectedItem?.color">{{ 'COMMON.UPDATED_AT' | translate | uppercase }}&nbsp;{{
+							selectedItem?.updatedAt }}</small>
+					</ng-container>
+				</div>
+			</ng-template>
+		</app-dialog>
 	</span>
 </div>
 
-<app-table [columns]="columns" [data]="technologies" [showActions]="true" (rowClick)="onRowClick($event)"
+<app-table [columns]="columns" [data]="items" [showActions]="true" (rowClick)="onRowClick($event)"
 	(updateClick)="openUpdateTechnologyModal($event)" (deleteClick)="deleteTechnology($event)"></app-table>

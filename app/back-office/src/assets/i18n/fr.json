@@ -91,6 +91,7 @@
     },
     "NAME": "Nom de la technologie",
     "DESCRIPTION": "Description de la technologie",
+    "DOCUMENTATION_URL": "URL de la documentation",
     "TYPE": "Type",
     "PROFICIENCY": "Niveau"
   },

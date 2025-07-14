@@ -91,6 +91,7 @@
     },
     "NAME": "Technology name",
     "DESCRIPTION": "Technology description",
+    "DOCUMENTATION_URL": "Documentation URL",
     "TYPE": "Type",
     "PROFICIENCY": "Proficiency"
   },
