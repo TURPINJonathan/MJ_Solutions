@@ -34,16 +34,16 @@ export type TechnologyType =
   | 'WEB_SERVER';
 
 export interface Technology {
-  id: number;
+  id?: number;
   name: string;
-  description?: string;
+  description: string;
   proficiency: number; // 0 à 100
   documentationUrl?: string;
   logo?: Picture | null;
   color?: string;
   types: TechnologyType[];
-  isFavorite?: boolean;
-  createdAt: Date;
+  isFavorite: boolean;
+  createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }
