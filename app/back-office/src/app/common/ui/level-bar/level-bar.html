@@ -1,5 +1,5 @@
 <div class="proficiency-bar" [style.background]="backgroundColor" [style.borderColor]="color"
 	(mousedown)="onBarMouseDown($event)" [class.editable]="mode === 'edit'">
 	<div class="proficiency-fill" [style.width.%]="value" [style.background]="color"></div>
-	<span class="proficiency-label">{{ value }}%</span>
+	<span class="proficiency-label" [style.color]="labelColor">{{ value }}%</span>
 </div>
