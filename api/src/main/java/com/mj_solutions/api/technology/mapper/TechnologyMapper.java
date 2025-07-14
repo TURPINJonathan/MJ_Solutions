@@ -38,7 +38,8 @@ public class TechnologyMapper {
 				.documentationUrl(technology.getDocumentationUrl())
 				.color(technology.getColor())
 				.logo(logoDto)
-				.types(technology.getTypes().toArray(new TechnologyType[0]))
+				.types(technology.getTypes() == null ? new TechnologyType[0]
+						: technology.getTypes().toArray(new TechnologyType[0]))
 				.isFavorite(technology.getIsFavorite())
 				.createdAt(null == technology.getCreatedAt() ? null : technology.getCreatedAt())
 				.updatedAt(null == technology.getUpdatedAt() ? null : technology.getUpdatedAt())
