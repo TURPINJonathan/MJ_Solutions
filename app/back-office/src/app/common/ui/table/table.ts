@@ -2,7 +2,7 @@ import { IconComponent } from '#common/ui/icon/icon';
 import { ItemPreviewComponent } from '#common/ui/item-preview/item-preview';
 import { LevelBarComponent } from '#common/ui/level-bar/level-bar';
 import { formatDate } from '#SUtils/date.utils';
-import { capitalizeFirstLetter } from '#SUtils/string.utils';
+import { capitalizeFirstLetter, formatStringLabel } from '#SUtils/string.utils';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -64,7 +64,7 @@ export class TableComponent {
 	formatTypes(types: string[]): string {
 		if (!types || types.length === 0) return '';
 		
-		return types.map(type => type.toUpperCase()).join(', ');
+		return types.map(type => formatStringLabel(type)).join(', ');
 	}
 
   onRowClick(row: any) {

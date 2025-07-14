@@ -1,0 +1,5 @@
+<label class="toggle-switch" [ngClass]="label">
+	<input type="checkbox" [checked]="checked" (change)="onToggle()" />
+	<span class="slider"></span>
+	<span *ngIf="showLabel" class="toggle-label">{{ label }}</span>
+</label>

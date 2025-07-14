@@ -1,0 +1,52 @@
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.7rem;
+
+  input {
+    display: none;
+  }
+
+  .slider {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    background: var(--color-uni-gray);
+    border-radius: 24px;
+    transition: background 0.3s;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: 18px;
+      height: 18px;
+      background: var(--color-light);
+      border-radius: 50%;
+      transition: transform 0.3s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+  }
+
+  input:checked + .slider {
+    background: var(--color-success);
+  }
+
+  input:checked + .slider::before {
+    transform: translateX(18px);
+    background: var(--color-light);
+  }
+
+  .toggle-label {
+    font-weight: 500;
+    color: var(--color-text);
+    transition: color 0.3s;
+  }
+
+  input:checked ~ .toggle-label {
+    color: var(--color-success);
+		font-weight: bold;
+  }
+}

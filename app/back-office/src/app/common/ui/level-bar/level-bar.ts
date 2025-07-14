@@ -45,4 +45,8 @@ export class LevelBarComponent {
   get backgroundColor(): string {
     return 'var(--color-bg)';
   }
+
+	get labelColor(): string {
+		return this.value > 45 ? '#fff' : '#222';
+	}
 }

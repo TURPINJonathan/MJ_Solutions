@@ -14,41 +14,41 @@ describe('CompagnyPage', () => {
   let fileServiceSpy: jasmine.SpyObj<FileService>;
   let toastSpy: jasmine.SpyObj<ToastUtils>;
 
-	beforeEach(async () => {
-		compagnyServiceSpy = jasmine.createSpyObj('CompagnyService', [
-			'getAllCompagnies',
-			'createCompagny',
-			'updateCompagny',
-			'deleteCompagny'
-		]);
-		fileServiceSpy = jasmine.createSpyObj('FileService', ['uploadLogo']);
-		toastSpy = jasmine.createSpyObj('ToastUtils', ['info', 'success', 'error']);
+  beforeEach(async () => {
+    compagnyServiceSpy = jasmine.createSpyObj('CompagnyService', [
+      'getAllCompagnies',
+      'createCompagny',
+      'updateCompagny',
+      'deleteCompagny'
+    ]);
+    fileServiceSpy = jasmine.createSpyObj('FileService', ['uploadLogo']);
+    toastSpy = jasmine.createSpyObj('ToastUtils', ['info', 'success', 'error']);
 
-		compagnyServiceSpy.getAllCompagnies.and.returnValue(of([]));
+    compagnyServiceSpy.getAllCompagnies.and.returnValue(of([]));
 
-		await TestBed.configureTestingModule({
-			imports: [
-				CompagnyPage,
-				TranslateModule.forRoot()
-			],
-			providers: [
-				{ provide: CompagnyService, useValue: compagnyServiceSpy },
-				{ provide: FileService, useValue: fileServiceSpy },
-				{ provide: ToastUtils, useValue: toastSpy }
-			]
-		}).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [
+        CompagnyPage,
+        TranslateModule.forRoot()
+      ],
+      providers: [
+        { provide: CompagnyService, useValue: compagnyServiceSpy },
+        { provide: FileService, useValue: fileServiceSpy },
+        { provide: ToastUtils, useValue: toastSpy }
+      ]
+    }).compileComponents();
 
-		fixture = TestBed.createComponent(CompagnyPage);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	});
+    fixture = TestBed.createComponent(CompagnyPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-  it('devrait être créé', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('devrait charger les compagnies et afficher un toast de succès', fakeAsync(() => {
-    const compagnies = [
+  it('should load companies and show success toast', fakeAsync(() => {
+    const companies = [
       {
         id: '1',
         name: 'Test',
@@ -70,7 +70,7 @@ describe('CompagnyPage', () => {
         }]
       }
     ];
-    compagnyServiceSpy.getAllCompagnies.and.returnValue(of(compagnies as unknown as Compagny[]));
+    compagnyServiceSpy.getAllCompagnies.and.returnValue(of(companies as unknown as Compagny[]));
 
     component.loadCompagnies();
     tick();
@@ -80,7 +80,7 @@ describe('CompagnyPage', () => {
     expect(component.compagnies[0].logoUrl).toContain('/img.png');
   }));
 
-  it('devrait afficher un toast info si la liste est vide', fakeAsync(() => {
+  it('should show info toast if the list is empty', fakeAsync(() => {
     compagnyServiceSpy.getAllCompagnies.and.returnValue(of([]));
 
     component.loadCompagnies();
@@ -90,7 +90,7 @@ describe('CompagnyPage', () => {
     expect(component.compagnies.length).toBe(0);
   }));
 
-  it('devrait afficher un toast d\'erreur en cas d\'échec', fakeAsync(() => {
+  it('should show error toast on load failure', fakeAsync(() => {
     compagnyServiceSpy.getAllCompagnies.and.returnValue(throwError(() => new Error('fail')));
 
     component.loadCompagnies();
@@ -99,13 +99,13 @@ describe('CompagnyPage', () => {
     expect(toastSpy.error).toHaveBeenCalled();
   }));
 
-  it('devrait ajouter un contact', () => {
+  it('should add a contact', () => {
     const initialLength = component.compagnyContacts.length;
     component.addContact();
     expect(component.compagnyContacts.length).toBe(initialLength + 1);
   });
 
-  it('devrait supprimer un contact', () => {
+  it('should remove a contact', () => {
     component.compagnyContacts = [
       { lastname: 'A', firstname: 'B', position: '', email: '', phone: '', picture: null },
       { lastname: 'C', firstname: 'D', position: '', email: '', phone: '', picture: null }
@@ -115,7 +115,7 @@ describe('CompagnyPage', () => {
     expect(component.compagnyContacts[0].lastname).toBe('C');
   });
 
-  it('devrait ouvrir et fermer la modal de création', () => {
+  it('should open and close the create modal', () => {
     component.showDialog = false;
     component.openCreateCompagnyModal();
     expect(component.showDialog).toBeTrue();
@@ -123,7 +123,7 @@ describe('CompagnyPage', () => {
     expect(component.showDialog).toBeFalse();
   });
 
-  it('devrait valider les getters de validation', () => {
+  it('should validate the validation getters', () => {
     component.compagnyName = '';
     expect(component.nameInvalid).toBeTrue();
     component.compagnyName = 'AB';
@@ -161,7 +161,7 @@ describe('CompagnyPage', () => {
     expect(component.getContractEndAtInvalid()).toBeFalse();
   });
 
-  it('devrait désactiver le formulaire si un champ est invalide', () => {
+  it('should disable the form if a field is invalid', () => {
     component.compagnyName = '';
     component.compagnyWebsite = '';
     component.compagnyColor = '';
@@ -177,9 +177,9 @@ describe('CompagnyPage', () => {
     expect(component.formInvalid).toBeFalse();
   });
 
-  it('devrait appeler fileService.uploadLogo et compagnyService.createCompagny lors de la création', fakeAsync(async () => {
+  it('should call fileService.uploadLogo and compagnyService.createCompagny when creating', fakeAsync(async () => {
     component.compagnyName = 'Test';
-    component.compagnyDescription = 'Description longue';
+    component.compagnyDescription = 'Long description';
     component.compagnyColor = '#fff';
     component.compagnyWebsite = 'https://mj-solutions.fr';
     component.compagnyLogo = new File([''], 'logo.png', { type: 'image/png' });
@@ -200,9 +200,9 @@ describe('CompagnyPage', () => {
     expect(component.showDialog).toBeFalse();
   }));
 
-  it('devrait gérer une erreur lors de la création de la compagnie', fakeAsync(async () => {
+  it('should handle error when creating a company', fakeAsync(async () => {
     component.compagnyName = 'Test';
-    component.compagnyDescription = 'Description longue';
+    component.compagnyDescription = 'Long description';
     component.compagnyColor = '#fff';
     component.compagnyWebsite = 'https://mj-solutions.fr';
     component.compagnyLogo = null;
@@ -220,10 +220,10 @@ describe('CompagnyPage', () => {
     expect(component.isLoading).toBeFalse();
   }));
 
-	it('devrait appeler compagnyService.updateCompagny lors de la mise à jour', fakeAsync(async () => {
+  it('should call compagnyService.updateCompagny when updating', fakeAsync(async () => {
     const compagny = {
       id: 42,
-      name: 'Compagnie Update',
+      name: 'Company Update',
       website: 'https://update.fr',
       color: '#123456',
       logo: '',
@@ -237,23 +237,23 @@ describe('CompagnyPage', () => {
     } as any;
 
     component.openUpdateCompagnyModal(compagny);
-    component.compagnyName = 'Compagnie Update Modifiée';
+    component.compagnyName = 'Company Update Modified';
     compagnyServiceSpy.updateCompagny.and.returnValue(of({}));
 
     await component.onSubmitCompagny({});
     tick();
 
     expect(compagnyServiceSpy.updateCompagny).toHaveBeenCalledWith(42, jasmine.objectContaining({
-      name: 'Compagnie Update Modifiée'
+      name: 'Company Update Modified'
     }));
     expect(toastSpy.success).toHaveBeenCalled();
     expect(component.showDialog).toBeFalse();
   }));
 
-  it('devrait gérer une erreur lors de la mise à jour de la compagnie', fakeAsync(async () => {
+  it('should handle error when updating a company', fakeAsync(async () => {
     const compagny = {
       id: 43,
-      name: 'Compagnie Update',
+      name: 'Company Update',
       website: 'https://update.fr',
       color: '#123456',
       logo: '',
@@ -276,10 +276,10 @@ describe('CompagnyPage', () => {
     expect(component.isLoading).toBeFalse();
   }));
 
-  it('devrait appeler compagnyService.deleteCompagny lors de la suppression', fakeAsync(() => {
+  it('should call compagnyService.deleteCompagny when deleting', fakeAsync(() => {
     const compagny = {
       id: 99,
-      name: 'Compagnie Delete'
+      name: 'Company Delete'
     } as any;
 
     compagnyServiceSpy.deleteCompagny.and.returnValue(of({}));
@@ -292,10 +292,10 @@ describe('CompagnyPage', () => {
     expect(component.isLoading).toBeFalse();
   }));
 
-  it('devrait gérer une erreur lors de la suppression', fakeAsync(() => {
+  it('should handle error when deleting', fakeAsync(() => {
     const compagny = {
       id: 100,
-      name: 'Compagnie Delete'
+      name: 'Company Delete'
     } as any;
 
     compagnyServiceSpy.deleteCompagny.and.returnValue(throwError(() => new Error('fail')));
