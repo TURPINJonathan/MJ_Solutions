@@ -48,14 +48,29 @@ describe('FileUploadComponent', () => {
   });
 
 	it('should show preview for image files', (done) => {
-		const file = new File(['dummy image data'], 'image.png', { type: 'image/png' });
-		spyOn(component.fileSelected, 'emit');
-		component.setFile(file);
+			const file = new File(['dummy image data'], 'image.png', { type: 'image/png' });
 
-		setTimeout(() => {
-			expect(component.previewUrl).toContain('data:image/png');
-			done();
-		}, 50);
+			const mockFileReader = {
+					readAsDataURL: jasmine.createSpy('readAsDataURL').and.callFake(function() {
+							setTimeout(() => {
+									mockFileReader.result = 'data:image/png;base64,dummy';
+									if (typeof mockFileReader.onload === 'function') {
+											mockFileReader.onload();
+									}
+							}, 10);
+					}),
+					result: '',
+					onload: null as any
+			};
+			spyOn(window as any, 'FileReader').and.returnValue(mockFileReader);
+
+			spyOn(component.fileSelected, 'emit');
+			component.setFile(file);
+
+			setTimeout(() => {
+					expect(component.previewUrl).toContain('data:image/png');
+					done();
+			}, 50);
 	});
 
   it('should set isDragOver to true on dragover and false on dragleave', () => {

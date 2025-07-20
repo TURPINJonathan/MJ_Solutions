@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mj_solutions.api.compagny.dto.CompagnyContactDto;
 import com.mj_solutions.api.compagny.dto.CompagnyDto;
 import com.mj_solutions.api.compagny.dto.CreateCompagnyRequest;
 import com.mj_solutions.api.compagny.dto.UpdateCompagnyRequest;
 import com.mj_solutions.api.compagny.entity.Compagny;
 import com.mj_solutions.api.compagny.entity.CompagnyContact;
 import com.mj_solutions.api.compagny.entity.CompagnyImage;
+import com.mj_solutions.api.compagny.mapper.CompagnyMapper;
 import com.mj_solutions.api.compagny.repository.CompagnyImageRepository;
 import com.mj_solutions.api.compagny.repository.CompagnyRepository;
 import com.mj_solutions.api.file.entity.File;
@@ -81,7 +81,7 @@ public class CompagnyService {
 		compagny.setContacts(contacts);
 
 		Compagny saved = compagnyRepository.save(compagny);
-		return toDto(saved);
+		return CompagnyMapper.toDto(saved);
 	}
 
 	// READ
@@ -89,20 +89,20 @@ public class CompagnyService {
 	public CompagnyDto getCompagny(Long id) {
 		Compagny compagny = compagnyRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Compagny not found: " + id));
-		return toDto(compagny);
+		return CompagnyMapper.toDto(compagny);
 	}
 
 	@Transactional(readOnly = true)
 	public List<CompagnyDto> getAllCompagnies() {
 		return compagnyRepository.findAll().stream()
-				.map(this::toDto)
+				.map(CompagnyMapper::toDto)
 				.collect(Collectors.toList());
 	}
 
 	@Transactional(readOnly = true)
 	public List<CompagnyDto> getAllActiveCompagnies() {
 		return compagnyRepository.findAllByDeletedAtIsNull().stream()
-				.map(this::toDto)
+				.map(CompagnyMapper::toDto)
 				.collect(Collectors.toList());
 	}
 
@@ -182,7 +182,7 @@ public class CompagnyService {
 		}
 
 		Compagny saved = compagnyRepository.save(compagny);
-		return toDto(saved);
+		return CompagnyMapper.toDto(saved);
 	}
 
 	// DELETE
@@ -196,70 +196,4 @@ public class CompagnyService {
 		}
 	}
 
-	// MAPPING
-	public CompagnyDto toDto(Compagny compagny) {
-		return CompagnyDto.builder()
-				.id(compagny.getId())
-				.name(compagny.getName())
-				.description(compagny.getDescription())
-				.color(compagny.getColor())
-				.website(compagny.getWebsite())
-				.type(compagny.getType())
-				.contractStartAt(compagny.getContractStartAt())
-				.contractEndAt(compagny.getContractEndAt())
-				.createdAt(compagny.getCreatedAt())
-				.updatedAt(compagny.getUpdatedAt())
-				.deletedAt(compagny.getDeletedAt())
-				.pictures(toImageDtoList(compagny.getPictures()))
-				.contacts(toContactDtoList(compagny.getContacts()))
-				.build();
-	}
-
-	private List<CompagnyDto.ImageDto> toImageDtoList(List<CompagnyImage> images) {
-		if (images == null)
-			return List.of();
-		return images.stream()
-				.map(this::toImageDto)
-				.collect(Collectors.toList());
-	}
-
-	private CompagnyDto.ImageDto toImageDto(CompagnyImage image) {
-		return CompagnyDto.ImageDto.builder()
-				.id(image.getId())
-				.fileId(image.getFile().getId())
-				.fileName(image.getFile().getName())
-				.url("/files/" + image.getFile().getId() + "/raw")
-				.isLogo(image.isLogo())
-				.isMaster(image.isMaster())
-				.build();
-	}
-
-	private List<CompagnyContactDto> toContactDtoList(List<CompagnyContact> contacts) {
-		if (contacts == null)
-			return List.of();
-		return contacts.stream()
-				.map(this::toContactDto)
-				.collect(Collectors.toList());
-	}
-
-	private CompagnyContactDto toContactDto(CompagnyContact contact) {
-		return CompagnyContactDto.builder()
-				.id(contact.getId())
-				.lastname(contact.getLastname())
-				.firstname(contact.getFirstname())
-				.position(contact.getPosition())
-				.email(contact.getEmail())
-				.phone(contact.getPhone())
-				.picture(contact.getPicture() != null
-						? CompagnyDto.ImageDto.builder()
-								.id(contact.getPicture().getId())
-								.fileId(contact.getPicture().getId())
-								.fileName(contact.getPicture().getName())
-								.url("/files/" + contact.getPicture().getId() + "/raw")
-								.isLogo(false)
-								.isMaster(false)
-								.build()
-						: null)
-				.build();
-	}
 }
