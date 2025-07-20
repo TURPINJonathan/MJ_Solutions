@@ -60,10 +60,12 @@ public class SecurityConfig {
 								"/auth/logout",
 								"/auth/refresh-token",
 								"/technology/all",
+								"/project/all",
 								"/compagny/all")
 						.permitAll()
 						.requestMatchers(new RegexRequestMatcher("/files/\\d+", "GET")).permitAll()
 						.requestMatchers(new RegexRequestMatcher("/compagny/\\d+", "GET")).permitAll()
+						.requestMatchers(new RegexRequestMatcher("/project/\\d+", "GET")).permitAll()
 						.requestMatchers(new RegexRequestMatcher("/technology/\\d+", "GET")).permitAll()
 						.requestMatchers(new RegexRequestMatcher("/files/\\d+/raw", "GET")).permitAll()
 						.anyRequest().authenticated())

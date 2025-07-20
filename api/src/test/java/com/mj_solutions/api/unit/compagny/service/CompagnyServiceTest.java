@@ -19,6 +19,7 @@ import com.mj_solutions.api.compagny.dto.CompagnyType;
 import com.mj_solutions.api.compagny.dto.CreateCompagnyRequest;
 import com.mj_solutions.api.compagny.dto.UpdateCompagnyRequest;
 import com.mj_solutions.api.compagny.entity.Compagny;
+import com.mj_solutions.api.compagny.mapper.CompagnyMapper;
 import com.mj_solutions.api.compagny.repository.CompagnyImageRepository;
 import com.mj_solutions.api.compagny.repository.CompagnyRepository;
 import com.mj_solutions.api.compagny.service.CompagnyService;
@@ -143,7 +144,7 @@ class CompagnyServiceTest {
 				.deletedAt(now)
 				.build();
 
-		CompagnyDto dto = compagnyService.toDto(compagny);
+		CompagnyDto dto = CompagnyMapper.toDto(compagny);
 
 		assertThat(dto.getDeletedAt()).isEqualTo(now);
 	}
